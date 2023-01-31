@@ -1,0 +1,16 @@
+# KickAssembler out files
+*.prg
+*.sym
+*.dbg
+*.vs
+*.specOut
+.asminfo.txt
+.source.txt
+
+# Gradle files
+.gradle
+
+# IDE and tool files
+.idea
+.ra
+.vscode
