@@ -10,4 +10,6 @@ retroProject {
     dialect = "KickAssembler"
     dialectVersion = "5.25"
     libDirs = ["..", ".ra/deps/c128lib"]
+
+    libFromGitHub "c128lib/chipset", "0.6.1"
 }
