@@ -30,28 +30,27 @@
   }
 
 start:
-    ldx #0
+    ldx #arraySize
 
 sort_loop:
-    ldy #$00
+    ldy #0
 
 inner_loop:
     lda arrayAddress, y
     cmp arrayAddress + 1, y
-    bcc swap
-    iny
-    cpy #arraySize
-    bne inner_loop
-    dex
-    bne sort_loop
-
-swap:
+    bcc NoSwap
     pha
     lda arrayAddress + 1, y
     sta arrayAddress, y
     pla
     sta arrayAddress + 1, y
+ 
+  NoSwap:
+    iny
+    cpy #arraySize - 1
     bne inner_loop
+    dex
+    bne sort_loop
 
   .if (switchToFastModeWhileRunning == true) {
     dec c128lib.Vic2.CLKRATE
