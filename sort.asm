@@ -56,3 +56,17 @@ inner_loop:
     dec c128lib.Vic2.CLKRATE
   }
 }
+.assert "BubbleSort($beef, 3, false)", { BubbleSort($beef, 3, false) },
+{
+  ldx #3; ldy #0; lda $beef,y; cmp $bef0, y; bcc *+13; pha;
+  lda $bef0, y; sta $beef, y; pla; sta $bef0, y; iny
+  cpy #2; bne *-22; dex; bne *-27
+}
+.assert "BubbleSort($beef, 3, true)", { BubbleSort($beef, 3, true) },
+{
+  lda #1; sta $d030
+  ldx #3; ldy #0; lda $beef,y; cmp $bef0, y; bcc *+13; pha;
+  lda $bef0, y; sta $beef, y; pla; sta $bef0, y; iny
+  cpy #2; bne *-22; dex; bne *-27;
+  dec $d030
+}
