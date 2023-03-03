@@ -10,17 +10,17 @@
 
 /*
   The strings are a maximum of 255 bytes long and are null terminated. The null character 
-  makes the interal storage a max of 256 bytes.
+  makes the interal storage a max of 256 bytes.  For strings 256 bytes and longer,
+  these macros can be repeated for each set of 256 bytes.
 
   Notes:
-    When the carry flag is set, a programmer can repeat these macro for strings longer than
-    256 chars.  The programmer would call the macros as many times as the number of bytes
-    needed for memory allocation of the string. 
+    When a post condition is that the carry is set, a programmer can repeat these macros 
+    for strings 256 chars or longer.  The programmer would call the macros as many times 
+    as the number of 256-byte strings needed for memory allocation of the string. 
     In this way, a programmer can create a string data type with length longer than 255.  
-    In this case, multiple bytes could be used to represent a long string, with each byte 
-    holding 256 characters, excluding the terminator (#0), except for the last byte which 
-    must be terminated. The implementation of how many bytes to allocate to the string is 
-    up to the programmer. Last byte must be terminated at index 255 or less.
+    In this case, multiple 256-byte strings could be used to represent a long string, with 
+    each 256-byte string holding 256 characters, excluding the terminator (#0), except for 
+    the last byte 256-byte string which must be terminated at 255.
 
     Examples will be given in the official documentation.
 */
@@ -31,18 +31,20 @@
 /*
   StringCompare - Compare two strings. 
     
-    The zero flag is set to 1 if the strings are  identical and to 0 if the strings are not
-    identical. 
-
-    If both strings are equal up to the maximum 255 bytes, then the carry flag is set, whether 
-    both strings are 255 chars long or greater.  If greater, one can call the routine another 
-    time knowing that the carry flag is set and continue comparing the next 255 chars.
+    Determine if 2 strings are equal.
     
   Params:
     string1Address - address of string1
     string2Address - address of string2
-    switchToFastModeWhileRunning - if true, fast mode
-      will be enabled at start and disabled at end.
+    switchToFastModeWhileRunning - if true, fast mode will be enabled at start and disabled at end.
+  
+  Postconditions: 
+    1) The zero flag is set if the strings are identical and cleared otherwise.
+    2) If both strings are equal up to 256 bytes, and no terminator is found then the carry 
+       flag is set.
+    3) When substrings of the 2 strings are equal, starting from the beginning, the X register
+       will contain the index of the end of the substrings.
+    4) If the strings are equal, the X register will contain there lengths. 
 
 */
 .macro StringCompare(string1Address, string2Address, switchToFastModeWhileRunning) {
@@ -54,7 +56,7 @@
 
   begin:
     clc                 
-    ldx #0                    // Start at first character (index 0) and count to 254
+    ldx #0                    // Start at first character (index 0) and count to 255
 
   compare:
     lda string1Address, x
@@ -65,15 +67,9 @@
     cmp #0                    // Test for end of both strings (null)
     beq end                   // Exit if both characters are 0 (null)
                               // Z will be set to 1 on exit (strings are equal)
-                              // Else there may be more characters to compare if max not reached
-    cpx #$FE                  // Hit the max 255 chars? We don't care about byte 256 (we expect null)
-                              // Z will bet set to 1 (strings are equal up to 255 bytes)
-    beq max_reached           // Handle maximum strings, set carry flag if needed
+                              // Else there may be more characters to compare
     inx                       // Next character
-    jmp compare               // Loop
- 
-  max_reached:
-    sec
+    bcc compare               // Loop if x = 255 or less, otherwise end - carry flag set                
 
   end:
 
