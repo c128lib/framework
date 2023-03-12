@@ -40,11 +40,12 @@
   
   Postconditions: 
     1) The zero flag is set if the strings are identical and cleared otherwise.
+       In either case, the carry flag is cleared
     2) If both strings are equal up to 256 bytes, and no terminator is found then the carry 
-       flag is set.
+       flag and zero flag are set; otherwise they are both cleared
     3) When substrings of the 2 strings are equal, starting from the beginning, the X register
        will contain the index of the end of the substrings.
-    4) If the strings are equal, the X register will contain there lengths. 
+    4) If the strings are equal, the X register will contain their lengths. 
 
 */
 .macro StringCompare(string1Address, string2Address, switchToFastModeWhileRunning) {
@@ -61,17 +62,24 @@
   compare:
     lda string1Address, x
     cmp string2Address, x     // Compare 2 characters
-    bne end                   // Exit if characters are not equal
+    bne comp_end              // Exit if characters are not equal
                               // Z will be set to 0 on exit
                               // Else (characters are equal), but both characters could be null
     cmp #0                    // Test for end of both strings (null)
-    beq end                   // Exit if both characters are 0 (null)
+    beq comp_end              // Exit if both characters are 0 (null)
                               // Z will be set to 1 on exit (strings are equal)
                               // Else there may be more characters to compare
     inx                       // Next character
-    bcc compare               // Loop if x = 255 or less, otherwise end - carry flag set                
+    beq no_terminator         // Loop if x = 255 or less, otherwise end (Z flag is 1, C flag is 1)
+    jmp compare         
 
-  end:
+  comp_end:                   // Z flag is 1 if equal, Z flag is 0 if not equal
+    clc                       // Ensure C flag is 0 in both cases
+
+  no_terminator:              // If branched to here, then Z flag is 1, C flag is 1
+
+  end:                        // end = no_terminator, here for readibility
+
 
   .if (switchToFastModeWhileRunning == true) {
     dec c128lib.Vic2.CLKRATE
@@ -85,23 +93,22 @@
     Returns the length of a string in Y, preserves X
 
   Params:
-    Inputs: 
       stringAddress - address of string
       switchToFastModeWhileRunning - if true, fast mode will be enabled at start and disabled 
                                      at end.
-    Outputs:
-      Registers:
-        Y - length of the string at address stringAddress
-      Flags:
-        C - Is set if length of source string is greater than 255
-        Z - Will be set to 1, either because null character found, or overflow in Y 
-            occured 
   
   Postconditions: 
     Y register will contain the length of the string, which is also the
-    address offset to the eol character, the null character (0). The Z flag will always
+    address offset to null character (0). The Z flag will always
     be set to 1.  The C flag will be 0 if length <= 255, otherwise 1.  The routine
     terminates after 256 loops.
+
+    Registers:
+      Y - length of the string at address stringAddress
+    Flags:
+      C - Is set if length of source string is greater than 255
+      Z - Will be set to 1, either because null character found, or overflow in Y 
+          occured 
 
 */
 .macro StringLength(stringAddress, switchToFastModeWhileRunning) {
@@ -117,13 +124,16 @@
 
   strln:	
     lda stringAddress, y
-    beq end
+    beq strln_end                   // Hit terminator, Z=1, C=0
     iny
-    bne strln
+    beq no_terminator               // y > 255, Z=1, C=0
+    jmp strln
 
-  end:
+  no_terminator:
+    sec                             // y > 255, Z=1, C=1
 
-
+  strln_end:                       // Hit terminator, Z=1, C=0
+  
   .if (switchToFastModeWhileRunning == true) {
     dec c128lib.Vic2.CLKRATE
   }
@@ -139,10 +149,7 @@
       switchToFastModeWhileRunning - if true, fast mode will be enabled at start and disabled 
                                      at end.
     Outputs:
-      Flags:
-        C - Is set if length of source string is greater than 255
-        Z - Will be set to 1, either because null character found, or overflow in Y 
-            occured 
+
     
   Postconditions:
       1. destinationAddress will point to a string the same as the
@@ -151,6 +158,11 @@
          address offset to the eol character, the null character (0). The Z flag will always
          be set to 1.  The C flag will be 0 if length <= 255, otherwise 1.  The routine
          terminates after 256 loops.
+      
+      Flags:
+        C - Is set if length of source string is greater than 255
+        Z - Will be set to 1, either because null character found, or overflow in Y 
+            occured 
 
 */
 .macro StringCopy(sourceAddress, destinationAddress, switchToFastModeWhileRunning) {
@@ -167,12 +179,15 @@
   copystr:	
     lda sourceAddress, y
     sta destinationAddress, y		
-    beq end                       // stop when null is hit
+    beq copy_end                       // Hit terminator, Z=1, C=0
     iny
-    beq end                       // stop when overflow in Y occured, C flag will be set
-    bne copystr
+    beq no_terminator                  // y > 255, Z=1, C=0
+    jmp copystr
 
-  end:
+  no_terminator:
+    sec                               // y > 255, Z=1, C=1
+
+  copy_end:
 
   .if (switchToFastModeWhileRunning == true) {
     dec c128lib.Vic2.CLKRATE
