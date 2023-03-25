@@ -14,6 +14,9 @@
   these macros can be repeated for each set of 256 bytes.
 
   String addresses can be absolute addresses or post-indexed indirect, "(Zero-Page), Y".
+  To be clear, if passing a zero-page address, it is implied that the address is an
+  indirect address that will be post-indexed by Y by the macro.  So, the zero page 
+  address will hold the absolute address (small endian) of the string.
   Only pass the zero-page address without brackets, such as $FA.  Last usable zero-page
   address for post-indexed indirect addressing mode is $FE, so do not pass $FF.
 
@@ -51,6 +54,7 @@
   
   Preconditions:
     1) string1Address, string2Address must be a 16-bit address or 8-bit zero-page address
+       holding the address of the string
     2) Zero-page address must not be greater than $FE, or error
 
   Postconditions: 
@@ -131,6 +135,7 @@
   
   Preconditions:
     1) stringAddress must be a 16-bit address or 8-bit zero-page address
+       holding the address of the string
     2) Zero-page address must not be greater than $FE, or error
 
   Postconditions: 
@@ -196,6 +201,7 @@
 
   Preconditions:
     1) sourceAddress,destinationAddress must be a 16-bit address or 8-bit zero-page address
+       holding the address of the string
     2) Zero-page address must not be greater than $FE, or error
     
   Postconditions:
@@ -273,6 +279,7 @@
   Preconditions:
     1) *numChars <= 255
     2) sourceAddress,destinationAddress must be a 16-bit address or 8-bit zero-page address
+       holding the address of the string
     3) Zero-page address must not be greater than $FE, or error
 
   Postconditions:
@@ -345,6 +352,7 @@
     1) *sourceStrLength <= 255
     2) *numChars <= 255
     3) sourceAddress,destinationAddress must be a 16-bit address or 8-bit zero-page address
+       holding the address of the string
     4) Zero-page address must not be greater than $FE, or error
   Postconditions:
       1. destinationAddress will point to a substring that is equal to the
@@ -427,6 +435,7 @@
     2) *numChars <= 255
     3) *startPos + *numChars <= 255
     4) sourceAddress,destinationAddress must be a 16-bit address or 8-bit zero-page address
+       holding the address of the string
     5) Zero-page address must not be greater than $FE, or error
   Postconditions:
       1. destinationAddress will point to a substring that is equal to the
@@ -498,10 +507,11 @@
   Preconditions:
     1) *string1Length <= 255
     2) string1Address,string2Address must be a 16-bit address or 8-bit zero-page address
-    5) Zero-page address must not be greater than $FE, or error
+       holding the address of the string
+    3) Zero-page address must not be greater than $FE, or error
   Postconditions:
     1) The resultng string will be located at the address of string1.
-    2) If the length of string2 is greater than 255, only the first 255 characters will
+    2) If the length of string2 is greater than 256, only the first 256 characters will
       be concatented.
     3) The resulting string will be null terminated.
 */
@@ -544,23 +554,40 @@
     sta String.STRING_TRG+1
    }
 
-// S T O P P E D    H E R E -  Making some enhancements.
-
-  move_to_end:
+  move_pointer_to_end:
     clc
-    lda String.STRING_TRG           // hold low byte of string1 address 
-    adc string1Length               // add length of string1 to string1 start address
-    sta String.STRING_TRG           // store the low-byte of the pointer to end of string1 + 1
-    lda String.STRING_TRG+1         // hold high byte of string1 address   
-    adc #0                          // add the carry to high byte of address.
-    sta String.STRING_TRG+1         // store the high-byte of the pointer to the end of string1 + 1
+    .if (string1Address <= $FE) {
+      lda string1Address            // hold low byte of string1 address 
+      adc string1Length             // add length
+      sta string1Address            // update low byte
+      lda string1Address+1          // hold high byte of string1 address
+      adc #0                        // adding the carry if any
+      sta string1Address+1          // pointer is now at end of the string
+    }else{
+      lda String.STRING_TRG         // hold low byte of string1 address 
+      adc string1Length             // add length
+      sta String.STRING_TRG         // update low byte
+      lda String.STRING_TRG+1       // hold high byte of string1 address
+      adc #0                        // adding the carry if any
+      sta String.STRING_TRG+1       // pointer is now at end of the string
+    }
+
 
   concat:
     ldy #0
 
   copystr:	
-    lda string2Address, y
-    sta (String.STRING_TRG), y		
+    .if (string2Address <= $FE){
+      lda (string2Address), y       // Post-Indexed Indirect, "(Zero-Page),Y"
+    }else{
+      lda string2Address, y         // absolute, y
+    }
+    .if (string1Address <= $FE){
+      sta (string1Address), y	
+    }else{
+      sta (String.STRING_TRG), y	
+    }
+
     beq copy_end                       // Hit terminator, Z=1, C=0
     iny
     beq no_terminator                  // y > 255, Z=1, C=0
@@ -571,8 +598,6 @@
 
   copy_end:
 
-
-  end:
    .if (string1Address <= $FE){  // User is sending zero-page address for indirect indexing.
     // restore user-referenced zero-page addresses as originally set by user.
     pla
