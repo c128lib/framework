@@ -65,6 +65,7 @@
     3) When substrings of the 2 strings are equal, starting from the beginning, the Y register
        will contain the index of the end of the substrings.
     4) If the strings are equal, the Y register will contain their lengths. 
+    5) The contents at string1Address and string2Address are left unchanged.
 
 */
 .macro StringCompare(string1Address, string2Address, switchToFastModeWhileRunning) {
@@ -139,18 +140,13 @@
     2) Zero-page address must not be greater than $FE, or error
 
   Postconditions: 
-    Y register will contain the length of the string, which is also the
-    address offset to null character (0). The Z flag will always
-    be set to 1.  The C flag will be 0 if length <= 255, otherwise 1.  The routine
-    terminates after 256 loops.
-
-    Registers:
-      Y - length of the string at address stringAddress
-    Flags:
-      C - Is set if length of source string is greater than 255
-      Z - Will be set to 1, either because null character found, or overflow in Y 
-          occured 
-
+    1) Y register will contain the length of the string, which is also the
+       address offset to null character (0). 
+    2) Z Will be set to 1, either because null character found, or overflow in Y 
+       occured 
+    3) The C flag will be 0 if length <= 255, otherwise 1.  
+    4) The routine terminates after 256 loops.
+    5) The contents at stringAddress are left unchanged.
 */
 .macro StringLength(stringAddress, switchToFastModeWhileRunning) {
 
@@ -200,23 +196,20 @@
                                      at end.
 
   Preconditions:
-    1) sourceAddress,destinationAddress must be a 16-bit address or 8-bit zero-page address
+    1. sourceAddress,destinationAddress must be a 16-bit address or 8-bit zero-page address
        holding the address of the string
-    2) Zero-page address must not be greater than $FE, or error
+    2. Zero-page address must not be greater than $FE, or error
     
   Postconditions:
-      1. destinationAddress will point to a string the same as the
-         string pointed to by sourceAddress
-      2  Y register will contain the length of the string, which is also the
-         address offset to the eol character, the null character (0). The Z flag will always
-         be set to 1.  The C flag will be 0 if length <= 255, otherwise 1.  The routine
-         terminates after 256 loops.
-      
-      Flags:
-        C - Is set if length of source string is greater than 255
-        Z - Will be set to 1, either because null character found, or overflow in Y 
-            occured 
-
+    1. destinationAddress will point to a string the same as the
+       string pointed to by sourceAddress
+    2. Y register will contain the length of the string, which is also the
+       address offset to the eol character, the null character (0). 
+    3. The Z flag will be set to 1, either because null character found, or overflow in Y 
+       occured   
+    4. The C flag will be 0 if length <= 255, otherwise 1.  
+    5. The routine terminates after 256 loops.
+    6. The contents at sourceAddress are left unchanged.
 */
 .macro StringCopy(sourceAddress, destinationAddress, switchToFastModeWhileRunning) {
 
@@ -277,14 +270,16 @@
                                      at end.
 
   Preconditions:
-    1) *numChars <= 255
-    2) sourceAddress,destinationAddress must be a 16-bit address or 8-bit zero-page address
+    1. *numChars <= 255
+    2. sourceAddress,destinationAddress must be a 16-bit address or 8-bit zero-page address
        holding the address of the string
-    3) Zero-page address must not be greater than $FE, or error
+    3. Zero-page address must not be greater than $FE, or error
 
   Postconditions:
-      1. destinationAddress will point to a string that is equal to the
-         string pointed to by sourceAddress
+    1. destinationAddress will point to a string that is equal to the
+       string pointed to by sourceAddress
+    2. The contents at numChars is left unchanged
+    3. The contents at sourceAddress are left unchanged.
 
 */
 .macro StringCopyLeft(sourceAddress, destinationAddress, numChars, switchToFastModeWhileRunning) {
@@ -349,14 +344,16 @@
                                      at end.
 
   Preconditions:
-    1) *sourceStrLength <= 255
-    2) *numChars <= 255
-    3) sourceAddress,destinationAddress must be a 16-bit address or 8-bit zero-page address
+    1. *sourceStrLength <= 255
+    2. *numChars <= 255
+    3. sourceAddress,destinationAddress must be a 16-bit address or 8-bit zero-page address
        holding the address of the string
-    4) Zero-page address must not be greater than $FE, or error
+    4. Zero-page address must not be greater than $FE, or error
   Postconditions:
-      1. destinationAddress will point to a substring that is equal to the
-         right substring of length *numChars pointed to by sourceAddress
+    1. destinationAddress will point to a substring that is equal to the
+       right substring of length *numChars pointed to by sourceAddress
+    2. The contents at sourceAddress will be left unchanged.
+    3. The contents at numChars will be left unchanged.
 */
 .macro StringCopyRight(sourceAddress, destinationAddress, sourceStrLength, numChars, switchToFastModeWhileRunning) {
 
@@ -431,16 +428,19 @@
                                      at end.
 
   Preconditions:
-    1) *startPos <= 255
-    2) *numChars <= 255
-    3) *startPos + *numChars <= 255
-    4) sourceAddress,destinationAddress must be a 16-bit address or 8-bit zero-page address
+    1. *startPos <= 255
+    2. *numChars <= 255
+    3. *startPos + *numChars <= 255
+    4. sourceAddress,destinationAddress must be a 16-bit address or 8-bit zero-page address
        holding the address of the string
-    5) Zero-page address must not be greater than $FE, or error
+    5. Zero-page address must not be greater than $FE, or error
   Postconditions:
-      1. destinationAddress will point to a substring that is equal to the
-         substring defined by the start position and length of the string
-         at sourceAddress
+    1. destinationAddress will point to a substring that is equal to the
+       substring defined by the start position and length of the string
+       at sourceAddress
+    2. The contents at sourceAddress will remain unchanged.
+    3. The contents at startPos will remain unchanged.
+    4. The contents at numChars will remain unchanged.
 */
 .macro StringCopyMid(sourceAddress, destinationAddress, startPos, numChars, switchToFastModeWhileRunning) {
 
@@ -505,15 +505,16 @@
                                      at end.
 
   Preconditions:
-    1) *string1Length <= 255
-    2) string1Address,string2Address must be a 16-bit address or 8-bit zero-page address
+    1. *string1Length <= 255
+    2. string1Address,string2Address must be a 16-bit address or 8-bit zero-page address
        holding the address of the string
-    3) Zero-page address must not be greater than $FE, or error
+    3. Zero-page address must not be greater than $FE, or error
   Postconditions:
-    1) The resultng string will be located at the address of string1.
-    2) If the length of string2 is greater than 256, only the first 256 characters will
-      be concatented.
-    3) The resulting string will be null terminated.
+    1. The resultng string will be located at the address of string1 (string1Address)
+    2. If the length of string2 is greater than 256, only the first 256 characters will
+       be concatented.
+    3. The contents at string2Address will remain unchanged.
+    4. The contents at string1Length will remain unchanged.
 */
 .macro StringConcatenate(string1Address, string2Address, string1Length, switchToFastModeWhileRunning) {
 
