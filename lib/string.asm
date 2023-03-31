@@ -603,7 +603,7 @@
     // restore user-referenced zero-page addresses as originally set by user.
     pla
     sta string1Address   
-    sta
+    pla
     lda string1Address+1     
 
    }else{ // User sent absolute address
