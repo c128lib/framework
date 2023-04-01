@@ -474,6 +474,7 @@
       sta destinationAddress, x      // store character to destination string
     }
     iny                            // set position for next source character
+    beq end                        // end of source string, so stop
     inx                            // set position for next target character
     cpx numChars                   
     beq end                        // went past end of destination string?
