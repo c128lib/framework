@@ -61,7 +61,7 @@
     1) The zero flag is set if the strings are identical and cleared otherwise.
        In either case, the carry flag is cleared
     2) If both strings are equal up to 256 bytes, and no terminator is found then the carry 
-       flag and zero flag are set; otherwise they are both cleared
+       flag and zero flag are set and Y=0; otherwise they are both cleared
     3) When substrings of the 2 strings are equal, starting from the beginning, the Y register
        will contain the index of the end of the substrings.
     4) If the strings are equal, the Y register will contain their lengths. 
@@ -142,11 +142,12 @@
   Postconditions: 
     1) Y register will contain the length of the string, which is also the
        address offset to null character (0). 
-    2) Z Will be set to 1, either because null character found, or overflow in Y 
+    2) Z will be set to 1, either because null character found, or overflow in Y 
        occured 
     3) The C flag will be 0 if length <= 255, otherwise 1.  
-    4) The routine terminates after 256 loops.
-    5) The contents at stringAddress are left unchanged.
+    4) If C flag is set, Y=0.  This also indicates the string is 256 bytes or longer 
+    5) The routine terminates after 256 loops.
+    6) The contents at stringAddress are left unchanged.
 */
 .macro StringLength(stringAddress, switchToFastModeWhileRunning) {
 
@@ -208,8 +209,9 @@
     3. The Z flag will be set to 1, either because null character found, or overflow in Y 
        occured   
     4. The C flag will be 0 if length <= 255, otherwise 1.  
-    5. The routine terminates after 256 loops.
-    6. The contents at sourceAddress are left unchanged.
+    5. If C flag is set, Y=0.  This also indicates the string is 256 bytes or longer 
+    6. The routine terminates after 256 loops.
+    7. The contents at sourceAddress are left unchanged.
 */
 .macro StringCopy(sourceAddress, destinationAddress, switchToFastModeWhileRunning) {
 
@@ -280,7 +282,6 @@
        string pointed to by sourceAddress
     2. The contents at numChars is left unchanged
     3. The contents at sourceAddress are left unchanged.
-
 */
 .macro StringCopyLeft(sourceAddress, destinationAddress, numChars, switchToFastModeWhileRunning) {
 
