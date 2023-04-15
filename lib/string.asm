@@ -47,9 +47,9 @@
   Push an address, stored in the zero page, to the stack
 */
 .pseudocommand zpPush zpAddress {
-    lda zpAddress+1   //high byte first
+    lda zpAddress.getValue()+1   // lda zpAddress+1 // high byte first
     pha
-    lda zpAddress     //low byte last
+    lda zpAddress                // low byte last
     pha
 }
 
@@ -58,19 +58,19 @@
 */
 .pseudocommand zpPull zpAddress {
     pla
-    sta zpAddress     //low byte first
+    sta zpAddress                 // low byte first
     pla
-    sta zpAddress+1   //high byte last
+    sta zpAddress.getValue()+1    // sta zpAddress+1   //high byte last
 }
 
 /*
   Load an absolute address into the zero page.
 */
 .pseudocommand zpLoadAddress absAddress:zpAddress {
-    lda #<absAddress  //low byte first
+    lda CmdArgument(AT_IMMEDIATE, <absAddress.getValue()) // lda #<absAddress  //low byte first
     sta zpAddress
-    lda #>absAddress  //high byte second
-    sta zpAddress+1  
+    lda CmdArgument(AT_IMMEDIATE, >absAddress.getValue()) // lda #>absAddress  //high byte second
+    sta zpAddress.getValue()+1                            // sta zpAddress+1  
 }
 
 /* 
@@ -78,12 +78,12 @@
 */
 .pseudocommand zpMove zpAddress:offset {
       clc
-      lda zpAddress            // hold low byte
-      adc offset               // add offset
-      sta zpAddress            // update low byte
-      lda zpAddress+1          // hold high byte 
-      adc #0                   // adding the carry if any
-      sta zpAddress+1          // pointer is now at new address 
+      lda zpAddress               // hold low byte
+      adc offset                  // add offset
+      sta zpAddress               // update low byte
+      lda zpAddress.getValue()+1  // lda zpAddress+1          // hold high byte 
+      adc #0                      // adding the carry if any
+      sta zpAddress.getValue()+1  // sta zpAddress+1          // pointer is now at new address 
 }
 
 /*
