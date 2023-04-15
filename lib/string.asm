@@ -5,6 +5,7 @@
 
 #import "chipset/lib/vic2.asm"
 
+
 #importonce
 .filenamespace c128lib
 
@@ -38,8 +39,51 @@
 */
 
 .namespace String {
-  .label STRING_SRC = $FA
-  .label STRING_TRG = $FC  
+  .label ZP_SRC = $FA
+  .label ZP_TRG = $FC  
+}
+
+/*
+  Push an address, stored in the zero page, to the stack
+*/
+.pseudocommand zpPush zpAddress {
+    lda zpAddress+1   //high byte first
+    pha
+    lda zpAddress     //low byte last
+    pha
+}
+
+/*
+  Pull an address from the stack to the zero page
+*/
+.pseudocommand zpPull zpAddress {
+    pla
+    sta zpAddress     //low byte first
+    pla
+    sta zpAddress+1   //high byte last
+}
+
+/*
+  Load an absolute address into the zero page.
+*/
+.pseudocommand zpLoadAddress absAddress:zpAddress {
+    lda #<absAddress  //low byte first
+    sta zpAddress
+    lda #>absAddress  //high byte second
+    sta zpAddress+1  
+}
+
+/* 
+  Move a pointer, stored in the zero page, by offset
+*/
+.pseudocommand zpMove zpAddress:offset {
+      clc
+      lda zpAddress            // hold low byte
+      adc offset               // add offset
+      sta zpAddress            // update low byte
+      lda zpAddress+1          // hold high byte 
+      adc #0                   // adding the carry if any
+      sta zpAddress+1          // pointer is now at new address 
 }
 
 /*
@@ -66,7 +110,6 @@
        will contain the index of the end of the substrings.
     4) If the strings are equal, the Y register will contain their lengths. 
     5) The contents at string1Address and string2Address are left unchanged.
-
 */
 .macro StringCompare(string1Address, string2Address, switchToFastModeWhileRunning) {
 
@@ -354,7 +397,8 @@
     1. destinationAddress will point to a substring that is equal to the
        right substring of length *numChars pointed to by sourceAddress
     2. The contents at sourceAddress will be left unchanged.
-    3. The contents at numChars will be left unchanged.
+    3. The contents at sourceStrLength will be left unchanged.
+    4. The contents at numChars will be left unchanged.
 */
 .macro StringCopyRight(sourceAddress, destinationAddress, sourceStrLength, numChars, switchToFastModeWhileRunning) {
 
@@ -371,46 +415,23 @@
     sta c128lib.Vic2.CLKRATE
   }
 
+  jmp begin
+
+  startPos:
+    .byte  0
+
   begin:
-    clc
+    lda sourceStrLength
+    cmp numChars
+    bcs get_startpos                  // if *sourceStrLength >= *numChars, all normal
+    sta numChars                      // else, set *numChars = *sourceStrLength
 
-    ldy sourceStrLength               // start at end of string
-    beq end                           // if strLength is 0, just end
-    dey                               // indexing starts from 0, so subract 1 from length
-
-    ldx numChars                      // x will hold index of destination string
-    beq end                           // if *numChars is 0, just end
-    lda #0                            // null character
-    .if (destinationAddress <= $FE) {
-      sta (destinationAddress), x         // terminate the new string
-    }
-    else{
-      sta destinationAddress, x         // terminate the new string
-    }
-    dex                               // indexing starts from 0, so subtract 1 from *numChars
-
-
-  copyright:
-    .if (sourceAddress <= $FE) {
-      lda (sourceAddress), y              // load next character (moving right)
-    }else{
-      lda sourceAddress, y              // load next character (moving right)
-    }
-  	.if (destinationAddress <= $FE) {
-      sta (destinationAddress), x         // copy character (staring from right, moving right)
-    }else{
-      sta destinationAddress, x         // copy character (staring from right, moving right)
-    }
-    dey                               // next character
-    dex                               // next position in destination string
-    cpx #$FF                          // Gone past 0? 
-    bne copyright                     // loop as long as x >= 0
-
-  end:
-
-  .if (switchToFastModeWhileRunning == true) {
-    dec c128lib.Vic2.CLKRATE
-  } 
+  get_startpos:    
+    sec
+    sbc numChars                      // get starting position of source string 
+    sta startPos
+  
+    StringCopyMid(sourceAddress, destinationAddress, startPos, numChars, switchToFastModeWhileRunning)
 
 }
 
@@ -422,8 +443,9 @@
     Inputs:
       sourceAddress                - address of source string
       destinationAddress           - destination address for copied substring
-      startPos                     - address to starting position of the substring
-      numChars                     - address to the number of characters from the 
+      startPos                     - address of memory holding starting position of the substring,
+                                     where the first postion is 0
+      numChars                     - address of memory holding the number of characters from the 
                                      starting position of the substring
       switchToFastModeWhileRunning - if true, fast mode will be enabled at start and disabled 
                                      at end.
@@ -445,52 +467,48 @@
 */
 .macro StringCopyMid(sourceAddress, destinationAddress, startPos, numChars, switchToFastModeWhileRunning) {
 
-  .if (sourceAddress == $FF) {
-    .error "error: @c128lib_StringCopyMid(): sourceAddress cannot be $FF"
-  }
+    .if (sourceAddress == $FF) {
+      .error "error: @c128lib_StringCopyMid(): sourceAddress cannot be $FF"
+    }
 
-  .if (destinationAddress == $FF) {
-    .error "error: @c128lib_StringCopyMid(): destinationAddress cannot be $FF"
-  }
+    .if (destinationAddress == $FF) {
+      .error "error: @c128lib_StringCopyMid(): destinationAddress cannot be $FF"
+    }
+
+    .if (switchToFastModeWhileRunning == true) {
+      lda #1
+      sta c128lib.Vic2.CLKRATE
+    }
+
+  begin:
+
+   .if (sourceAddress <= $FE){  // User is sending zero-page address for indirect indexing.
+      /* Store what's in string1Address and string1Address+1 on the stack temporarily,
+          as we will be changing the contents.  The original contents will be restored at the end. */   
+      zpPush sourceAddress                             // push address stored in zero page to the stack.
+      zpMove sourceAddress : startPos                  // move pointer by offset <startPos>
+      StringCopyLeft(sourceAddress, destinationAddress, numChars, switchToFastModeWhileRunning)
+   }else{ // need zero-page to do some math
+      zpPush String.ZP_SRC                             // save what's in String.ZP_SRC to restore later
+      zpLoadAddress sourceAddress : String.ZP_SRC      // load absolute address into zero page
+      zpMove String.ZP_SRC : startPos                  // move pointer by offset <startPos>
+      StringCopyLeft(String.ZP_SRC, destinationAddress, numChars, switchToFastModeWhileRunning)
+   }
 
   .if (switchToFastModeWhileRunning == true) {
     lda #1
     sta c128lib.Vic2.CLKRATE
   }
 
-  begin:
-    ldy startPos                   // Staring position of source string (0 indexed)
-    ldx #0                         // Destination string index - 0 to *numChars-1
-
-  copymid:
-    .if (sourceAddress <= $FE) {
-      lda (sourceAddress), y           // load next character
-    }else{
-      lda sourceAddress, y           // load next character
-    }
-    .if (destinationAddress <= $FE) {
-      sta (destinationAddress), x      // store character to destination string
-    }else{
-      sta destinationAddress, x      // store character to destination string
-    }
-    iny                            // set position for next source character
-    beq end                        // end of source string, so stop
-    inx                            // set position for next target character
-    cpx numChars                   
-    beq end                        // went past end of destination string?
-
-  end:
-    lda #0                            // null character
-    .if (destinationAddress <= $FE) {
-      sta (destinationAddress), x     // terminate destination string
-    }else{
-      sta destinationAddress, x      // terminate destination string
-    }  
+  .if (sourceAddress <= $FE){  
+    zpPull sourceAddress                             // pull orginal address back to the zero page
+  }else{
+    zpPull String.ZP_SRC                             // restore String.ZP_SRC
+  }
 
   .if (switchToFastModeWhileRunning == true) {
     dec c128lib.Vic2.CLKRATE
   } 
-
 }
 
 /*
@@ -536,89 +554,32 @@
   begin:
 
    .if (string1Address <= $FE){  // User is sending zero-page address for indirect indexing.
-    /* Store what's in string1Address and string1Address+1 on the stack temporarily,
-       as we will be changing the contents.  The original contents will be restored at the end. */
-    lda string1Address+1   //high byte first
-    pha
-    lda string1Address     //low byte last
-    pha
-
-   }else{ // We'll store the absolute address at zero page, so that we can add an offest to this address.
-    /* Store what's in our zero-page STRING_TRG and STRING_TRG+1 on the stack temporarily,
-       as we will be changing the contents.  The original contents will be restored at the end. */
-    lda String.STRING_TRG+1   //high byte first
-    pha
-    lda String.STRING_TRG     //low byte last
-    pha
-    
-    lda #<string1Address
-    sta String.STRING_TRG
-    lda #>string1Address
-    sta String.STRING_TRG+1
+      /* Store what's in string1Address and string1Address+1 on the stack temporarily,
+          as we will be changing the contents.  The original contents will be restored at the end. */   
+      zpPush string1Address                             // push address stored in zero page to the stack.
+      zpMove string1Address : string1Length             // move pointer to end of string
+      StringCopy(string2Address, string1Address, switchToFastModeWhileRunning)
+      
+   }else{ // need zero-page to do some math
+      zpPush String.ZP_TRG                              // save what's in String.ZP_TRG to restore later
+      zpLoadAddress string1Address : String.ZP_TRG      // load absolute address into zero page
+      zpMove String.ZP_TRG : string1Length              // move pointer to end of string
+      StringCopy(string2Address, String.ZP_TRG, switchToFastModeWhileRunning)
    }
 
-  move_pointer_to_end:
-    clc
-    .if (string1Address <= $FE) {
-      lda string1Address            // hold low byte of string1 address 
-      adc string1Length             // add length
-      sta string1Address            // update low byte
-      lda string1Address+1          // hold high byte of string1 address
-      adc #0                        // adding the carry if any
-      sta string1Address+1          // pointer is now at end of the string
-    }else{
-      lda String.STRING_TRG         // hold low byte of string1 address 
-      adc string1Length             // add length
-      sta String.STRING_TRG         // update low byte
-      lda String.STRING_TRG+1       // hold high byte of string1 address
-      adc #0                        // adding the carry if any
-      sta String.STRING_TRG+1       // pointer is now at end of the string
-    }
+  .if (switchToFastModeWhileRunning == true) {
+    lda #1
+    sta c128lib.Vic2.CLKRATE
+  }
 
-
-  concat:
-    ldy #0
-
-  copystr:	
-    .if (string2Address <= $FE){
-      lda (string2Address), y       // Post-Indexed Indirect, "(Zero-Page),Y"
-    }else{
-      lda string2Address, y         // absolute, y
-    }
-    .if (string1Address <= $FE){
-      sta (string1Address), y	
-    }else{
-      sta (String.STRING_TRG), y	
-    }
-
-    beq copy_end                       // Hit terminator, Z=1, C=0
-    iny
-    beq no_terminator                  // y > 255, Z=1, C=0
-    jmp copystr
-
-  no_terminator:
-    sec                               // y > 255, Z=1, C=1
-
-  copy_end:
-
-   .if (string1Address <= $FE){  // User is sending zero-page address for indirect indexing.
-    // restore user-referenced zero-page addresses as originally set by user.
-    pla
-    sta string1Address   
-    pla
-    lda string1Address+1     
-
-   }else{ // User sent absolute address
-    // restore these zero-page addresses to the state they were at before calling the routine.
-    pla
-    sta String.STRING_TRG
-    pla
-    sta String.STRING_TRG+1
-   }
+  .if (string1Address <= $FE){  
+    zpPull string1Address                            // pull orginal address back to the zero page
+  }else{
+    zpPull String.ZP_TRG                             // restore String.ZP_TRG
+  }
 
   .if (switchToFastModeWhileRunning == true) {
     dec c128lib.Vic2.CLKRATE
   } 
 
 }
-
