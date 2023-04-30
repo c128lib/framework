@@ -62,4 +62,3 @@ arrayOrderedChallenge: .fill arrayOrderedChallengeSize, i
 }
 
 #import "../lib/sort-global.asm"
-
