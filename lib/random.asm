@@ -3,8 +3,6 @@
  * https://github.com/c128lib/framework
  */
 
-// #import "chipset/lib/vic2.asm"
-
 #importonce
 .filenamespace c128lib
 
@@ -22,7 +20,6 @@
 
   Params:
   .A - Seed
-
 */
 .macro PseudoRandom() {
     beq doEor
