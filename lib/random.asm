@@ -3,6 +3,8 @@
  * https://github.com/c128lib/framework
  */
 
+#import "chipset/lib/sid.asm"
+
 #importonce
 .filenamespace c128lib
 
@@ -29,4 +31,25 @@
 doEor:
     eor #$1d
 noEor:
-} 
+}
+
+/*
+  Init random number generator based on the Sid chip. When used,
+  voice 3 of Sid chip can't be used for playback sounds.
+*/
+.macro InitSid() {
+    lda #$FF 
+    sta c128lib.Sid.VOICE3_FREQ_REGISTER_LOW
+    sta c128lib.Sid.VOICE3_FREQ_REGISTER_HI
+    lda #$80 
+    sta c128lib.Sid.VOICE3_CONTROL_REGISTER
+}
+
+/*
+  Get a new random number from the Sid chip and puts it
+  into the .A register. Random numbers are continuously
+  generated so each call gives a new random number.
+*/
+.macro GetRandomNumberFromSid() {
+    lda c128lib.Sid.VOICE3_OSCILLATOR
+}
