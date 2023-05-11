@@ -24,9 +24,4 @@ sfspec:
 number1: .byte 0
 expected: .byte 0
 
-.macro SetValue8Bit(variable, value) {
-  lda #value
-  sta variable
-}
-
 #import "../lib/random-global.asm"

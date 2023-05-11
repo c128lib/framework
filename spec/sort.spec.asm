@@ -50,15 +50,4 @@ arrayOrdered: .fill arrayOrderedSize, i
 .label arrayOrderedChallengeSize = 10
 arrayOrderedChallenge: .fill arrayOrderedChallengeSize, i
 
-.macro SetValue8Bit(variable, value) {
-  lda #value
-  sta variable
-}
-.macro SetValue16Bit(variable, value) {
-  lda #<value
-  sta variable
-  lda #>value
-  sta variable + 1
-}
-
 #import "../lib/sort-global.asm"
