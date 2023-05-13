@@ -1,4 +1,4 @@
-/*
+/**
  * c128lib (c) 2023
  * https://github.com/c128lib/framework
  */
@@ -11,7 +11,7 @@
 .namespace Sort {
 }
 
-/*
+/**
   Sort an array with bubble sort algorithm.
   Fast mode can be switched on/off while algorithm
   is running. Fast mode can also be enabled before

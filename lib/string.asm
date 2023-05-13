@@ -1,4 +1,4 @@
-/*
+/**
  * c128lib (c) 2023
  * https://github.com/c128lib/framework
  */
@@ -9,7 +9,7 @@
 #importonce
 .filenamespace c128lib
 
-/*
+/**
   The strings are a maximum of 255 bytes long and are null terminated. The null character 
   makes the interal storage a max of 256 bytes.  For strings 256 bytes and longer,
   these macros can be repeated for each set of 256 bytes.
@@ -43,7 +43,7 @@
   .label ZP_TRG = $FC  
 }
 
-/*
+/**
   Push an address, stored in the zero page, to the stack
 */
 .pseudocommand zpPush zpAddress {
@@ -53,7 +53,7 @@
     pha
 }
 
-/*
+/**
   Pull an address from the stack to the zero page
 */
 .pseudocommand zpPull zpAddress {
@@ -63,7 +63,7 @@
     sta zpAddress.getValue()+1    // sta zpAddress+1   //high byte last
 }
 
-/*
+/**
   Load an absolute address into the zero page.
 */
 .pseudocommand zpLoadAddress absAddress:zpAddress {
@@ -86,7 +86,7 @@
       sta zpAddress.getValue()+1  // sta zpAddress+1          // pointer is now at new address 
 }
 
-/*
+/**
   StringCompare - Compare two strings. 
     
     Determine if 2 strings are equal.
@@ -167,7 +167,7 @@
     
 }
 
-/*
+/**
   StringLength - Find the length of a string. 
   
     Returns the length of a string in Y
@@ -229,7 +229,7 @@
   }
 }
 
-/*
+/**
   StringCopy - Copies a string from a source address to a destination address
 
   Params:
@@ -301,7 +301,7 @@
 
 }
 
-/*
+/**
   StringCopyLeft - Copies a left substring of length *numChars from a source address to a 
                    destination address. 
 
@@ -373,7 +373,7 @@
   }
 }
 
-/*
+/**
   StringCopyRight - Copies a right substring of length *numChars from a source address to a 
                     destination address. 
 
@@ -435,7 +435,7 @@
 
 }
 
-/*
+/**
   StringCopyMid -   Copies a substring of a string, starting from a given index, and of length numChars 
                     from a source address to a destination address. 
 
@@ -511,7 +511,7 @@
   } 
 }
 
-/*
+/**
   StringConcatenate - Concatenat string2 to string1.  The resultng string
                       will be located at the address of string1.
 

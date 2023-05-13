@@ -1,4 +1,4 @@
-/*
+/**
  * c128lib (c) 2023
  * https://github.com/c128lib/framework
  */
@@ -11,7 +11,7 @@
 .namespace Random {
 }
 
-/*
+/**
   Generates a random number starting from a given seed.
   It's not a real random number generator but generates
   a pseudo random number. By passing the same seed, it will
@@ -33,7 +33,7 @@ doEor:
 noEor:
 }
 
-/*
+/**
   Init random number generator based on the Sid chip. When used,
   voice 3 of Sid chip can't be used for playback sounds.
 */
@@ -45,7 +45,7 @@ noEor:
     sta c128lib.Sid.VOICE3_CONTROL_REGISTER
 }
 
-/*
+/**
   Get a new random number from the Sid chip and puts it
   into the .A register. Random numbers are continuously
   generated so each call gives a new random number.
