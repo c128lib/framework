@@ -101,15 +101,19 @@ $(document).ready(function(){initNavTree('sort_8asm.html',''); initResizable(); 
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a0eb27cafc2707810e21f81b8690e8e2a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sort_8asm.html#a0eb27cafc2707810e21f81b8690e8e2a">BubbleSort</a>()</td></tr>
-<tr class="separator:a0eb27cafc2707810e21f81b8690e8e2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4542f187ebc120ceafe64ca2683de431"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sort_8asm.html#a4542f187ebc120ceafe64ca2683de431">BubbleSort</a>(arrayAddress,  arraySize,  switchToFastModeWhileRunning)</td></tr>
+<tr class="separator:a4542f187ebc120ceafe64ca2683de431"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="sort_8asm.html" title="sort.asm">sort.asm</a> </p>
-<p>c128lib (c) 2023 <a href="https://github.com/c128lib/framework">https://github.com/c128lib/framework</a> </p>
+<p>Sort module</p>
+<p>Macros for array sorting.</p>
+<p><a class="el" href="">c128lib - Framework </a></p>
+<dl class="section copyright"><dt>Copyright</dt><dd>MIT Licensed </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2023 </dd></dl>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a0eb27cafc2707810e21f81b8690e8e2a" name="a0eb27cafc2707810e21f81b8690e8e2a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0eb27cafc2707810e21f81b8690e8e2a">&#9670;&#160;</a></span>BubbleSort</h2>
+<a id="a4542f187ebc120ceafe64ca2683de431" name="a4542f187ebc120ceafe64ca2683de431"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4542f187ebc120ceafe64ca2683de431">&#9670;&#160;</a></span>BubbleSort</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -117,12 +121,38 @@ Macros</h2></td></tr>
         <tr>
           <td class="memname">#define BubbleSort</td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">arrayAddress, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">arraySize, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">switchToFastModeWhileRunning&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Sort an array with bubble sort algorithm. Fast mode can be switched on/off while algorithm is running. Fast mode can also be enabled before macro is called. Params: arrayAddress - memory address of array arraySize - array size switchToFastModeWhileRunning - if true, fast mode will be enabled at start and disabled at end. </p>
+<p>Sort a 8-bit value array with bubble sort algorithm. Sorted array will be available in the same source address. Fast mode can be switched on/off while algorithm is running. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arrayAddress</td><td>Memory address of array </td></tr>
+    <tr><td class="paramname">arraySize</td><td>Array size </td></tr>
+    <tr><td class="paramname">switchToFastModeWhileRunning</td><td>If true, fast mode will be enabled at start and disabled at end </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section remark"><dt>Remarks</dt><dd>Registers .A, .X and .Y will be modified </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>0.1.0 </dd></dl>
 
 </div>
 </div>
@@ -132,7 +162,7 @@ Macros</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="sort_8asm.html">sort.asm</a></li>
-    <li class="footer">Generated on Sat May 13 2023 13:47:58 for c128lib Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
+    <li class="footer">Generated on Sat May 13 2023 16:12:17 for c128lib Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
   </ul>
 </div>
 </body>

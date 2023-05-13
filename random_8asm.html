@@ -110,7 +110,11 @@ Macros</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="random_8asm.html" title="random.asm">random.asm</a> </p>
-<p>c128lib (c) 2023 <a href="https://github.com/c128lib/framework">https://github.com/c128lib/framework</a> </p>
+<p>Random number generator module</p>
+<p>Macros for generating random and pseudo random numbers</p>
+<p><a class="el" href="">c128lib - Framework </a></p>
+<dl class="section copyright"><dt>Copyright</dt><dd>MIT Licensed </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2023 </dd></dl>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="aa16326365d0f3884ab825e3c7aa680db" name="aa16326365d0f3884ab825e3c7aa680db"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa16326365d0f3884ab825e3c7aa680db">&#9670;&#160;</a></span>GetRandomNumberFromSid</h2>
@@ -126,7 +130,9 @@ Macros</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Get a new random number from the Sid chip and puts it into the .A register. Random numbers are continuously generated so each call gives a new random number. </p>
+<p>Get a new random number from the Sid chip and puts it into the .A register. Random numbers are continuously generated so each call gives a new random number. Generetor must be initialized with <a class="el" href="random_8asm.html#a69872e6b6b64f6de225df0fa151b94ea">InitSid()</a>. </p><dl class="section remark"><dt>Remarks</dt><dd>Register .A will be changed. Flags N and Z will be affected. </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="random_8asm.html#a69872e6b6b64f6de225df0fa151b94ea">InitSid</a> </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>0.1.0 </dd></dl>
 
 </div>
 </div>
@@ -144,7 +150,9 @@ Macros</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Init random number generator based on the Sid chip. When used, voice 3 of Sid chip can't be used for playback sounds. </p>
+<p>Init random number generator based on the Sid chip. When used, voice 3 of Sid chip can't be used for playback sounds. </p><dl class="section remark"><dt>Remarks</dt><dd>Register .A will be changed. Flags N and Z will be affected. </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="random_8asm.html#aa16326365d0f3884ab825e3c7aa680db">GetRandomNumberFromSid</a> </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>0.1.0 </dd></dl>
 
 </div>
 </div>
@@ -162,7 +170,8 @@ Macros</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Generates a random number starting from a given seed. It's not a real random number generator but generates a pseudo random number. By passing the same seed, it will generate always the same number. It is guaranteed to create a sequence touching every element just once. Seed must be provided in accumulator and can be from 0 to $ff. Output number will be available in the accumulator. Params: .A - Seed </p>
+<p>Generates a random number starting from a given seed. It's not a real random number generator but generates a pseudo random number. By passing the same seed, it will generate always the same number. It is guaranteed to create a sequence touching every element from 0 to $ff just once. Seed must be provided in accumulator and can be from 0 to $ff. Output number will be available in the accumulator. </p><dl class="section remark"><dt>Remarks</dt><dd>Register .A must contain seed and will contain pseudo random number generated. Flags N, Z and C will be affected. </dd></dl>
+<dl class="section since"><dt>Since</dt><dd>0.1.0 </dd></dl>
 
 </div>
 </div>
@@ -172,7 +181,7 @@ Macros</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="random_8asm.html">random.asm</a></li>
-    <li class="footer">Generated on Sat May 13 2023 13:47:58 for c128lib Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
+    <li class="footer">Generated on Sat May 13 2023 16:12:17 for c128lib Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
   </ul>
 </div>
 </body>

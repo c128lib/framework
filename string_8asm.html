@@ -101,27 +101,31 @@ $(document).ready(function(){initNavTree('string_8asm.html',''); initResizable()
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a231f43ce043c216f7d047104dab71ade"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string_8asm.html#a231f43ce043c216f7d047104dab71ade">StringCompare</a>()</td></tr>
-<tr class="separator:a231f43ce043c216f7d047104dab71ade"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a08a010c614aa883276a8150b4ed14335"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string_8asm.html#a08a010c614aa883276a8150b4ed14335">StringLength</a>()</td></tr>
-<tr class="separator:a08a010c614aa883276a8150b4ed14335"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa63a419679a441ec9cc9b3f23ffd8793"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string_8asm.html#aa63a419679a441ec9cc9b3f23ffd8793">StringCopy</a>()</td></tr>
-<tr class="separator:aa63a419679a441ec9cc9b3f23ffd8793"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac24b9c90f2f905a889632534a5441989"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string_8asm.html#ac24b9c90f2f905a889632534a5441989">StringCopyLeft</a>()</td></tr>
-<tr class="separator:ac24b9c90f2f905a889632534a5441989"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1bf5144d36154c92e95ec54b9d13e271"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string_8asm.html#a1bf5144d36154c92e95ec54b9d13e271">StringCopyRight</a>()</td></tr>
-<tr class="separator:a1bf5144d36154c92e95ec54b9d13e271"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a25d6272bfd57d78c8ee3fe5f2524909b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string_8asm.html#a25d6272bfd57d78c8ee3fe5f2524909b">StringCopyMid</a>()</td></tr>
-<tr class="separator:a25d6272bfd57d78c8ee3fe5f2524909b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82320147e68e2b26efce88a260e1b778"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string_8asm.html#a82320147e68e2b26efce88a260e1b778">StringConcatenate</a>()</td></tr>
-<tr class="separator:a82320147e68e2b26efce88a260e1b778"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb882c51db97c46ac10c46565388305e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string_8asm.html#acb882c51db97c46ac10c46565388305e">StringCompare</a>(string1Address,  string2Address,  switchToFastModeWhileRunning)</td></tr>
+<tr class="separator:acb882c51db97c46ac10c46565388305e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a825cf08bb42f177487f8edbbb3caa7e0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string_8asm.html#a825cf08bb42f177487f8edbbb3caa7e0">StringLength</a>(stringAddress,  switchToFastModeWhileRunning)</td></tr>
+<tr class="separator:a825cf08bb42f177487f8edbbb3caa7e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:addc04ea1c4fde4f29671aab78e1f6589"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string_8asm.html#addc04ea1c4fde4f29671aab78e1f6589">StringCopy</a>(sourceAddress,  destinationAddress,  switchToFastModeWhileRunning)</td></tr>
+<tr class="separator:addc04ea1c4fde4f29671aab78e1f6589"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b0fa8924e77d6a159e036f2484c7b34"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string_8asm.html#a7b0fa8924e77d6a159e036f2484c7b34">StringCopyLeft</a>(sourceAddress,  destinationAddress,  numChars,  switchToFastModeWhileRunning)</td></tr>
+<tr class="separator:a7b0fa8924e77d6a159e036f2484c7b34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27807d7239ceb09445a5aa4bb3a9389e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string_8asm.html#a27807d7239ceb09445a5aa4bb3a9389e">StringCopyRight</a>(sourceAddress,  destinationAddress,  sourceStrLength,  numChars,  switchToFastModeWhileRunning)</td></tr>
+<tr class="separator:a27807d7239ceb09445a5aa4bb3a9389e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69db6ad0e7a9bcc96457cddfd80cc21e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string_8asm.html#a69db6ad0e7a9bcc96457cddfd80cc21e">StringCopyMid</a>(sourceAddress,  destinationAddress,  startPos,  numChars,  switchToFastModeWhileRunning)</td></tr>
+<tr class="separator:a69db6ad0e7a9bcc96457cddfd80cc21e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2550f10960dacb479599e2f1000e3c9a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string_8asm.html#a2550f10960dacb479599e2f1000e3c9a">StringConcatenate</a>(string1Address,  string2Address,  string1Length,  switchToFastModeWhileRunning)</td></tr>
+<tr class="separator:a2550f10960dacb479599e2f1000e3c9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="string_8asm.html" title="string.asm">string.asm</a> </p>
-<p>c128lib (c) 2023 <a href="https://github.com/c128lib/framework">https://github.com/c128lib/framework</a> </p>
+<p>String manipulation module</p>
+<p>Macros for string handling and manipulation</p>
+<p><a class="el" href="">c128lib - Framework </a></p>
+<dl class="section copyright"><dt>Copyright</dt><dd>MIT Licensed </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2023 </dd></dl>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a231f43ce043c216f7d047104dab71ade" name="a231f43ce043c216f7d047104dab71ade"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a231f43ce043c216f7d047104dab71ade">&#9670;&#160;</a></span>StringCompare</h2>
+<a id="acb882c51db97c46ac10c46565388305e" name="acb882c51db97c46ac10c46565388305e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb882c51db97c46ac10c46565388305e">&#9670;&#160;</a></span>StringCompare</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -129,17 +133,58 @@ Macros</h2></td></tr>
         <tr>
           <td class="memname">#define StringCompare</td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">string1Address, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">string2Address, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">switchToFastModeWhileRunning&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>StringCompare - Compare two strings. Determine if 2 strings are equal. Params: string1Address - address of string1 string2Address - address of string2 switchToFastModeWhileRunning - if true, fast mode will be enabled at start and disabled at end. Preconditions: 1) string1Address, string2Address must be a 16-bit address or 8-bit zero-page address holding the address of the string 2) Zero-page address must not be greater than $FE, or error Postconditions: 1) The zero flag is set if the strings are identical and cleared otherwise. In either case, the carry flag is cleared 2) If both strings are equal up to 256 bytes, and no terminator is found then the carry flag and zero flag are set and Y=0; otherwise they are both cleared 3) When substrings of the 2 strings are equal, starting from the beginning, the Y register will contain the index of the end of the substrings. 4) If the strings are equal, the Y register will contain their lengths. 5) The contents at string1Address and string2Address are left unchanged. </p>
+<p>Determine if two strings are equal. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">string1Address</td><td>Address of string1 </td></tr>
+    <tr><td class="paramname">string2Address</td><td>Address of string2 </td></tr>
+    <tr><td class="paramname">switchToFastModeWhileRunning</td><td>If true, fast mode will be enabled at start and disabled at end. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section remark"><dt>Remarks</dt><dd>Registers .A and .Y will be modified. </dd>
+<dd>
+Flags N, Z and C will be affected. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd><ol type="1">
+<li>string1Address, string2Address must be a 16-bit address or 8-bit zero-page address holding the address of the string</li>
+<li>Zero-page address must not be greater than $FE, or error </li>
+</ol>
+</dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd><ol type="1">
+<li>The zero flag is set if the strings are identical and cleared otherwise. In either case, the carry flag is cleared</li>
+<li>If both strings are equal up to 256 bytes, and no terminator is found then the carry flag and zero flag are set and Y=0; otherwise they are both cleared</li>
+<li>When substrings of the 2 strings are equal, starting from the beginning, the Y register will contain the index of the end of the substrings.</li>
+<li>If the strings are equal, the Y register will contain their lengths.</li>
+<li>The contents at string1Address and string2Address are left unchanged. </li>
+</ol>
+</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>0.1.0 </dd></dl>
 
 </div>
 </div>
-<a id="a82320147e68e2b26efce88a260e1b778" name="a82320147e68e2b26efce88a260e1b778"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a82320147e68e2b26efce88a260e1b778">&#9670;&#160;</a></span>StringConcatenate</h2>
+<a id="a2550f10960dacb479599e2f1000e3c9a" name="a2550f10960dacb479599e2f1000e3c9a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2550f10960dacb479599e2f1000e3c9a">&#9670;&#160;</a></span>StringConcatenate</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -147,27 +192,65 @@ Macros</h2></td></tr>
         <tr>
           <td class="memname">#define StringConcatenate</td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">string1Address, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">string2Address, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">string1Length, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">switchToFastModeWhileRunning&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>StringConcatenate - Concatenat string2 to string1. The resultng string will be located at the address of string1. Params: Inputs: string1Address - address of first string string2Address - address of second string string1Length - address to the length of string1 (required for performance, use <a class="el" href="string_8asm.html#a08a010c614aa883276a8150b4ed14335">StringLength()</a>) switchToFastModeWhileRunning - if true, fast mode will be enabled at start and disabled at end. Preconditions:</p><ol type="1">
+<p>Concatenate string2 to string1. The resulting string will be located at the address of string1. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">string1Address</td><td>Address of first string </td></tr>
+    <tr><td class="paramname">string2Address</td><td>Address of second string </td></tr>
+    <tr><td class="paramname">string1Length</td><td>Address to the length of string1 (required for performance, use <a class="el" href="string_8asm.html#a825cf08bb42f177487f8edbbb3caa7e0">StringLength()</a>) </td></tr>
+    <tr><td class="paramname">switchToFastModeWhileRunning</td><td>If true, fast mode will be enabled at start and disabled at end. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section remark"><dt>Remarks</dt><dd>Registers .A and .Y will be modified. </dd>
+<dd>
+Flags N, Z and C will be affected. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd><ol type="1">
 <li>*string1Length &lt;= 255</li>
 <li>string1Address,string2Address must be a 16-bit address or 8-bit zero-page address holding the address of the string</li>
-<li>Zero-page address must not be greater than $FE, or error Postconditions:</li>
+<li>Zero-page address must not be greater than $FE, or error </li>
 </ol>
-<ol type="1">
+</dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd><ol type="1">
 <li>The resultng string will be located at the address of string1 (string1Address)</li>
 <li>If the length of string2 is greater than 256, only the first 256 characters will be concatented.</li>
 <li>The contents at string2Address will remain unchanged.</li>
 <li>The contents at string1Length will remain unchanged. </li>
 </ol>
+</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>0.1.0 </dd></dl>
 
 </div>
 </div>
-<a id="aa63a419679a441ec9cc9b3f23ffd8793" name="aa63a419679a441ec9cc9b3f23ffd8793"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa63a419679a441ec9cc9b3f23ffd8793">&#9670;&#160;</a></span>StringCopy</h2>
+<a id="addc04ea1c4fde4f29671aab78e1f6589" name="addc04ea1c4fde4f29671aab78e1f6589"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#addc04ea1c4fde4f29671aab78e1f6589">&#9670;&#160;</a></span>StringCopy</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -175,16 +258,45 @@ Macros</h2></td></tr>
         <tr>
           <td class="memname">#define StringCopy</td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">sourceAddress, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">destinationAddress, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">switchToFastModeWhileRunning&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>StringCopy - Copies a string from a source address to a destination address Params: Inputs: sourceAddress - address of source string destinationAddress - destination address for copied string switchToFastModeWhileRunning - if true, fast mode will be enabled at start and disabled at end. Preconditions:</p><ol type="1">
+<p>Copies a string from a source address to a destination address </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sourceAddress</td><td>Address of source string </td></tr>
+    <tr><td class="paramname">destinationAddress</td><td>Destination address for copied string </td></tr>
+    <tr><td class="paramname">switchToFastModeWhileRunning</td><td>If true, fast mode will be enabled at start and disabled at end. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section remark"><dt>Remarks</dt><dd>Registers .A and .Y will be modified. </dd>
+<dd>
+Flags N, Z and C will be affected. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd><ol type="1">
 <li>sourceAddress,destinationAddress must be a 16-bit address or 8-bit zero-page address holding the address of the string</li>
-<li>Zero-page address must not be greater than $FE, or error Postconditions:</li>
+<li>Zero-page address must not be greater than $FE, or error </li>
 </ol>
-<ol type="1">
+</dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd><ol type="1">
 <li>destinationAddress will point to a string the same as the string pointed to by sourceAddress</li>
 <li>Y register will contain the length of the string, which is also the address offset to the eol character, the null character (0).</li>
 <li>The Z flag will be set to 1, either because null character found, or overflow in Y occured <br  />
@@ -195,11 +307,13 @@ Macros</h2></td></tr>
 <li>The routine terminates after 256 loops.</li>
 <li>The contents at sourceAddress are left unchanged. </li>
 </ol>
+</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>0.1.0 </dd></dl>
 
 </div>
 </div>
-<a id="ac24b9c90f2f905a889632534a5441989" name="ac24b9c90f2f905a889632534a5441989"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac24b9c90f2f905a889632534a5441989">&#9670;&#160;</a></span>StringCopyLeft</h2>
+<a id="a7b0fa8924e77d6a159e036f2484c7b34" name="a7b0fa8924e77d6a159e036f2484c7b34"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b0fa8924e77d6a159e036f2484c7b34">&#9670;&#160;</a></span>StringCopyLeft</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -207,26 +321,64 @@ Macros</h2></td></tr>
         <tr>
           <td class="memname">#define StringCopyLeft</td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">sourceAddress, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">destinationAddress, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">numChars, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">switchToFastModeWhileRunning&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>StringCopyLeft - Copies a left substring of length *numChars from a source address to a destination address. Params: Inputs: sourceAddress - address of source string destinationAddress - destination address for copied substring numChars - address storing the number of characters from left to copy switchToFastModeWhileRunning - if true, fast mode will be enabled at start and disabled at end. Preconditions:</p><ol type="1">
+<p>Copies a left substring of length *numChars from a source address to a destination address. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sourceAddress</td><td>Address of source string </td></tr>
+    <tr><td class="paramname">destinationAddress</td><td>Destination address for copied substring </td></tr>
+    <tr><td class="paramname">numChars</td><td>Address storing the number of characters from left to copy </td></tr>
+    <tr><td class="paramname">switchToFastModeWhileRunning</td><td>If true, fast mode will be enabled at start and disabled at end. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section remark"><dt>Remarks</dt><dd>Registers .A and .Y will be modified. </dd>
+<dd>
+Flags N, Z and C will be affected. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd><ol type="1">
 <li>*numChars &lt;= 255</li>
 <li>sourceAddress,destinationAddress must be a 16-bit address or 8-bit zero-page address holding the address of the string</li>
-<li>Zero-page address must not be greater than $FE, or error Postconditions:</li>
+<li>Zero-page address must not be greater than $FE, or error </li>
 </ol>
-<ol type="1">
+</dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd><ol type="1">
 <li>destinationAddress will point to a string that is equal to the string pointed to by sourceAddress</li>
 <li>The contents at numChars is left unchanged</li>
 <li>The contents at sourceAddress are left unchanged. </li>
 </ol>
+</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>0.1.0 </dd></dl>
 
 </div>
 </div>
-<a id="a25d6272bfd57d78c8ee3fe5f2524909b" name="a25d6272bfd57d78c8ee3fe5f2524909b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a25d6272bfd57d78c8ee3fe5f2524909b">&#9670;&#160;</a></span>StringCopyMid</h2>
+<a id="a69db6ad0e7a9bcc96457cddfd80cc21e" name="a69db6ad0e7a9bcc96457cddfd80cc21e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69db6ad0e7a9bcc96457cddfd80cc21e">&#9670;&#160;</a></span>StringCopyMid</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -234,29 +386,74 @@ Macros</h2></td></tr>
         <tr>
           <td class="memname">#define StringCopyMid</td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">sourceAddress, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">destinationAddress, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">startPos, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">numChars, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">switchToFastModeWhileRunning&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>StringCopyMid - Copies a substring of a string, starting from a given index, and of length numChars from a source address to a destination address. Params: Inputs: sourceAddress - address of source string destinationAddress - destination address for copied substring startPos - address of memory holding starting position of the substring, where the first postion is 0 numChars - address of memory holding the number of characters from the starting position of the substring switchToFastModeWhileRunning - if true, fast mode will be enabled at start and disabled at end. Preconditions:</p><ol type="1">
+<p>Copies a substring of a string, starting from a given index, and of length numChars from a source address to a destination address. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sourceAddress</td><td>Address of source string </td></tr>
+    <tr><td class="paramname">destinationAddress</td><td>Destination address for copied substring </td></tr>
+    <tr><td class="paramname">startPos</td><td>Address of memory holding starting position of the substring, where the first postion is 0 </td></tr>
+    <tr><td class="paramname">numChars</td><td>Address of memory holding the number of characters from the starting position of the substring </td></tr>
+    <tr><td class="paramname">switchToFastModeWhileRunning</td><td>If true, fast mode will be enabled at start and disabled at end. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section remark"><dt>Remarks</dt><dd>Registers .A and .Y will be modified. </dd>
+<dd>
+Flags N, Z and C will be affected. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd><ol type="1">
 <li>*startPos &lt;= 255</li>
 <li>*numChars &lt;= 255</li>
 <li>*startPos + *numChars &lt;= 255</li>
 <li>sourceAddress,destinationAddress must be a 16-bit address or 8-bit zero-page address holding the address of the string</li>
-<li>Zero-page address must not be greater than $FE, or error Postconditions:</li>
+<li>Zero-page address must not be greater than $FE, or error </li>
 </ol>
-<ol type="1">
+</dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd><ol type="1">
 <li>destinationAddress will point to a substring that is equal to the substring defined by the start position and length of the string at sourceAddress</li>
 <li>The contents at sourceAddress will remain unchanged.</li>
 <li>The contents at startPos will remain unchanged.</li>
 <li>The contents at numChars will remain unchanged. </li>
 </ol>
+</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>0.1.0 </dd></dl>
 
 </div>
 </div>
-<a id="a1bf5144d36154c92e95ec54b9d13e271" name="a1bf5144d36154c92e95ec54b9d13e271"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1bf5144d36154c92e95ec54b9d13e271">&#9670;&#160;</a></span>StringCopyRight</h2>
+<a id="a27807d7239ceb09445a5aa4bb3a9389e" name="a27807d7239ceb09445a5aa4bb3a9389e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27807d7239ceb09445a5aa4bb3a9389e">&#9670;&#160;</a></span>StringCopyRight</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -264,28 +461,73 @@ Macros</h2></td></tr>
         <tr>
           <td class="memname">#define StringCopyRight</td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">sourceAddress, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">destinationAddress, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">sourceStrLength, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">numChars, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">switchToFastModeWhileRunning&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>StringCopyRight - Copies a right substring of length *numChars from a source address to a destination address. Params: Inputs: sourceAddress - address of source string destinationAddress - destination address for copied substring sourceStrLength - address storing the length of source string (required for performance, use <a class="el" href="string_8asm.html#a08a010c614aa883276a8150b4ed14335">StringLength()</a>) numChars - address storing the number of characters from right to copy switchToFastModeWhileRunning - if true, fast mode will be enabled at start and disabled at end. Preconditions:</p><ol type="1">
+<p>Copies a right substring of length *numChars from a source address to a destination address. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sourceAddress</td><td>Address of source string </td></tr>
+    <tr><td class="paramname">destinationAddress</td><td>Destination address for copied substring </td></tr>
+    <tr><td class="paramname">sourceStrLength</td><td>Address storing the length of source string (required for performance, use <a class="el" href="string_8asm.html#a825cf08bb42f177487f8edbbb3caa7e0">StringLength()</a>) </td></tr>
+    <tr><td class="paramname">numChars</td><td>Address storing the number of characters from right to copy </td></tr>
+    <tr><td class="paramname">switchToFastModeWhileRunning</td><td>If true, fast mode will be enabled at start and disabled at end. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section remark"><dt>Remarks</dt><dd>Registers .A and .Y will be modified. </dd>
+<dd>
+Flags N, Z and C will be affected. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd><ol type="1">
 <li>*sourceStrLength &lt;= 255</li>
 <li>*numChars &lt;= 255</li>
 <li>sourceAddress,destinationAddress must be a 16-bit address or 8-bit zero-page address holding the address of the string</li>
-<li>Zero-page address must not be greater than $FE, or error Postconditions:</li>
+<li>Zero-page address must not be greater than $FE, or error </li>
 </ol>
-<ol type="1">
+</dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd><ol type="1">
 <li>destinationAddress will point to a substring that is equal to the right substring of length *numChars pointed to by sourceAddress</li>
 <li>The contents at sourceAddress will be left unchanged.</li>
 <li>The contents at sourceStrLength will be left unchanged.</li>
 <li>The contents at numChars will be left unchanged. </li>
 </ol>
+</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>0.1.0 </dd></dl>
 
 </div>
 </div>
-<a id="a08a010c614aa883276a8150b4ed14335" name="a08a010c614aa883276a8150b4ed14335"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a08a010c614aa883276a8150b4ed14335">&#9670;&#160;</a></span>StringLength</h2>
+<a id="a825cf08bb42f177487f8edbbb3caa7e0" name="a825cf08bb42f177487f8edbbb3caa7e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a825cf08bb42f177487f8edbbb3caa7e0">&#9670;&#160;</a></span>StringLength</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -293,13 +535,48 @@ Macros</h2></td></tr>
         <tr>
           <td class="memname">#define StringLength</td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">stringAddress, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">switchToFastModeWhileRunning&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>StringLength - Find the length of a string. Returns the length of a string in Y Params: stringAddress - address of string switchToFastModeWhileRunning - if true, fast mode will be enabled at start and disabled at end. Preconditions: 1) stringAddress must be a 16-bit address or 8-bit zero-page address holding the address of the string 2) Zero-page address must not be greater than $FE, or error Postconditions: 1) Y register will contain the length of the string, which is also the address offset to null character (0). 2) Z will be set to 1, either because null character found, or overflow in Y occured 3) The C flag will be 0 if length &lt;= 255, otherwise 1. <br  />
- 4) If C flag is set, Y=0. This also indicates the string is 256 bytes or longer 5) The routine terminates after 256 loops. 6) The contents at stringAddress are left unchanged. </p>
+<p>Find the length of a string. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stringAddress</td><td>Address of string </td></tr>
+    <tr><td class="paramname">switchToFastModeWhileRunning</td><td>If true, fast mode will be enabled at start and disabled at end. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section remark"><dt>Remarks</dt><dd>Registers .A and .Y will be modified. </dd>
+<dd>
+Flags N, Z and C will be affected. </dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd><ol type="1">
+<li>stringAddress must be a 16-bit address or 8-bit zero-page address holding the address of the string</li>
+<li>Zero-page address must not be greater than $FE, or error </li>
+</ol>
+</dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd><ol type="1">
+<li>Y register will contain the length of the string, which is also the address offset to null character (0).</li>
+<li>Z will be set to 1, either because null character found, or overflow in Y occured</li>
+<li>The C flag will be 0 if length &lt;= 255, otherwise 1. <br  />
+</li>
+<li>If C flag is set, Y=0. This also indicates the string is 256 bytes or longer</li>
+<li>The routine terminates after 256 loops.</li>
+<li>The contents at stringAddress are left unchanged. </li>
+</ol>
+</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>0.1.0 </dd></dl>
 
 </div>
 </div>
@@ -309,7 +586,7 @@ Macros</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="string_8asm.html">string.asm</a></li>
-    <li class="footer">Generated on Sat May 13 2023 13:47:58 for c128lib Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
+    <li class="footer">Generated on Sat May 13 2023 16:12:17 for c128lib Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
   </ul>
 </div>
 </body>
