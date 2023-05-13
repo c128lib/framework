@@ -10,6 +10,11 @@
 # Gradle files
 .gradle
 
+# Doxygen
+html/*
+xml/*
+lib/output
+
 # IDE and tool files
 .idea
 .ra
