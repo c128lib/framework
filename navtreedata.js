@@ -24,12 +24,20 @@
 */
 var NAVTREE =
 [
-  [ "c128lib Framework", "index.html", ]
+  [ "c128lib Framework", "index.html", [
+    [ "Files", "files.html", [
+      [ "File List", "files.html", "files_dup" ],
+      [ "Globals", "globals.html", [
+        [ "All", "globals.html", null ],
+        [ "Macros", "globals_defs.html", null ]
+      ] ]
+    ] ]
+  ] ]
 ];
 
 var NAVTREEINDEX =
 [
-"index.html"
+"files.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
