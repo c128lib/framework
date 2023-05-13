@@ -23,6 +23,7 @@ jobs:
       with:
         perl-version: '5.34'
     - run: |
+        cd lib
         perl ../asm4doxy.pl *.asm
 
     - name: Doxygen Action
