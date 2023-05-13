@@ -531,7 +531,7 @@ foreach my $p (@pliki)
     if ( defined $pliki_opis{$key} )
     {
         print $dox "/**\n"
-            ." * \\file $key.c\n"
+            ." * \\file $key\n"
             ." * \\brief $p\n\n"
             .$pliki_opis{$key}
             ."\n */\n\n\n";
@@ -687,7 +687,7 @@ foreach my $p (@pliki)
                 $pliki_makra_opis{$key}{$_} =~ s/[\@\\]param//i;
             }
             $makro_proto =~ s/,\s*$//;
-            print $dox "$makro_proto) /* $pliki_oryg{$key}, $_ */\n";
+            print $dox "$makro_proto)\n";
         }
     }
  
