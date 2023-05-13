@@ -1,6 +1,13 @@
 /**
- * c128lib (c) 2023
- * https://github.com/c128lib/framework
+ * @brief Sort module
+ * @details Macros for array sorting.
+ *
+ * @link https://c128lib.github.io/framework/
+ * @details c128lib - Framework
+ * @endlink
+ *
+ * @copyright MIT Licensed
+ * @date 2023
  */
 
 #import "chipset/lib/vic2.asm"
@@ -12,16 +19,20 @@
 }
 
 /**
-  Sort an array with bubble sort algorithm.
+  Sort a 8-bit value array with bubble sort algorithm.
+  Sorted array will be available in the same source
+  address.
   Fast mode can be switched on/off while algorithm
-  is running. Fast mode can also be enabled before
-  macro is called.
+  is running.
 
-  Params:
-  arrayAddress - memory address of array
-  arraySize - array size
-  switchToFastModeWhileRunning - if true, fast mode
-    will be enabled at start and disabled at end.
+  @param arrayAddress Memory address of array
+  @param arraySize Array size
+  @param switchToFastModeWhileRunning If true, fast mode
+    will be enabled at start and disabled at end
+
+  @remark Registers .A, .X and .Y will be modified
+
+  @since 0.1.0
 */
 .macro BubbleSort(arrayAddress, arraySize, switchToFastModeWhileRunning) {
   .if (switchToFastModeWhileRunning == true) {

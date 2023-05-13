@@ -1,10 +1,16 @@
 /**
- * c128lib (c) 2023
- * https://github.com/c128lib/framework
+ * @brief String manipulation module
+ * @details Macros for string handling and manipulation
+ *
+ * @link https://c128lib.github.io/framework/
+ * @details c128lib - Framework
+ * @endlink
+ *
+ * @copyright MIT Licensed
+ * @date 2023
  */
 
 #import "chipset/lib/vic2.asm"
-
 
 #importonce
 .filenamespace c128lib
@@ -87,29 +93,31 @@
 }
 
 /**
-  StringCompare - Compare two strings. 
+  Determine if two strings are equal.
     
-    Determine if 2 strings are equal.
-    
-  Params:
-    string1Address - address of string1
-    string2Address - address of string2
-    switchToFastModeWhileRunning - if true, fast mode will be enabled at start and disabled at end.
+  @param string1Address Address of string1
+  @param string2Address Address of string2
+  @param switchToFastModeWhileRunning If true, fast mode will be enabled at start and disabled at end.
   
-  Preconditions:
-    1) string1Address, string2Address must be a 16-bit address or 8-bit zero-page address
-       holding the address of the string
-    2) Zero-page address must not be greater than $FE, or error
+  @remark Registers .A and .Y will be modified.
+  @remark Flags N, Z and C will be affected.
 
-  Postconditions: 
-    1) The zero flag is set if the strings are identical and cleared otherwise.
+  @pre
+    1. string1Address, string2Address must be a 16-bit address or 8-bit zero-page address
+       holding the address of the string
+    2. Zero-page address must not be greater than $FE, or error
+
+  @post 
+    1. The zero flag is set if the strings are identical and cleared otherwise.
        In either case, the carry flag is cleared
-    2) If both strings are equal up to 256 bytes, and no terminator is found then the carry 
+    2. If both strings are equal up to 256 bytes, and no terminator is found then the carry 
        flag and zero flag are set and Y=0; otherwise they are both cleared
-    3) When substrings of the 2 strings are equal, starting from the beginning, the Y register
+    3. When substrings of the 2 strings are equal, starting from the beginning, the Y register
        will contain the index of the end of the substrings.
-    4) If the strings are equal, the Y register will contain their lengths. 
-    5) The contents at string1Address and string2Address are left unchanged.
+    4. If the strings are equal, the Y register will contain their lengths. 
+    5. The contents at string1Address and string2Address are left unchanged.
+
+  @since 0.1.0
 */
 .macro StringCompare(string1Address, string2Address, switchToFastModeWhileRunning) {
 
@@ -168,29 +176,31 @@
 }
 
 /**
-  StringLength - Find the length of a string. 
-  
-    Returns the length of a string in Y
+  Find the length of a string. 
 
-  Params:
-      stringAddress - address of string
-      switchToFastModeWhileRunning - if true, fast mode will be enabled at start and disabled 
-                                     at end.
-  
-  Preconditions:
-    1) stringAddress must be a 16-bit address or 8-bit zero-page address
+  @param stringAddress Address of string
+  @param switchToFastModeWhileRunning If true, fast mode will be enabled at start and disabled 
+    at end.
+
+  @remark Registers .A and .Y will be modified.
+  @remark Flags N, Z and C will be affected.
+
+  @pre
+    1. stringAddress must be a 16-bit address or 8-bit zero-page address
        holding the address of the string
-    2) Zero-page address must not be greater than $FE, or error
+    2. Zero-page address must not be greater than $FE, or error
 
-  Postconditions: 
-    1) Y register will contain the length of the string, which is also the
+  @post
+    1. Y register will contain the length of the string, which is also the
        address offset to null character (0). 
-    2) Z will be set to 1, either because null character found, or overflow in Y 
+    2. Z will be set to 1, either because null character found, or overflow in Y 
        occured 
-    3) The C flag will be 0 if length <= 255, otherwise 1.  
-    4) If C flag is set, Y=0.  This also indicates the string is 256 bytes or longer 
-    5) The routine terminates after 256 loops.
-    6) The contents at stringAddress are left unchanged.
+    3. The C flag will be 0 if length <= 255, otherwise 1.  
+    4. If C flag is set, Y=0.  This also indicates the string is 256 bytes or longer 
+    5. The routine terminates after 256 loops.
+    6. The contents at stringAddress are left unchanged.
+
+  @since 0.1.0
 */
 .macro StringLength(stringAddress, switchToFastModeWhileRunning) {
 
@@ -230,21 +240,23 @@
 }
 
 /**
-  StringCopy - Copies a string from a source address to a destination address
+  Copies a string from a source address to a destination address
 
-  Params:
-    Inputs:
-      sourceAddress - address of source string
-      destinationAddress - destination address for copied string
-      switchToFastModeWhileRunning - if true, fast mode will be enabled at start and disabled 
-                                     at end.
+  @param sourceAddress Address of source string
+  @param destinationAddress Destination address for copied string
+  @param switchToFastModeWhileRunning If true, fast mode will be enabled at start and disabled 
+    at end.
 
-  Preconditions:
+  @remark Registers .A and .Y will be modified.
+  @remark Flags N, Z and C will be affected.
+
+  @pre
     1. sourceAddress,destinationAddress must be a 16-bit address or 8-bit zero-page address
        holding the address of the string
+
     2. Zero-page address must not be greater than $FE, or error
     
-  Postconditions:
+  @post 
     1. destinationAddress will point to a string the same as the
        string pointed to by sourceAddress
     2. Y register will contain the length of the string, which is also the
@@ -255,6 +267,8 @@
     5. If C flag is set, Y=0.  This also indicates the string is 256 bytes or longer 
     6. The routine terminates after 256 loops.
     7. The contents at sourceAddress are left unchanged.
+
+  @since 0.1.0
 */
 .macro StringCopy(sourceAddress, destinationAddress, switchToFastModeWhileRunning) {
 
@@ -302,29 +316,32 @@
 }
 
 /**
-  StringCopyLeft - Copies a left substring of length *numChars from a source address to a 
-                   destination address. 
+  Copies a left substring of length *numChars from a source address to a 
+  destination address. 
 
-  Params:
-    Inputs:
-      sourceAddress                - address of source string
-      destinationAddress           - destination address for copied substring
-      numChars                     - address storing the number of characters 
-                                     from left to copy
-      switchToFastModeWhileRunning - if true, fast mode will be enabled at start and disabled 
-                                     at end.
+  @param sourceAddress Address of source string
+  @param destinationAddress Destination address for copied substring
+  @param numChars Address storing the number of characters 
+    from left to copy
+  @param switchToFastModeWhileRunning If true, fast mode will be enabled at start and disabled 
+    at end.
 
-  Preconditions:
+  @remark Registers .A and .Y will be modified.
+  @remark Flags N, Z and C will be affected.
+
+  @pre
     1. *numChars <= 255
     2. sourceAddress,destinationAddress must be a 16-bit address or 8-bit zero-page address
        holding the address of the string
     3. Zero-page address must not be greater than $FE, or error
 
-  Postconditions:
+  @post 
     1. destinationAddress will point to a string that is equal to the
        string pointed to by sourceAddress
     2. The contents at numChars is left unchanged
     3. The contents at sourceAddress are left unchanged.
+
+  @since 0.1.0
 */
 .macro StringCopyLeft(sourceAddress, destinationAddress, numChars, switchToFastModeWhileRunning) {
 
@@ -374,31 +391,35 @@
 }
 
 /**
-  StringCopyRight - Copies a right substring of length *numChars from a source address to a 
-                    destination address. 
+  Copies a right substring of length *numChars from a source address to a 
+  destination address. 
 
-  Params:
-    Inputs:
-      sourceAddress                - address of source string
-      destinationAddress           - destination address for copied substring
-      sourceStrLength              - address storing the length of source string 
-                                     (required for performance, use StringLength())
-      numChars                     - address storing the number of characters from right to copy
-      switchToFastModeWhileRunning - if true, fast mode will be enabled at start and disabled 
-                                     at end.
+  @param sourceAddress Address of source string
+  @param destinationAddress Destination address for copied substring
+  @param sourceStrLength Address storing the length of source string 
+    (required for performance, use StringLength())
+  @param numChars Address storing the number of characters from right to copy
+  @param switchToFastModeWhileRunning If true, fast mode will be enabled at start and disabled 
+    at end.
 
-  Preconditions:
+  @remark Registers .A and .Y will be modified.
+  @remark Flags N, Z and C will be affected.
+
+  @pre
     1. *sourceStrLength <= 255
     2. *numChars <= 255
     3. sourceAddress,destinationAddress must be a 16-bit address or 8-bit zero-page address
        holding the address of the string
     4. Zero-page address must not be greater than $FE, or error
-  Postconditions:
+
+  @post 
     1. destinationAddress will point to a substring that is equal to the
        right substring of length *numChars pointed to by sourceAddress
     2. The contents at sourceAddress will be left unchanged.
     3. The contents at sourceStrLength will be left unchanged.
     4. The contents at numChars will be left unchanged.
+
+  @since 0.1.0
 */
 .macro StringCopyRight(sourceAddress, destinationAddress, sourceStrLength, numChars, switchToFastModeWhileRunning) {
 
@@ -436,34 +457,38 @@
 }
 
 /**
-  StringCopyMid -   Copies a substring of a string, starting from a given index, and of length numChars 
-                    from a source address to a destination address. 
+  Copies a substring of a string, starting from a given index, and of length numChars 
+  from a source address to a destination address. 
 
-  Params:
-    Inputs:
-      sourceAddress                - address of source string
-      destinationAddress           - destination address for copied substring
-      startPos                     - address of memory holding starting position of the substring,
-                                     where the first postion is 0
-      numChars                     - address of memory holding the number of characters from the 
-                                     starting position of the substring
-      switchToFastModeWhileRunning - if true, fast mode will be enabled at start and disabled 
-                                     at end.
+  @param sourceAddress Address of source string
+  @param destinationAddress Destination address for copied substring
+  @param startPos Address of memory holding starting position of the substring,
+    where the first postion is 0
+  @param numChars Address of memory holding the number of characters from the 
+    starting position of the substring
+  @param switchToFastModeWhileRunning If true, fast mode will be enabled at start and disabled 
+    at end.
 
-  Preconditions:
+  @remark Registers .A and .Y will be modified.
+  @remark Flags N, Z and C will be affected.
+
+  @pre
     1. *startPos <= 255
     2. *numChars <= 255
     3. *startPos + *numChars <= 255
     4. sourceAddress,destinationAddress must be a 16-bit address or 8-bit zero-page address
        holding the address of the string
     5. Zero-page address must not be greater than $FE, or error
-  Postconditions:
+
+  @post 
     1. destinationAddress will point to a substring that is equal to the
        substring defined by the start position and length of the string
        at sourceAddress
     2. The contents at sourceAddress will remain unchanged.
     3. The contents at startPos will remain unchanged.
     4. The contents at numChars will remain unchanged.
+
+  @since 0.1.0
 */
 .macro StringCopyMid(sourceAddress, destinationAddress, startPos, numChars, switchToFastModeWhileRunning) {
 
@@ -512,29 +537,33 @@
 }
 
 /**
-  StringConcatenate - Concatenat string2 to string1.  The resultng string
-                      will be located at the address of string1.
+  Concatenate string2 to string1. The resulting string
+  will be located at the address of string1.
 
-  Params:
-    Inputs:
-      string1Address               - address of first string
-      string2Address               - address of second string
-      string1Length                - address to the length of string1 
-                                    (required for performance, use StringLength())
-      switchToFastModeWhileRunning - if true, fast mode will be enabled at start and disabled 
-                                     at end.
+  @param string1Address Address of first string
+  @param string2Address Address of second string
+  @param string1Length Address to the length of string1 
+    (required for performance, use StringLength())
+  @param switchToFastModeWhileRunning If true, fast mode will be enabled at start and disabled 
+    at end.
 
-  Preconditions:
+  @remark Registers .A and .Y will be modified.
+  @remark Flags N, Z and C will be affected.
+
+  @pre
     1. *string1Length <= 255
     2. string1Address,string2Address must be a 16-bit address or 8-bit zero-page address
        holding the address of the string
     3. Zero-page address must not be greater than $FE, or error
-  Postconditions:
+
+  @post 
     1. The resultng string will be located at the address of string1 (string1Address)
     2. If the length of string2 is greater than 256, only the first 256 characters will
        be concatented.
     3. The contents at string2Address will remain unchanged.
     4. The contents at string1Length will remain unchanged.
+
+  @since 0.1.0
 */
 .macro StringConcatenate(string1Address, string2Address, string1Length, switchToFastModeWhileRunning) {
 
