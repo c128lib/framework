@@ -1,10 +1,31 @@
 /**
  * @brief String manipulation module
- * @details Macros for string handling and manipulation
+ * @details The strings are a maximum of 255 bytes long and are null terminated. The null character 
+ * makes the interal storage a max of 256 bytes.  For strings 256 bytes and longer,
+ * these macros can be repeated for each set of 256 bytes.
  *
- * @link https://c128lib.github.io/framework/
- * @details c128lib - Framework
- * @endlink
+ * String addresses can be absolute addresses or post-indexed indirect, "(Zero-Page), Y".
+ * To be clear, if passing a zero-page address, it is implied that the address is an
+ * indirect address that will be post-indexed by Y by the macro.  So, the zero page 
+ * address will hold the absolute address (small endian) of the string.
+ * Only pass the zero-page address without brackets, such as $FA.  Last usable zero-page
+ * address for post-indexed indirect addressing mode is $FE, so do not pass $FF.
+ *
+ * Numeric parameters must be an address.  That is, store the number in an address (zero-page
+ * or 16-bit) and then pass the address to the parameter.  In the comments, these parameters 
+ * will be dereferenced by the *, as in C notation.  For example, numChars is the address, and
+ * numChars is the value stored at address numChars.
+ *
+ * Notes:
+ * When a post condition is that the carry is set, a programmer can repeat these macros 
+ * for strings 256 chars or longer.  The programmer would call the macros as many times 
+ * as the number of 256-byte strings needed for memory allocation of the string. 
+ * In this way, a programmer can create a string data type with length longer than 255.  
+ * In this case, multiple 256-byte strings could be used to represent a long string, with 
+ * each 256-byte string holding 256 characters, excluding the terminator (#0), except for 
+ * the last byte 256-byte string which must be terminated at 255.
+ *
+ * Examples will be given in the official documentation.
  *
  * @copyright MIT Licensed
  * @date 2023
@@ -14,35 +35,6 @@
 
 #importonce
 .filenamespace c128lib
-
-/**
-  The strings are a maximum of 255 bytes long and are null terminated. The null character 
-  makes the interal storage a max of 256 bytes.  For strings 256 bytes and longer,
-  these macros can be repeated for each set of 256 bytes.
-
-  String addresses can be absolute addresses or post-indexed indirect, "(Zero-Page), Y".
-  To be clear, if passing a zero-page address, it is implied that the address is an
-  indirect address that will be post-indexed by Y by the macro.  So, the zero page 
-  address will hold the absolute address (small endian) of the string.
-  Only pass the zero-page address without brackets, such as $FA.  Last usable zero-page
-  address for post-indexed indirect addressing mode is $FE, so do not pass $FF.
-
-  Numeric parameters must be an address.  That is, store the number in an address (zero-page
-  or 16-bit) and then pass the address to the parameter.  In the comments, these parameters 
-  will be dereferenced by the *, as in C notation.  For example, numChars is the address, and
-  *numChars is the value stored at address numChars.
-
-  Notes:
-    When a post condition is that the carry is set, a programmer can repeat these macros 
-    for strings 256 chars or longer.  The programmer would call the macros as many times 
-    as the number of 256-byte strings needed for memory allocation of the string. 
-    In this way, a programmer can create a string data type with length longer than 255.  
-    In this case, multiple 256-byte strings could be used to represent a long string, with 
-    each 256-byte string holding 256 characters, excluding the terminator (#0), except for 
-    the last byte 256-byte string which must be terminated at 255.
-
-    Examples will be given in the official documentation.
-*/
 
 .namespace String {
   .label ZP_SRC = $FA
