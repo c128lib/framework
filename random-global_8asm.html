@@ -99,6 +99,7 @@ $(document).ready(function(){initNavTree('random-global_8asm.html',''); initResi
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a5fb5870aeb053ee94ffcac2ce6907b14"><td class="memItemLeft" align="right" valign="top">macro&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="random-global_8asm.html#a5fb5870aeb053ee94ffcac2ce6907b14">c128lib_PseudoRandom</a> ()</td></tr>
+<tr class="memdesc:a5fb5870aeb053ee94ffcac2ce6907b14"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="namespaceRandom.html" title="Random number generator module.">Random</a> number generator module.  <br /></td></tr>
 <tr class="separator:a5fb5870aeb053ee94ffcac2ce6907b14"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae3fa886b3aabfcf9040b1656d5cdcd46"><td class="memItemLeft" align="right" valign="top">macro&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="random-global_8asm.html#ae3fa886b3aabfcf9040b1656d5cdcd46">c128lib_InitSid</a> ()</td></tr>
 <tr class="separator:ae3fa886b3aabfcf9040b1656d5cdcd46"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -120,6 +121,10 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Get a new random number from the Sid chip and puts it into the .A register. <a class="el" href="namespaceRandom.html" title="Random number generator module.">Random</a> numbers are continuously generated so each call gives a new random number. Generetor must be initialized with <a class="el" href="random-global_8asm.html#ae3fa886b3aabfcf9040b1656d5cdcd46">c128lib_InitSid()</a>.</p>
+<dl class="section remark"><dt>Remarks</dt><dd>Register .A will be changed. Flags N and Z will be affected. </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="random-global_8asm.html#ae3fa886b3aabfcf9040b1656d5cdcd46">c128lib_InitSid</a></dd></dl>
+<dl class="section since"><dt>Since</dt><dd>0.1.0 </dd></dl>
 
 </div>
 </div>
@@ -137,6 +142,10 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Init random number generator based on the Sid chip. When used, voice 3 of Sid chip can't be used for playback sounds.</p>
+<dl class="section remark"><dt>Remarks</dt><dd>Register .A will be changed. Flags N and Z will be affected. </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="random-global_8asm.html#a8b3a4d58ced626cc47986a3c602d14f0">c128lib_GetRandomNumberFromSid</a></dd></dl>
+<dl class="section since"><dt>Since</dt><dd>0.1.0 </dd></dl>
 
 </div>
 </div>
@@ -155,6 +164,14 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p><a class="el" href="namespaceRandom.html" title="Random number generator module.">Random</a> number generator module. </p>
+<p>This module contains a bunch of macros for random number generation. There are mainly two types of generetions: random and pseudo-random Pseudo-random generator creates random numbers inside a sequence based on alghorithm. <a class="el" href="namespaceRandom.html" title="Random number generator module.">Random</a> generator try to create an unpredictable number sequence.</p>
+<p><a class="el" href="namespaceRandom.html" title="Random number generator module.">Random</a> number generator must be initialized before use.</p>
+<dl class="section copyright"><dt>Copyright</dt><dd>MIT Licensed </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2023 Generates a random number starting from a given seed. It's not a real random number generator but generates a pseudo random number. By passing the same seed, it will generate always the same number. It is guaranteed to create a sequence touching every element from 0 to $ff just once. Seed must be provided in accumulator and can be from 0 to $ff. Output number will be available in the accumulator.</dd></dl>
+<dl class="section remark"><dt>Remarks</dt><dd>Register .A must contain seed and will contain pseudo random number generated. Flags N, Z and C will be affected.</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>0.1.0 </dd></dl>
+
 </div>
 </div>
 </div><!-- contents -->
@@ -163,7 +180,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="random-global_8asm.html">random-global.asm</a></li>
-    <li class="footer">Generated on Fri Jun 2 2023 11:35:22 for c128lib Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
+    <li class="footer">Generated on Fri Jun 2 2023 13:52:29 for c128lib Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
   </ul>
 </div>
 </body>

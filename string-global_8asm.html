@@ -99,6 +99,7 @@ $(document).ready(function(){initNavTree('string-global_8asm.html',''); initResi
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:aa9b6817f091f5f0f4d0ade6cae82119f"><td class="memItemLeft" align="right" valign="top">macro&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string-global_8asm.html#aa9b6817f091f5f0f4d0ade6cae82119f">c128lib_StringCompare</a> (string1Address, string2Address, switchToFastModeWhileRunning)</td></tr>
+<tr class="memdesc:aa9b6817f091f5f0f4d0ade6cae82119f"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="namespaceString.html" title="String manipulation module.">String</a> manipulation module.  <br /></td></tr>
 <tr class="separator:aa9b6817f091f5f0f4d0ade6cae82119f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c06068bbfc410ad7f1de68562f542a4"><td class="memItemLeft" align="right" valign="top">macro&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string-global_8asm.html#a5c06068bbfc410ad7f1de68562f542a4">c128lib_StringLength</a> (stringAddress, switchToFastModeWhileRunning)</td></tr>
 <tr class="separator:a5c06068bbfc410ad7f1de68562f542a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -146,6 +147,41 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p><a class="el" href="namespaceString.html" title="String manipulation module.">String</a> manipulation module. </p>
+<p>The strings are a maximum of 255 bytes long and are null terminated. The null character makes the interal storage a max of 256 bytes. For strings 256 bytes and longer, these macros can be repeated for each set of 256 bytes.</p>
+<p><a class="el" href="namespaceString.html" title="String manipulation module.">String</a> addresses can be absolute addresses or post-indexed indirect, "(Zero-Page), Y". To be clear, if passing a zero-page address, it is implied that the address is an indirect address that will be post-indexed by Y by the macro. So, the zero page address will hold the absolute address (small endian) of the string. Only pass the zero-page address without brackets, such as $FA. Last usable zero-page address for post-indexed indirect addressing mode is $FE, so do not pass $FF.</p>
+<p>Numeric parameters must be an address. That is, store the number in an address (zero-page or 16-bit) and then pass the address to the parameter. In the comments, these parameters will be dereferenced by the *, as in C notation. For example, numChars is the address, and numChars is the value stored at address numChars.</p>
+<p>Notes: When a post condition is that the carry is set, a programmer can repeat these macros for strings 256 chars or longer. The programmer would call the macros as many times as the number of 256-byte strings needed for memory allocation of the string. In this way, a programmer can create a string data type with length longer than 255. <br  />
+ In this case, multiple 256-byte strings could be used to represent a long string, with each 256-byte string holding 256 characters, excluding the terminator (#0), except for the last byte 256-byte string which must be terminated at 255.</p>
+<p>Examples will be given in the official documentation.</p>
+<dl class="section copyright"><dt>Copyright</dt><dd>MIT Licensed </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2023 Determine if two strings are equal.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">string1Address</td><td>Address of string1 </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">string2Address</td><td>Address of string2 </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">switchToFastModeWhileRunning</td><td>If true, fast mode will be enabled at start and disabled at end.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section remark"><dt>Remarks</dt><dd>Registers .A and .Y will be modified. </dd>
+<dd>
+Flags N, Z and C will be affected.</dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd><ol type="1">
+<li>string1Address, string2Address must be a 16-bit address or 8-bit zero-page address holding the address of the string</li>
+<li>Zero-page address must not be greater than $FE, or error</li>
+</ol>
+</dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd><ol type="1">
+<li>The zero flag is set if the strings are identical and cleared otherwise. In either case, the carry flag is cleared</li>
+<li>If both strings are equal up to 256 bytes, and no terminator is found then the carry flag and zero flag are set and Y=0; otherwise they are both cleared</li>
+<li>When substrings of the 2 strings are equal, starting from the beginning, the Y register will contain the index of the end of the substrings.</li>
+<li>If the strings are equal, the Y register will contain their lengths.</li>
+<li>The contents at string1Address and string2Address are left unchanged.</li>
+</ol>
+</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>0.1.0 </dd></dl>
+
 </div>
 </div>
 <a id="a48748479eb28ca1008a80ca030a69a5e" name="a48748479eb28ca1008a80ca030a69a5e"></a>
@@ -185,6 +221,33 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Concatenate string2 to string1. The resulting string will be located at the address of string1.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">string1Address</td><td>Address of first string </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">string2Address</td><td>Address of second string </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">string1Length</td><td>Address to the length of string1 (required for performance, use <a class="el" href="string_8asm.html#a4127bb03f9fe801e92c3c7669b8d00c1">StringLength()</a>) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">switchToFastModeWhileRunning</td><td>If true, fast mode will be enabled at start and disabled at end.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section remark"><dt>Remarks</dt><dd>Registers .A and .Y will be modified. </dd>
+<dd>
+Flags N, Z and C will be affected.</dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd><ol type="1">
+<li>*string1Length &lt;= 255</li>
+<li>string1Address,string2Address must be a 16-bit address or 8-bit zero-page address holding the address of the string</li>
+<li>Zero-page address must not be greater than $FE, or error</li>
+</ol>
+</dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd><ol type="1">
+<li>The resultng string will be located at the address of string1 (string1Address)</li>
+<li>If the length of string2 is greater than 256, only the first 256 characters will be concatented.</li>
+<li>The contents at string2Address will remain unchanged.</li>
+<li>The contents at string1Length will remain unchanged.</li>
+</ol>
+</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>0.1.0 </dd></dl>
 
 </div>
 </div>
@@ -219,6 +282,36 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Copies a string from a source address to a destination address</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">sourceAddress</td><td>Address of source string </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">destinationAddress</td><td>Destination address for copied string </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">switchToFastModeWhileRunning</td><td>If true, fast mode will be enabled at start and disabled at end.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section remark"><dt>Remarks</dt><dd>Registers .A and .Y will be modified. </dd>
+<dd>
+Flags N, Z and C will be affected.</dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd><ol type="1">
+<li>sourceAddress,destinationAddress must be a 16-bit address or 8-bit zero-page address holding the address of the string</li>
+<li>Zero-page address must not be greater than $FE, or error</li>
+</ol>
+</dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd><ol type="1">
+<li>destinationAddress will point to a string the same as the string pointed to by sourceAddress</li>
+<li>Y register will contain the length of the string, which is also the address offset to the eol character, the null character (0).</li>
+<li>The Z flag will be set to 1, either because null character found, or overflow in Y occured <br  />
+</li>
+<li>The C flag will be 0 if length &lt;= 255, otherwise 1. <br  />
+</li>
+<li>If C flag is set, Y=0. This also indicates the string is 256 bytes or longer</li>
+<li>The routine terminates after 256 loops.</li>
+<li>The contents at sourceAddress are left unchanged.</li>
+</ol>
+</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>0.1.0 </dd></dl>
 
 </div>
 </div>
@@ -259,6 +352,32 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Copies a left substring of length *numChars from a source address to a destination address.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">sourceAddress</td><td>Address of source string </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">destinationAddress</td><td>Destination address for copied substring </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">numChars</td><td>Address storing the number of characters from left to copy </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">switchToFastModeWhileRunning</td><td>If true, fast mode will be enabled at start and disabled at end.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section remark"><dt>Remarks</dt><dd>Registers .A and .Y will be modified. </dd>
+<dd>
+Flags N, Z and C will be affected.</dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd><ol type="1">
+<li>*numChars &lt;= 255</li>
+<li>sourceAddress,destinationAddress must be a 16-bit address or 8-bit zero-page address holding the address of the string</li>
+<li>Zero-page address must not be greater than $FE, or error</li>
+</ol>
+</dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd><ol type="1">
+<li>destinationAddress will point to a string that is equal to the string pointed to by sourceAddress</li>
+<li>The contents at numChars is left unchanged</li>
+<li>The contents at sourceAddress are left unchanged.</li>
+</ol>
+</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>0.1.0 </dd></dl>
 
 </div>
 </div>
@@ -305,6 +424,36 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Copies a substring of a string, starting from a given index, and of length numChars from a source address to a destination address.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">sourceAddress</td><td>Address of source string </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">destinationAddress</td><td>Destination address for copied substring </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">startPos</td><td>Address of memory holding starting position of the substring, where the first postion is 0 </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">numChars</td><td>Address of memory holding the number of characters from the starting position of the substring </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">switchToFastModeWhileRunning</td><td>If true, fast mode will be enabled at start and disabled at end.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section remark"><dt>Remarks</dt><dd>Registers .A and .Y will be modified. </dd>
+<dd>
+Flags N, Z and C will be affected.</dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd><ol type="1">
+<li>*startPos &lt;= 255</li>
+<li>*numChars &lt;= 255</li>
+<li>*startPos + *numChars &lt;= 255</li>
+<li>sourceAddress,destinationAddress must be a 16-bit address or 8-bit zero-page address holding the address of the string</li>
+<li>Zero-page address must not be greater than $FE, or error</li>
+</ol>
+</dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd><ol type="1">
+<li>destinationAddress will point to a substring that is equal to the substring defined by the start position and length of the string at sourceAddress</li>
+<li>The contents at sourceAddress will remain unchanged.</li>
+<li>The contents at startPos will remain unchanged.</li>
+<li>The contents at numChars will remain unchanged.</li>
+</ol>
+</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>0.1.0 </dd></dl>
 
 </div>
 </div>
@@ -351,6 +500,35 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Copies a right substring of length *numChars from a source address to a destination address.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">sourceAddress</td><td>Address of source string </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">destinationAddress</td><td>Destination address for copied substring </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">sourceStrLength</td><td>Address storing the length of source string (required for performance, use <a class="el" href="string_8asm.html#a4127bb03f9fe801e92c3c7669b8d00c1">StringLength()</a>) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">numChars</td><td>Address storing the number of characters from right to copy </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">switchToFastModeWhileRunning</td><td>If true, fast mode will be enabled at start and disabled at end.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section remark"><dt>Remarks</dt><dd>Registers .A and .Y will be modified. </dd>
+<dd>
+Flags N, Z and C will be affected.</dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd><ol type="1">
+<li>*sourceStrLength &lt;= 255</li>
+<li>*numChars &lt;= 255</li>
+<li>sourceAddress,destinationAddress must be a 16-bit address or 8-bit zero-page address holding the address of the string</li>
+<li>Zero-page address must not be greater than $FE, or error</li>
+</ol>
+</dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd><ol type="1">
+<li>destinationAddress will point to a substring that is equal to the right substring of length *numChars pointed to by sourceAddress</li>
+<li>The contents at sourceAddress will be left unchanged.</li>
+<li>The contents at sourceStrLength will be left unchanged.</li>
+<li>The contents at numChars will be left unchanged.</li>
+</ol>
+</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>0.1.0 </dd></dl>
 
 </div>
 </div>
@@ -379,6 +557,33 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Find the length of a string.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">stringAddress</td><td>Address of string </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">switchToFastModeWhileRunning</td><td>If true, fast mode will be enabled at start and disabled at end.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section remark"><dt>Remarks</dt><dd>Registers .A and .Y will be modified. </dd>
+<dd>
+Flags N, Z and C will be affected.</dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd><ol type="1">
+<li>stringAddress must be a 16-bit address or 8-bit zero-page address holding the address of the string</li>
+<li>Zero-page address must not be greater than $FE, or error</li>
+</ol>
+</dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd><ol type="1">
+<li>Y register will contain the length of the string, which is also the address offset to null character (0).</li>
+<li>Z will be set to 1, either because null character found, or overflow in Y occured</li>
+<li>The C flag will be 0 if length &lt;= 255, otherwise 1. <br  />
+</li>
+<li>If C flag is set, Y=0. This also indicates the string is 256 bytes or longer</li>
+<li>The routine terminates after 256 loops.</li>
+<li>The contents at stringAddress are left unchanged.</li>
+</ol>
+</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>0.1.0 </dd></dl>
 
 </div>
 </div>
@@ -388,7 +593,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="string-global_8asm.html">string-global.asm</a></li>
-    <li class="footer">Generated on Fri Jun 2 2023 11:35:22 for c128lib Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
+    <li class="footer">Generated on Fri Jun 2 2023 13:52:29 for c128lib Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
   </ul>
 </div>
 </body>
