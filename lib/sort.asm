@@ -2,15 +2,9 @@
  * @brief Sort module
  * @details Macros for array sorting.
  *
- * @link https://c128lib.github.io/framework/
- * @details c128lib - Framework
- * @endlink
- *
  * @copyright MIT Licensed
  * @date 2023
  */
-
-#import "chipset/lib/vic2.asm"
 
 #importonce
 .filenamespace c128lib
@@ -31,6 +25,8 @@
     will be enabled at start and disabled at end
 
   @remark Registers .A, .X and .Y will be modified
+
+  @note Use c128lib_BubbleSort in sort-global.asm
 
   @since 0.1.0
 */
@@ -81,3 +77,5 @@ inner_loop:
   cpy #2; bne *-22; dex; bne *-27;
   dec $d030
 }
+
+#import "chipset/lib/vic2.asm"

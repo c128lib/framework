@@ -31,8 +31,6 @@
  * @date 2023
  */
 
-#import "chipset/lib/vic2.asm"
-
 #importonce
 .filenamespace c128lib
 
@@ -87,12 +85,14 @@
 /**
   Determine if two strings are equal.
     
-  @param string1Address Address of string1
-  @param string2Address Address of string2
-  @param switchToFastModeWhileRunning If true, fast mode will be enabled at start and disabled at end.
+  @param[in] string1Address Address of string1
+  @param[in] string2Address Address of string2
+  @param[in] switchToFastModeWhileRunning If true, fast mode will be enabled at start and disabled at end.
   
   @remark Registers .A and .Y will be modified.
   @remark Flags N, Z and C will be affected.
+
+  @note Use c128lib_StringCompare in string-global.asm
 
   @pre
     1. string1Address, string2Address must be a 16-bit address or 8-bit zero-page address
@@ -170,12 +170,14 @@
 /**
   Find the length of a string. 
 
-  @param stringAddress Address of string
-  @param switchToFastModeWhileRunning If true, fast mode will be enabled at start and disabled 
+  @param[in] stringAddress Address of string
+  @param[in] switchToFastModeWhileRunning If true, fast mode will be enabled at start and disabled 
     at end.
 
   @remark Registers .A and .Y will be modified.
   @remark Flags N, Z and C will be affected.
+
+  @note Use c128lib_StringLength in string-global.asm
 
   @pre
     1. stringAddress must be a 16-bit address or 8-bit zero-page address
@@ -234,13 +236,15 @@
 /**
   Copies a string from a source address to a destination address
 
-  @param sourceAddress Address of source string
-  @param destinationAddress Destination address for copied string
-  @param switchToFastModeWhileRunning If true, fast mode will be enabled at start and disabled 
+  @param[in] sourceAddress Address of source string
+  @param[out] destinationAddress Destination address for copied string
+  @param[in] switchToFastModeWhileRunning If true, fast mode will be enabled at start and disabled 
     at end.
 
   @remark Registers .A and .Y will be modified.
   @remark Flags N, Z and C will be affected.
+
+  @note Use c128lib_StringCopy in string-global.asm
 
   @pre
     1. sourceAddress,destinationAddress must be a 16-bit address or 8-bit zero-page address
@@ -311,15 +315,17 @@
   Copies a left substring of length *numChars from a source address to a 
   destination address. 
 
-  @param sourceAddress Address of source string
-  @param destinationAddress Destination address for copied substring
-  @param numChars Address storing the number of characters 
+  @param[in] sourceAddress Address of source string
+  @param[out] destinationAddress Destination address for copied substring
+  @param[in] numChars Address storing the number of characters 
     from left to copy
-  @param switchToFastModeWhileRunning If true, fast mode will be enabled at start and disabled 
+  @param[in] switchToFastModeWhileRunning If true, fast mode will be enabled at start and disabled 
     at end.
 
   @remark Registers .A and .Y will be modified.
   @remark Flags N, Z and C will be affected.
+
+  @note Use c128lib_StringCopyLeft in string-global.asm
 
   @pre
     1. *numChars <= 255
@@ -386,16 +392,18 @@
   Copies a right substring of length *numChars from a source address to a 
   destination address. 
 
-  @param sourceAddress Address of source string
-  @param destinationAddress Destination address for copied substring
-  @param sourceStrLength Address storing the length of source string 
+  @param[in] sourceAddress Address of source string
+  @param[out] destinationAddress Destination address for copied substring
+  @param[in] sourceStrLength Address storing the length of source string 
     (required for performance, use StringLength())
-  @param numChars Address storing the number of characters from right to copy
-  @param switchToFastModeWhileRunning If true, fast mode will be enabled at start and disabled 
+  @param[in] numChars Address storing the number of characters from right to copy
+  @param[in] switchToFastModeWhileRunning If true, fast mode will be enabled at start and disabled 
     at end.
 
   @remark Registers .A and .Y will be modified.
   @remark Flags N, Z and C will be affected.
+
+  @note Use c128lib_StringCopyRight in string-global.asm
 
   @pre
     1. *sourceStrLength <= 255
@@ -452,17 +460,19 @@
   Copies a substring of a string, starting from a given index, and of length numChars 
   from a source address to a destination address. 
 
-  @param sourceAddress Address of source string
-  @param destinationAddress Destination address for copied substring
-  @param startPos Address of memory holding starting position of the substring,
+  @param[in] sourceAddress Address of source string
+  @param[out] destinationAddress Destination address for copied substring
+  @param[in] startPos Address of memory holding starting position of the substring,
     where the first postion is 0
-  @param numChars Address of memory holding the number of characters from the 
+  @param[in] numChars Address of memory holding the number of characters from the 
     starting position of the substring
-  @param switchToFastModeWhileRunning If true, fast mode will be enabled at start and disabled 
+  @param[in] switchToFastModeWhileRunning If true, fast mode will be enabled at start and disabled 
     at end.
 
   @remark Registers .A and .Y will be modified.
   @remark Flags N, Z and C will be affected.
+
+  @note Use c128lib_StringCopyMid in string-global.asm
 
   @pre
     1. *startPos <= 255
@@ -532,15 +542,17 @@
   Concatenate string2 to string1. The resulting string
   will be located at the address of string1.
 
-  @param string1Address Address of first string
-  @param string2Address Address of second string
-  @param string1Length Address to the length of string1 
+  @param[inout] string1Address Address of first string
+  @param[in] string2Address Address of second string
+  @param[in] string1Length Address to the length of string1 
     (required for performance, use StringLength())
-  @param switchToFastModeWhileRunning If true, fast mode will be enabled at start and disabled 
+  @param[in] switchToFastModeWhileRunning If true, fast mode will be enabled at start and disabled 
     at end.
 
   @remark Registers .A and .Y will be modified.
   @remark Flags N, Z and C will be affected.
+
+  @note Use c128lib_StringConcatenate in string-global.asm
 
   @pre
     1. *string1Length <= 255
@@ -604,3 +616,5 @@
   } 
 
 }
+
+#import "chipset/lib/vic2.asm"

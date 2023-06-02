@@ -11,6 +11,7 @@ retroProject {
     dialectVersion = "5.25"
     libDirs = ["..", ".ra/deps/c128lib"]
     srcDirs = ["lib"]
+    excludes = ["**/output/*.asm"]
 
     viceExecutable = 'x128'
 

@@ -14,8 +14,6 @@
  * @date 2023
  */
 
-#import "chipset/lib/sid.asm"
-
 #importonce
 .filenamespace c128lib
 
@@ -34,6 +32,8 @@
   @remark Register .A must contain seed and will contain
     pseudo random number generated.
     Flags N, Z and C will be affected.
+
+  @note Use c128lib_PseudoRandom in random-global.asm
 
   @since 0.1.0
 */
@@ -54,6 +54,9 @@ noEor:
   @remark Register .A will be changed.
     Flags N and Z will be affected.
   @sa GetRandomNumberFromSid
+
+  @note Use c128lib_InitSid in random-global.asm
+
   @since 0.1.0
 */
 .macro InitSid() {
@@ -73,8 +76,13 @@ noEor:
   @remark Register .A will be changed.
     Flags N and Z will be affected.
   @sa InitSid
+
+  @note Use c128lib_GetRandomNumberFromSid in random-global.asm
+
   @since 0.1.0
 */
 .macro GetRandomNumberFromSid() {
     lda c128lib.Sid.VOICE3_OSCILLATOR
 }
+
+#import "chipset/lib/sid.asm"
