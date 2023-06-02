@@ -1,10 +1,14 @@
 /**
  * @brief Random number generator module
- * @details Macros for generating random and pseudo random numbers
+ * @details This module contains a bunch of macros for
+ * random number generation. There are mainly two
+ * types of generetions: random and pseudo-random
+ * Pseudo-random generator creates random numbers inside
+ * a sequence based on alghorithm.
+ * Random generator try to create an unpredictable number
+ * sequence.
  *
- * @link https://c128lib.github.io/framework/
- * @details c128lib - Framework
- * @endlink
+ * Random number generator must be initialized before use.
  *
  * @copyright MIT Licensed
  * @date 2023

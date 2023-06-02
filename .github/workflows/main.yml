@@ -18,13 +18,12 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
         
-    - name: Convert to C-like
-      uses: shogo82148/actions-setup-perl@v1.21.0
+    - name: Convert doxygen liked version
+      uses: actions/setup-python@v4
       with:
-        perl-version: '5.34'
-    - run: |
-        cd lib
-        perl ../asm4doxy.pl *.asm
+        python-version: '3.10' 
+    - run:
+        python KickAssemblerToDoxygen.py ./lib/
 
     - name: Doxygen Action
       uses: mattnotmitt/doxygen-action@v1.1.0
