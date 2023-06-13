@@ -16,9 +16,9 @@
   Fast mode can be switched on/off while algorithm
   is running.
 
-  @param arrayAddress Memory address of array
-  @param arraySize Array size
-  @param switchToFastModeWhileRunning If true, fast mode
+  @param[inout] arrayAddress Memory address of array
+  @param[in] arraySize Array size
+  @param[in] switchToFastModeWhileRunning If true, fast mode
     will be enabled at start and disabled at end
 
   @remark Registers .A, .X and .Y will be modified
