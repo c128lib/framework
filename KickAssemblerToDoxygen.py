@@ -35,18 +35,20 @@ def replace_body_in_curly_brackets(string_to_elaborate):
 
 def remove_assert(content):
     """Function printing python version."""
-    # match .assert "macroName(x)", { macroName(1) }, { lda #1 }
-    content = re.sub(r".assert [\.\|\"\w\(\)\,\s+\{\}\%\#\$\;\[\]]+\}", "", content)
+    # match .assert "macroName(x)", macroName(1), lda #0
+    # on single line without curly braces
+    content = re.sub(r".assert [^{}]*(?=\n|$)", r"", content)
 
-    # match .assert "macroName(x)", macroName(1), 1
-    content = re.sub(r"(.assert [^\,]+\,[^\,]+\,[^\n]+)", r"", content)
+    # match .assert "macroName(x)", { macroName(1) }, { lda #0 }
+    # on single or multiple line with curly braces
+    content = re.sub(r".assert [^\}]+\}[^\}]+\}", r"", content)
 
     return content
 
 def remove_assert_error(content):
     """Function printing python version."""
     # match .asserterror "macroName(x)", { macroName(1) }
-    content = re.sub(r"(.asserterror [^\,]+\,[^\}]+\})", r"", content)
+    content = re.sub(r".asserterror [^\}]+\}", r"", content)
 
     return content
 
@@ -67,7 +69,7 @@ def remove_importonce(content):
 def remove_import(content):
     """Function printing python version."""
     # remove import
-    content = re.sub(r"#import[\w\"\\\/\.\s]*\n", "", content)
+    content = re.sub(r"#import[^\"]+\"[^\"]+\"\n", "", content)
 
     return content
 
@@ -82,10 +84,16 @@ def remove_inital_dot_from_keywords(content):
 
     return content
 
-def add_semicolor_to_label_declaration(content):
+def add_semicolon_to_label_declaration(content):
     """Function printing python version."""
-    # add semicolor at the end of label declaration
+    # add semicolon at the end of label declaration
     content = re.sub(r'(label[^\n]+)', r'\1;', content)
+
+    return content
+
+def remove_some_newline(content):
+    """Function printing python version."""
+    content = re.sub(r"[\n]{2,}\/\*\*", r"\n\n/**", content)
 
     return content
 
@@ -93,9 +101,8 @@ def read_file(filename):
     """Function printing python version."""
     print("Processing " + filename)
 
-    content = open(filename, 'r', encoding='utf8').read()
-
-    return content
+    with open(filename, 'r', encoding='utf8') as file_to_open:
+        return file_to_open.read()
 
 def convert_file(content):
     """Function printing python version."""
@@ -128,7 +135,9 @@ def convert_file(content):
 
     content = remove_inital_dot_from_keywords(content)
 
-    content = add_semicolor_to_label_declaration(content)
+    content = add_semicolon_to_label_declaration(content)
+
+    content = remove_some_newline(content)
     return content
 
 def write_file(filename, content):
@@ -138,9 +147,9 @@ def write_file(filename, content):
     output_filename = head + '/output/' + tail
 
     print("Saving " + output_filename + "...")
-    out_file = open(output_filename, 'w', encoding='utf8')
-    out_file.write(content)
-    out_file.close()
+    with open(output_filename, 'w', encoding='utf8') as out_file:
+        out_file.write(content)
+        out_file.close()
 
 def usage():
     """Function printing python version."""
