@@ -107,52 +107,6 @@ Functions</h2></td></tr>
 <tr class="separator:abe42e3e91bca51dbec87a7988e8d7d02"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="abe42e3e91bca51dbec87a7988e8d7d02" name="abe42e3e91bca51dbec87a7988e8d7d02"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abe42e3e91bca51dbec87a7988e8d7d02">&#9670;&#160;</a></span>PostZ80Code()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">macro PostZ80Code </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Generates z80 post-code, in order to guarantee that z80 jumps to routine to reactivate 6502.</p>
-<dl class="section remark"><dt>Remarks</dt><dd>Register .A of z80 processor will be changed. </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="z80_8asm.html#af530b58c6936f5e1185516f6977daaf9">PreZ80Code</a></dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Use c128lib_PostZ80Code in <a class="el" href="z80-global_8asm.html">z80-global.asm</a></dd></dl>
-<dl class="section attention"><dt>Attention</dt><dd>This macro must be run after writing the code that will be executed on z80.</dd></dl>
-<dl class="section since"><dt>Since</dt><dd>0.2.0 </dd></dl>
-
-</div>
-</div>
-<a id="af530b58c6936f5e1185516f6977daaf9" name="af530b58c6936f5e1185516f6977daaf9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af530b58c6936f5e1185516f6977daaf9">&#9670;&#160;</a></span>PreZ80Code()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">macro PreZ80Code </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Generates z80 pre-code, in order to setup environment for correct z80 code running.</p>
-<dl class="section remark"><dt>Remarks</dt><dd>Register .A of z80 processor will be changed. </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="z80_8asm.html#abe42e3e91bca51dbec87a7988e8d7d02">PostZ80Code</a></dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Use c128lib_PreZ80Code in <a class="el" href="z80-global_8asm.html">z80-global.asm</a></dd></dl>
-<dl class="section attention"><dt>Attention</dt><dd>This macro must be run before writing the code that will be executed on z80.</dd></dl>
-<dl class="section since"><dt>Since</dt><dd>0.2.0 </dd></dl>
-
-</div>
-</div>
 <a id="af6d3997e9d6128077ab903ec31c19453" name="af6d3997e9d6128077ab903ec31c19453"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af6d3997e9d6128077ab903ec31c19453">&#9670;&#160;</a></span>RunZ80Code()</h2>
 
@@ -187,13 +141,59 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="af530b58c6936f5e1185516f6977daaf9" name="af530b58c6936f5e1185516f6977daaf9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af530b58c6936f5e1185516f6977daaf9">&#9670;&#160;</a></span>PreZ80Code()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">macro PreZ80Code </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Generates z80 pre-code, in order to setup environment for correct z80 code running.</p>
+<dl class="section remark"><dt>Remarks</dt><dd>Register .A of z80 processor will be changed. </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="z80_8asm.html#abe42e3e91bca51dbec87a7988e8d7d02">PostZ80Code</a></dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Use c128lib_PreZ80Code in <a class="el" href="z80-global_8asm.html">z80-global.asm</a></dd></dl>
+<dl class="section attention"><dt>Attention</dt><dd>This macro must be run before writing the code that will be executed on z80.</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>0.2.0 </dd></dl>
+
+</div>
+</div>
+<a id="abe42e3e91bca51dbec87a7988e8d7d02" name="abe42e3e91bca51dbec87a7988e8d7d02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe42e3e91bca51dbec87a7988e8d7d02">&#9670;&#160;</a></span>PostZ80Code()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">macro PostZ80Code </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Generates z80 post-code, in order to guarantee that z80 jumps to routine to reactivate 6502.</p>
+<dl class="section remark"><dt>Remarks</dt><dd>Register .A of z80 processor will be changed. </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="z80_8asm.html#af530b58c6936f5e1185516f6977daaf9">PreZ80Code</a></dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Use c128lib_PostZ80Code in <a class="el" href="z80-global_8asm.html">z80-global.asm</a></dd></dl>
+<dl class="section attention"><dt>Attention</dt><dd>This macro must be run after writing the code that will be executed on z80.</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>0.2.0 </dd></dl>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="z80_8asm.html">z80.asm</a></li>
-    <li class="footer">Generated on Mon Jul 3 2023 20:41:04 for c128lib Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
+    <li class="footer">Generated on Thu Jul 27 2023 13:00:55 for c128lib Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
   </ul>
 </div>
 </body>

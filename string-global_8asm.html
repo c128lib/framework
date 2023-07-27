@@ -184,28 +184,16 @@ Flags N, Z and C will be affected.</dd></dl>
 
 </div>
 </div>
-<a id="a48748479eb28ca1008a80ca030a69a5e" name="a48748479eb28ca1008a80ca030a69a5e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a48748479eb28ca1008a80ca030a69a5e">&#9670;&#160;</a></span>c128lib_StringConcatenate()</h2>
+<a id="a5c06068bbfc410ad7f1de68562f542a4" name="a5c06068bbfc410ad7f1de68562f542a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c06068bbfc410ad7f1de68562f542a4">&#9670;&#160;</a></span>c128lib_StringLength()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">macro c128lib_StringConcatenate </td>
+          <td class="memname">macro c128lib_StringLength </td>
           <td>(</td>
-          <td class="paramtype">string1Address&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">string2Address&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">string1Length&#160;</td>
+          <td class="paramtype">stringAddress&#160;</td>
           <td class="paramname">, </td>
         </tr>
         <tr>
@@ -221,12 +209,10 @@ Flags N, Z and C will be affected.</dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Concatenate string2 to string1. The resulting string will be located at the address of string1.</p>
+<p>Find the length of a string.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">string1Address</td><td>Address of first string </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">string2Address</td><td>Address of second string </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">string1Length</td><td>Address to the length of string1 (required for performance, use <a class="el" href="string_8asm.html#a4127bb03f9fe801e92c3c7669b8d00c1">StringLength()</a>) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">stringAddress</td><td>Address of string </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">switchToFastModeWhileRunning</td><td>If true, fast mode will be enabled at start and disabled at end.</td></tr>
   </table>
   </dd>
@@ -235,16 +221,18 @@ Flags N, Z and C will be affected.</dd></dl>
 <dd>
 Flags N, Z and C will be affected.</dd></dl>
 <dl class="section pre"><dt>Precondition</dt><dd><ol type="1">
-<li>*string1Length &lt;= 255</li>
-<li>string1Address,string2Address must be a 16-bit address or 8-bit zero-page address holding the address of the string</li>
+<li>stringAddress must be a 16-bit address or 8-bit zero-page address holding the address of the string</li>
 <li>Zero-page address must not be greater than $FE, or error</li>
 </ol>
 </dd></dl>
 <dl class="section post"><dt>Postcondition</dt><dd><ol type="1">
-<li>The resultng string will be located at the address of string1 (string1Address)</li>
-<li>If the length of string2 is greater than 256, only the first 256 characters will be concatented.</li>
-<li>The contents at string2Address will remain unchanged.</li>
-<li>The contents at string1Length will remain unchanged.</li>
+<li>Y register will contain the length of the string, which is also the address offset to null character (0).</li>
+<li>Z will be set to 1, either because null character found, or overflow in Y occured</li>
+<li>The C flag will be 0 if length &lt;= 255, otherwise 1. <br  />
+</li>
+<li>If C flag is set, Y=0. This also indicates the string is 256 bytes or longer</li>
+<li>The routine terminates after 256 loops.</li>
+<li>The contents at stringAddress are left unchanged.</li>
 </ol>
 </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>0.1.0 </dd></dl>
@@ -381,6 +369,81 @@ Flags N, Z and C will be affected.</dd></dl>
 
 </div>
 </div>
+<a id="ae769803ec14fdaf52305b991cfab6401" name="ae769803ec14fdaf52305b991cfab6401"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae769803ec14fdaf52305b991cfab6401">&#9670;&#160;</a></span>c128lib_StringCopyRight()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">macro c128lib_StringCopyRight </td>
+          <td>(</td>
+          <td class="paramtype">sourceAddress&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">destinationAddress&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">sourceStrLength&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">numChars&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">switchToFastModeWhileRunning&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Copies a right substring of length *numChars from a source address to a destination address.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">sourceAddress</td><td>Address of source string </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">destinationAddress</td><td>Destination address for copied substring </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">sourceStrLength</td><td>Address storing the length of source string (required for performance, use <a class="el" href="string_8asm.html#a4127bb03f9fe801e92c3c7669b8d00c1">StringLength()</a>) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">numChars</td><td>Address storing the number of characters from right to copy </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">switchToFastModeWhileRunning</td><td>If true, fast mode will be enabled at start and disabled at end.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section remark"><dt>Remarks</dt><dd>Registers .A and .Y will be modified. </dd>
+<dd>
+Flags N, Z and C will be affected.</dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd><ol type="1">
+<li>*sourceStrLength &lt;= 255</li>
+<li>*numChars &lt;= 255</li>
+<li>sourceAddress,destinationAddress must be a 16-bit address or 8-bit zero-page address holding the address of the string</li>
+<li>Zero-page address must not be greater than $FE, or error</li>
+</ol>
+</dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd><ol type="1">
+<li>destinationAddress will point to a substring that is equal to the right substring of length *numChars pointed to by sourceAddress</li>
+<li>The contents at sourceAddress will be left unchanged.</li>
+<li>The contents at sourceStrLength will be left unchanged.</li>
+<li>The contents at numChars will be left unchanged.</li>
+</ol>
+</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>0.1.0 </dd></dl>
+
+</div>
+</div>
 <a id="adef764fa07fc7df80f3b969eb5da514e" name="adef764fa07fc7df80f3b969eb5da514e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adef764fa07fc7df80f3b969eb5da514e">&#9670;&#160;</a></span>c128lib_StringCopyMid()</h2>
 
@@ -457,34 +520,28 @@ Flags N, Z and C will be affected.</dd></dl>
 
 </div>
 </div>
-<a id="ae769803ec14fdaf52305b991cfab6401" name="ae769803ec14fdaf52305b991cfab6401"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae769803ec14fdaf52305b991cfab6401">&#9670;&#160;</a></span>c128lib_StringCopyRight()</h2>
+<a id="a48748479eb28ca1008a80ca030a69a5e" name="a48748479eb28ca1008a80ca030a69a5e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48748479eb28ca1008a80ca030a69a5e">&#9670;&#160;</a></span>c128lib_StringConcatenate()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">macro c128lib_StringCopyRight </td>
+          <td class="memname">macro c128lib_StringConcatenate </td>
           <td>(</td>
-          <td class="paramtype">sourceAddress&#160;</td>
+          <td class="paramtype">string1Address&#160;</td>
           <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">destinationAddress&#160;</td>
+          <td class="paramtype">string2Address&#160;</td>
           <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">sourceStrLength&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">numChars&#160;</td>
+          <td class="paramtype">string1Length&#160;</td>
           <td class="paramname">, </td>
         </tr>
         <tr>
@@ -500,13 +557,12 @@ Flags N, Z and C will be affected.</dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Copies a right substring of length *numChars from a source address to a destination address.</p>
+<p>Concatenate string2 to string1. The resulting string will be located at the address of string1.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">sourceAddress</td><td>Address of source string </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">destinationAddress</td><td>Destination address for copied substring </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">sourceStrLength</td><td>Address storing the length of source string (required for performance, use <a class="el" href="string_8asm.html#a4127bb03f9fe801e92c3c7669b8d00c1">StringLength()</a>) </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">numChars</td><td>Address storing the number of characters from right to copy </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">string1Address</td><td>Address of first string </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">string2Address</td><td>Address of second string </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">string1Length</td><td>Address to the length of string1 (required for performance, use <a class="el" href="string_8asm.html#a4127bb03f9fe801e92c3c7669b8d00c1">StringLength()</a>) </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">switchToFastModeWhileRunning</td><td>If true, fast mode will be enabled at start and disabled at end.</td></tr>
   </table>
   </dd>
@@ -515,72 +571,16 @@ Flags N, Z and C will be affected.</dd></dl>
 <dd>
 Flags N, Z and C will be affected.</dd></dl>
 <dl class="section pre"><dt>Precondition</dt><dd><ol type="1">
-<li>*sourceStrLength &lt;= 255</li>
-<li>*numChars &lt;= 255</li>
-<li>sourceAddress,destinationAddress must be a 16-bit address or 8-bit zero-page address holding the address of the string</li>
+<li>*string1Length &lt;= 255</li>
+<li>string1Address,string2Address must be a 16-bit address or 8-bit zero-page address holding the address of the string</li>
 <li>Zero-page address must not be greater than $FE, or error</li>
 </ol>
 </dd></dl>
 <dl class="section post"><dt>Postcondition</dt><dd><ol type="1">
-<li>destinationAddress will point to a substring that is equal to the right substring of length *numChars pointed to by sourceAddress</li>
-<li>The contents at sourceAddress will be left unchanged.</li>
-<li>The contents at sourceStrLength will be left unchanged.</li>
-<li>The contents at numChars will be left unchanged.</li>
-</ol>
-</dd></dl>
-<dl class="section since"><dt>Since</dt><dd>0.1.0 </dd></dl>
-
-</div>
-</div>
-<a id="a5c06068bbfc410ad7f1de68562f542a4" name="a5c06068bbfc410ad7f1de68562f542a4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5c06068bbfc410ad7f1de68562f542a4">&#9670;&#160;</a></span>c128lib_StringLength()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">macro c128lib_StringLength </td>
-          <td>(</td>
-          <td class="paramtype">stringAddress&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">switchToFastModeWhileRunning&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Find the length of a string.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">stringAddress</td><td>Address of string </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">switchToFastModeWhileRunning</td><td>If true, fast mode will be enabled at start and disabled at end.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section remark"><dt>Remarks</dt><dd>Registers .A and .Y will be modified. </dd>
-<dd>
-Flags N, Z and C will be affected.</dd></dl>
-<dl class="section pre"><dt>Precondition</dt><dd><ol type="1">
-<li>stringAddress must be a 16-bit address or 8-bit zero-page address holding the address of the string</li>
-<li>Zero-page address must not be greater than $FE, or error</li>
-</ol>
-</dd></dl>
-<dl class="section post"><dt>Postcondition</dt><dd><ol type="1">
-<li>Y register will contain the length of the string, which is also the address offset to null character (0).</li>
-<li>Z will be set to 1, either because null character found, or overflow in Y occured</li>
-<li>The C flag will be 0 if length &lt;= 255, otherwise 1. <br  />
-</li>
-<li>If C flag is set, Y=0. This also indicates the string is 256 bytes or longer</li>
-<li>The routine terminates after 256 loops.</li>
-<li>The contents at stringAddress are left unchanged.</li>
+<li>The resultng string will be located at the address of string1 (string1Address)</li>
+<li>If the length of string2 is greater than 256, only the first 256 characters will be concatented.</li>
+<li>The contents at string2Address will remain unchanged.</li>
+<li>The contents at string1Length will remain unchanged.</li>
 </ol>
 </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>0.1.0 </dd></dl>
@@ -593,7 +593,7 @@ Flags N, Z and C will be affected.</dd></dl>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="string-global_8asm.html">string-global.asm</a></li>
-    <li class="footer">Generated on Mon Jul 3 2023 20:41:04 for c128lib Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
+    <li class="footer">Generated on Thu Jul 27 2023 13:00:55 for c128lib Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
   </ul>
 </div>
 </body>

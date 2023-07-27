@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.7"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>c128lib Framework: Main Page</title>
+<title>c128lib Framework: Framework</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -89,16 +89,61 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 </div>
 </div>
 
-<div class="header">
-  <div class="headertitle"><div class="title">c128lib Framework Documentation</div></div>
+<div><div class="header">
+  <div class="headertitle"><div class="title">Framework </div></div>
 </div><!--header-->
 <div class="contents">
+<div class="textblock"><p><a class="anchor" id="md__2github_2workspace_2README"></a>A Commodore 128 software framework for enabling high-level development of C128 programs.</p>
+<h1><a class="anchor" id="autotoc_md1"></a>
+Z80 code integration</h1>
+<p>Starting with v0.2.0 (still unreleased) are available some macros for Z80 code integration. Macros will help developers to setup Z80 code and prepare your program to start execution.</p>
+<p><b>The code for Z80 will not run in parallel with the code for 8502</b> but there will only be preemptive multitasking. To understand mechanism for Z80 and 8502 switchover look <a href="https://intoinside.github.io/2023/07/07/running-z80/">at this post</a>.</p>
+<h2><a class="anchor" id="autotoc_md2"></a>
+Macros</h2>
+<p>There are two kind of macros:</p><ul>
+<li><a class="el" href="z80-global_8asm.html#ac1f9b45ca35f2e78e6a0ae81b1d6d2db">c128lib_PreZ80Code()</a> and <a class="el" href="z80-global_8asm.html#adb07df26bec72ab6f35b23705cdc6359">c128lib_PostZ80Code()</a></li>
+<li><a class="el" href="z80-global_8asm.html#a0b7485e3c32f393f66636aeb2fd8a328" title="Z80 related macros.">c128lib_RunZ80Code(z80CodeAddress)</a></li>
+</ul>
+<p>The first two macros are needed to <em>decorate</em> your Z80 code (setup Mmu at start and jmp to bootlink routine at the end to consent 8502 restart). They must be called before and after your Z80 code.</p>
+<p>The last macro will prepare environment to start Z80 code execution and handles return from z80 code.</p>
+<p>Here an example of entry point to call Z80 code:</p>
+<pre><code>
+c128lib_BasicUpstart128($2000)
+
+* = $2000 "Entry"
+Entry: {
+  // Some code executed on 8502
+
+  <a class="el" href="z80-global_8asm.html#a0b7485e3c32f393f66636aeb2fd8a328" title="Z80 related macros.">c128lib_RunZ80Code(z80CodeAddress)</a>
+
+  // Other code executed on 8502
+
+  rts
+}
+</code></pre><p>Then, you can define an area (called z80CodeAddress on the example above) and call macros to decorate it:</p>
+<pre><code>
+* = * "z80CodeAddress"
+z80CodeAddress:
+  <a class="el" href="z80-global_8asm.html#ac1f9b45ca35f2e78e6a0ae81b1d6d2db">c128lib_PreZ80Code()</a>
+
+  .byte $3E, $08        // LD A, #$08   -- load up the #$08 (H) byte
+  .byte $32, $00, $04   // LD ($0400),A -- write on screen
+  .byte $3C             // INC A
+  .byte $32, $01, $04   // LD ($0401),A -- write on screen
+  .byte $3E, $21        // LD A, #$21   -- load up the #$21 (!) byte
+  .byte $32, $02, $04   // LD ($0402),A -- write on screen
+
+  <a class="el" href="z80-global_8asm.html#adb07df26bec72ab6f35b23705cdc6359">c128lib_PostZ80Code()</a>
+</code></pre><p>If you run this script, you'll see "HI!" printed on the 40 col screen by Z80 processor. At this time, z80 code must be written as a byte sequence of machine language instruction. I hope I can change that soon.</p>
+<p>I suggest to use <a href="http://www.grauw.nl/projects/glass/">GlassZ80</a> as assembler to generate machine language code. Code can be assembled on external file and linked with <em>.import binary "file"</em> to make code more readable and separate concerns.</p>
+<p>PS: i'm not an expert of z80 code... so that code it's quite stupid, take it just as an example. </p>
+</div></div><!-- PageDoc -->
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon Jul 3 2023 20:41:04 for c128lib Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
+    <li class="footer">Generated on Thu Jul 27 2023 13:00:55 for c128lib Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.7 </li>
   </ul>
 </div>
 </body>
