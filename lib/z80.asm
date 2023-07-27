@@ -48,6 +48,7 @@
     // Here, z80 is running, waiting for return
 
     nop
+    nop
     pla
     sta c128lib.Mmu.MODE_CONFIG
     pla

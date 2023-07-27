@@ -44,7 +44,7 @@
 
   @since 0.2.0
 */
-.macro c128lib_PreZ80Code() { PreZ80Code() }
+.macro @c128lib_PreZ80Code() { PreZ80Code() }
 
 /** 
   Generates z80 post-code, in order to guarantee that
@@ -57,4 +57,4 @@
 
   @since 0.2.0
 */
-.macro c128lib_PostZ80Code() { PostZ80Code() }
+.macro @c128lib_PostZ80Code() { PostZ80Code() }
