@@ -4,10 +4,10 @@ A Commodore 128 software framework for enabling high-level development of C128 p
 ## Z80 code integration
 
 Starting with v0.2.0 (still unreleased) are available some macros for Z80 code integration.
-Macros will help developers to setup Z80 code and prepare your program to start execution.
+Macros will help developers to setup Z80 code and prepare programs to start execution.
 
 **The code for Z80 will not run in parallel with the code for 8502** but there will only be preemptive multitasking.
-To understand mechanism for Z80 and 8502 switchover look [at this post](https://intoinside.github.io/2023/07/07/running-z80/).
+To understand mechanism for Z80 and 8502 switchover [look at this post](https://intoinside.github.io/2023/07/07/running-z80/).
 
 ### Macros
 There are two kind of macros:
@@ -60,10 +60,17 @@ If you run this script, you'll see "HI!" printed on the 40 col screen by
 Z80 processor. At this time, z80 code must be written as a byte sequence of
 machine language instruction. I hope I can change that soon.
 
+PS: i'm not an expert of z80 code... so that code it's quite stupid, probably not
+optimized etc..., take it just as an example.
+
 I suggest to use [GlassZ80](http://www.grauw.nl/projects/glass/) as assembler
 to generate machine language code. Code can be assembled on external file and
-linked with <i>.import binary "file"</i> to make code more readable and separate
+imported with <i>.import binary "file"</i> to make code more readable and separate
 concerns.
+Z80 code can be assembled like:
 
-PS: i'm not an expert of z80 code... so that code it's quite stupid, take it 
-just as an example.
+<pre>java -jar glass.jar test.zasm test.bin</pre>
+
+and then importing with:
+
+<pre>.import binary "test.bin"</pre>
