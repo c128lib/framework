@@ -9,6 +9,6 @@
 #importonce
 .filenamespace c128lib
 
-.namespace Gui {
-}
+.macro @c128lib_CreateWindow(x, y, width, height) { CreateWindow(x, y, width, height) }
 
+#import "vdc-gui.asm"
