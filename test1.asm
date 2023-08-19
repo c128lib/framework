@@ -22,82 +22,102 @@ Entry: {
   // $1c10-$2cba                  = $10aa = 4266
   // $1c10-$2303 (with jsr)       = $06f3 = 1779
   // $1c10-$2141 (with some opt)  = $0531 = 1329
+  // $1c10-$1d14 (with loops)     = $0104 =  260
+
     /* Top left corner */
-    // VDC_Poke(VDC_RowColToAddress(x, y), 85)
     lda #85
     sta VDC_Poke.value
-    lda #>(VDC_RowColToAddress(x, y))
-    sta VDC_Poke.address
     lda #<(VDC_RowColToAddress(x, y))
+    sta VDC_Poke.address
+    lda #>(VDC_RowColToAddress(x, y))
     sta VDC_Poke.address + 1
     jsr VDC_Poke
 
     /* Top right corner */
-    // VDC_Poke(VDC_RowColToAddress(x + width - 1, y), 73)
     lda #73
     sta VDC_Poke.value
-    lda #>(VDC_RowColToAddress(x + width - 1, y))
-    sta VDC_Poke.address
     lda #<(VDC_RowColToAddress(x + width - 1, y))
+    sta VDC_Poke.address
+    lda #>(VDC_RowColToAddress(x + width - 1, y))
     sta VDC_Poke.address + 1
     jsr VDC_Poke
 
+    /* Top border */
     lda #67
     sta VDC_Poke.value
-    .for(var i = 1; i < width-1; i++)
-  	{
-	  // 	VDC_Poke(VDC_RowColToAddress(x+i, y), 67);
-		//   VDC_Poke(VDC_RowColToAddress(x+i, y+ height-1), 67);
-      lda #>(VDC_RowColToAddress(x+i, y))
-      sta VDC_Poke.address
-      lda #<(VDC_RowColToAddress(x+i, y))
-      sta VDC_Poke.address + 1
-      jsr VDC_Poke
+    lda #<(VDC_RowColToAddress(x, y))
+    sta VDC_Poke.address
+    lda #>(VDC_RowColToAddress(x, y))
+    sta VDC_Poke.address + 1
 
-      lda #>(VDC_RowColToAddress(x+i, y+ height-1))
-      sta VDC_Poke.address
-      lda #<(VDC_RowColToAddress(x+i, y+ height-1))
-      sta VDC_Poke.address + 1
-      jsr VDC_Poke
-  	}
+    ldy #width-2
+  !:
+    c128lib_inc16(VDC_Poke.address)
 
+    jsr VDC_Poke
+    dey
+    bne !-
+
+    /* Bottom border */
+    lda #<(VDC_RowColToAddress(x, y + height-1))
+    sta VDC_Poke.address
+    lda #>(VDC_RowColToAddress(x, y + height-1))
+    sta VDC_Poke.address + 1
+
+    ldy #width-2
+  !:
+    c128lib_inc16(VDC_Poke.address)
+
+    jsr VDC_Poke
+    dey
+    bne !-
+    
+    /* Left border */
     lda #66
     sta VDC_Poke.value
-    .for(var i = 1; i < height -1; i++)
-    {	
-      /* Left Border */
-      // VDC_Poke(VDC_RowColToAddress(x, y+i), 66);
-      lda #>(VDC_RowColToAddress(x, y+i))
-      sta VDC_Poke.address
-      lda #<(VDC_RowColToAddress(x, y+i))
-      sta VDC_Poke.address + 1
-      jsr VDC_Poke
+    lda #<(VDC_RowColToAddress(x, y))
+    sta VDC_Poke.address
+    lda #>(VDC_RowColToAddress(x, y))
+    sta VDC_Poke.address + 1
 
-    //   /* Right Border */
-    //   VDC_Poke(VDC_RowColToAddress(x+width-1, y+i), 66);
-      lda #>(VDC_RowColToAddress(x+width-1, y+i))
-      sta VDC_Poke.address
-      lda #<(VDC_RowColToAddress(x+width-1, y+i))
-      sta VDC_Poke.address + 1
-      jsr VDC_Poke
-    }
+    ldy #height - 2
+  !:
+    c128lib_add16(80, VDC_Poke.address)
+
+    jsr VDC_Poke
+    dey
+    bne !-
+
+    /* Right border */
+    lda #66
+    sta VDC_Poke.value
+    lda #<(VDC_RowColToAddress(x + width-1, y))
+    sta VDC_Poke.address
+    lda #>(VDC_RowColToAddress(x + width-1, y))
+    sta VDC_Poke.address + 1
+
+    ldy #height - 2
+  !:
+    c128lib_add16(80, VDC_Poke.address)
+
+    jsr VDC_Poke
+    dey
+    bne !-
 
   	// /* Bottom left and right corners */
-    // VDC_Poke(VDC_RowColToAddress(x, y + height-1), 74);
     lda #74
     sta VDC_Poke.value
-    lda #>(VDC_RowColToAddress(x, y + height-1))
-    sta VDC_Poke.address
     lda #<(VDC_RowColToAddress(x, y + height-1))
+    sta VDC_Poke.address
+    lda #>(VDC_RowColToAddress(x, y + height-1))
     sta VDC_Poke.address + 1
     jsr VDC_Poke
 
-    // VDC_Poke(VDC_RowColToAddress(x + width-1, y + height-1), 75);
     lda #75
     sta VDC_Poke.value
-    lda #>(VDC_RowColToAddress(x + width-1, y + height-1))
-    sta VDC_Poke.address
     lda #<(VDC_RowColToAddress(x + width-1, y + height-1))
+    sta VDC_Poke.address
+    lda #>(VDC_RowColToAddress(x + width-1, y + height-1))
     sta VDC_Poke.address + 1
     jsr VDC_Poke
 
@@ -106,12 +126,12 @@ Entry: {
 
 VDC_Poke: {
     ldx #c128lib.Vdc.CURRENT_MEMORY_HIGH_ADDRESS
-    lda address
+    lda address + 1
     c128lib_WriteVdc()
     
     // ldx #c128lib.Vdc.CURRENT_MEMORY_LOW_ADDRESS
     inx
-    lda address + 1
+    lda address
     c128lib_WriteVdc()
     
     ldx #c128lib.Vdc.MEMORY_READ_WRITE
@@ -140,5 +160,6 @@ VDC_Poke: {
 }
 
 #import "common/lib/common-global.asm"
+#import "common/lib/math-global.asm"
 #import "chipset/lib/vdc.asm"
 #import "chipset/lib/vdc-global.asm"
