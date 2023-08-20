@@ -53,6 +53,57 @@ sfspec:
       assert_bytes_equal stringLength : asciiString : asciiStringChallenge_000 
     }
   
+    // describe("Int8ToString - Pass By Address")
+
+    it("Int (Abs.Add) 222 to String"); {
+      // Arrange
+
+      // Act
+      c128lib_Int8ToString int8_222 : asciiString
+
+      // Assert
+      :_print_string(stringLabel)
+      :_print_string(asciiString)
+      assert_bytes_equal stringLength : asciiString : asciiStringChallenge_222 
+    }
+
+    it("Int (Abs.Add) 45 to String"); {
+      // Arrange
+
+      // Act
+      c128lib_Int8ToString int8_45 : asciiString
+
+      // Assert
+      :_print_string(stringLabel)
+      :_print_string(asciiString)
+      assert_bytes_equal stringLength : asciiString : asciiStringChallenge_045 
+    }
+
+    it("Int (Abs.Add) 8 to String"); {
+      // Arrange
+
+      // Act
+      c128lib_Int8ToString int8_8 : asciiString
+
+      // Assert
+      :_print_string(stringLabel)
+      :_print_string(asciiString)
+      assert_bytes_equal stringLength : asciiString : asciiStringChallenge_008
+      _print_string(asciiString)
+    }
+
+    it("Int (Abs.Add) 0 to String"); {
+      // Arrange
+
+      // Act
+      c128lib_Int8ToString int8_0 : asciiString
+
+      // Assert
+      :_print_string(stringLabel)
+      :_print_string(asciiString)
+      assert_bytes_equal stringLength : asciiString : asciiStringChallenge_000
+    }
+
   finish_spec()
 
 * = * "Data"
