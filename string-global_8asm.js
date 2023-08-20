@@ -6,5 +6,6 @@ var string_global_8asm =
     [ "c128lib_StringCopyLeft", "string-global_8asm.html#ab64226b0b272a9877e0cbe8a5f296e28", null ],
     [ "c128lib_StringCopyRight", "string-global_8asm.html#ae769803ec14fdaf52305b991cfab6401", null ],
     [ "c128lib_StringCopyMid", "string-global_8asm.html#adef764fa07fc7df80f3b969eb5da514e", null ],
-    [ "c128lib_StringConcatenate", "string-global_8asm.html#a48748479eb28ca1008a80ca030a69a5e", null ]
+    [ "c128lib_StringConcatenate", "string-global_8asm.html#a48748479eb28ca1008a80ca030a69a5e", null ],
+    [ "int8Arg", "string-global_8asm.html#aae4b6fd722bf7aa8b48d82b50c55f0f5", null ]
 ];

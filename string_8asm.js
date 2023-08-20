@@ -10,5 +10,6 @@ var string_8asm =
     [ "ZP_SRC", "string_8asm.html#aaa7cc0c44a2fc522981a42db8f16d22f", null ],
     [ "ZP_TRG", "string_8asm.html#ac26fd364cfe4489d9b91e3d5a67995b7", null ],
     [ "zpAddress", "string_8asm.html#a4330a972a9fd4e4b0e3fe69519716725", null ],
-    [ "absAddress", "string_8asm.html#a791b4097643dc14cf1c075904119c77a", null ]
+    [ "absAddress", "string_8asm.html#a791b4097643dc14cf1c075904119c77a", null ],
+    [ "int8Arg", "string_8asm.html#abe93903eb6b20ab2a5ba33422f962f5b", null ]
 ];

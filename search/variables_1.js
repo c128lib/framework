@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['zp_5fsrc_0',['ZP_SRC',['../namespaceString.html#aaa7cc0c44a2fc522981a42db8f16d22f',1,'String']]],
-  ['zp_5ftrg_1',['ZP_TRG',['../namespaceString.html#ac26fd364cfe4489d9b91e3d5a67995b7',1,'String']]],
-  ['zpaddress_2',['zpAddress',['../string_8asm.html#a4330a972a9fd4e4b0e3fe69519716725',1,'string.asm']]]
+  ['int8arg_0',['int8Arg',['../string-global_8asm.html#aae4b6fd722bf7aa8b48d82b50c55f0f5',1,'int8Arg:&#160;string-global.asm'],['../string_8asm.html#abe93903eb6b20ab2a5ba33422f962f5b',1,'int8Arg:&#160;string.asm']]]
 ];
