@@ -617,4 +617,106 @@
 
 }
 
+/**
+  Convert an 8-bit integer to an ASCII string.
+
+  @param[in]  int8Arg           Immediate value or address of 8-bit integer
+  @param[out] stringAddressArg  Address of ASCII string representation of int8Arg
+
+  @remark Registers .A, .X, and .Y will be modified.
+  @remark Flags N, Z and C will be affected.
+
+  @note Use c128lib_Int8ToString in string-global.asm
+
+  @pre
+    1. int8Arg can only accept arguments of immediate mode or absolute mode addressing.
+       That is, pass only arguments like #201 or addressOfInt
+    2. Macro will assume 8-bit value for int8Arg. 
+
+  @post 
+    1. stringAddressArg will point to 3 byte ASCII string.
+    2. Leading zeros will be maintained in the 3 byte string, such as "001" or "023".
+    3. Macro will assume that string is formally defined by user and null terminated.
+
+  @since 0.2.0
+*/
+
+.pseudocommand Int8ToString int8Arg:stringAddressArg {
+
+  .var stringAddress  //Address value of argument stringAddressArg
+
+  .print "int8Arg = " + int8Arg                   //For debugging purposes
+  .print "int8 Value = " + int8Arg.getValue()     //For debugging purposes
+  .print "stringAddressArg = " + stringAddressArg //For debuggin purposes
+
+  .if (!(int8Arg.getType()==AT_IMMEDIATE || // Like #10
+       int8Arg.getType()==AT_ABSOLUTE ))    // Like $1000
+       {
+        .error "@c128lib_Int8ToString: Argument int8Arg can only have addressing modes immediate or absolute."
+       }   
+
+  .if (stringAddressArg.getType()==AT_ABSOLUTE) // Like $1000 
+      {
+        .eval stringAddress = stringAddressArg.getValue()
+        .print "stringAddress = " + stringAddress
+      } 
+  else 
+      {
+        .error "@c128lib_Int8ToString: Argument stringAddressArg can only have addressing mode absolute."
+      }
+
+  jmp begin
+
+  holdA:
+    .byte 0                 // To hold .A for next loop if subtraction is negative
+
+  subtrahend:
+    .byte 100, 10, 1        // Subtrahend used for subtraction at each decimal place
+
+  begin:
+    ldx #48                 // ASCII "0"
+    ldy #0                  // Offset for subtrahend (0-2) 
+    sec                     // C = 1
+
+  check_zero:               // check if int8 = 0
+    lda int8Arg  
+    cmp #0                
+    beq do_zero             // if 0, use faster code
+
+  subtract_subtrahend:
+    sta holdA               // hold .A for next loop
+  next_subtrahend:  
+    sec                     // C = 1      
+    sbc subtrahend,y        // Subtract subtrahend
+    inx                     // Increment weight of decimal place by 1
+    bcs subtract_subtrahend // If not negative, continue loop
+
+    dex                     // Once .A becomes negative, .X is off by 1, so decrement
+    txa                     // stx doesn't support ABSOLUTE,Y
+    sta stringAddress,y     // Store decimal place's value at next byte in string
+  
+    ldx #48                 // Reset .X to ASCII "0" for next decimal place
+    iny                     // Next subtrahend
+    lda holdA               // Restore .A from previous pass, which was negative
+
+    cpy #2                  // No need to continue if we're at 1's decimal place.
+    bne next_subtrahend     // If not at 1's decimal place, continue loop
+
+    clc                     
+    adc #48                 // Simply add ASCII 48 ("0") to value at 1's decimal place
+    sta stringAddress,y     // Store decimal place's value at next byte in string
+    
+    jmp end                 // Finished
+
+  do_zero:                  // Fast code for 0 integer
+    txa                     // stx doesn't support ABSOLUTE,Y
+    sta stringAddress,y   
+    iny                   
+    cpy #3                
+    bne do_zero
+
+  end:
+
+}
+
 #import "chipset/lib/vic2.asm"
