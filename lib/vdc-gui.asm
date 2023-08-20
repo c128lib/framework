@@ -87,6 +87,16 @@
     bne !-
 #endif    
 }
+.macro CreateWindowWithTitle(x, y, width, height, text, length) {
+    .errorif (length < 1), "Length must be greater than 1"
+    .errorif (length > width -2), "Length must be lower than width - 2"
+
+    CreateWindow(x, y, width, height)
+
+    c128lib_WriteToVdcMemoryByCoordinates(text, x+2, y+1, length)
+}
+.asserterror "CreateWindowWithTitle(50, 1, 20, 10, $beef, 0)", { CreateWindowWithTitle(50, 1, 20, 10, $beef, 0) }
+.asserterror "CreateWindowWithTitle(50, 1, 20, 10, $beef, 19)", { CreateWindowWithTitle(50, 1, 20, 10, $beef, 19) }
 
 /* Function returns a VDC memory address for a given row and column */
 .function VDC_RowColToAddress(x, y) {
