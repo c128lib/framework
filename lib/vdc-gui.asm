@@ -13,7 +13,14 @@
 }
 
 .macro CreateWindow(x, y, width, height) {
-
+    .errorif (x < 0), "X must be greater than 0"
+    .errorif (y < 0), "Y must be greater than 0"
+    .errorif (width < 1), "Width must be greater than 1"
+    .errorif (height < 1), "Height must be greater than 1"
+    .errorif (x > 78), "X must be lower than 78"
+    .errorif (y > 23), "Y must be lower than 23"
+    .errorif (x + width > 80), "Right window boundary must be lower than 80"
+    .errorif (y + height > 25), "Bottom window boundary must be lower than 25"
 #if !VDC_CREATEWINDOW
     .error "You should use #define VDC_CREATEWINDOW"
 #else
@@ -87,6 +94,15 @@
     bne !-
 #endif    
 }
+.asserterror "CreateWindow(-1, 1, 20, 10)", { CreateWindow(-1, 1, 20, 10) }
+.asserterror "CreateWindow(1, -1, 20, 10)", { CreateWindow(1, -1, 20, 10) }
+.asserterror "CreateWindow(1, 1, 0, 10)", { CreateWindow(1, 1, 0, 10) }
+.asserterror "CreateWindow(1, 1, 20, 0)", { CreateWindow(1, 1, 20, 0) }
+.asserterror "CreateWindow(79, 1, 20, 10)", { CreateWindow(79, 1, 20, 10) }
+.asserterror "CreateWindow(1, 24, 20, 10)", { CreateWindow(1, 24, 20, 10) }
+.asserterror "CreateWindow(50, 4, 31, 10)", { CreateWindow(50, 4, 31, 10) }
+.asserterror "CreateWindow(10, 4, 31, 22)", { CreateWindow(10, 4, 31, 22) }
+
 .macro CreateWindowWithTitle(x, y, width, height, text, length) {
     .errorif (length < 1), "Length must be greater than 1"
     .errorif (length > width -2), "Length must be lower than width - 2"
