@@ -255,4 +255,6 @@
 */
 .macro @c128lib_StringConcatenate(string1Address, string2Address, string1Length, switchToFastModeWhileRunning) { StringConcatenate(string1Address, string2Address, string1Length, switchToFastModeWhileRunning) }
 
+.pseudocommand @c128lib_Int8ToString int8Arg : stringAddressArg { Int8ToString int8Arg : stringAddressArg }
+
 #import "string.asm"
