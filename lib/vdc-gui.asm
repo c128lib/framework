@@ -12,6 +12,21 @@
 .namespace Gui {
 }
 
+/**
+  Draws a window in Vdc screen with rounded corner
+
+  @param[in] x Starting column
+  @param[in] y Starting row
+  @param[in] width Window width
+  @param[in] height Window height
+
+  @remark Register .A, .X and .Y will be modified.
+  Flags N, Z and C will be affected.
+
+  @note Use c128lib_CreateWindow in vdc-gui-global.asm
+
+  @since 0.2.0
+*/
 .macro CreateWindow(x, y, width, height) {
     .errorif (x < 0), "X must be greater than 0"
     .errorif (y < 0), "Y must be greater than 0"
@@ -103,6 +118,24 @@
 .asserterror "CreateWindow(50, 4, 31, 10)", { CreateWindow(50, 4, 31, 10) }
 .asserterror "CreateWindow(10, 4, 31, 22)", { CreateWindow(10, 4, 31, 22) }
 
+/**
+  Draws a window in Vdc screen with rounded corner and prints a title in
+  first row
+
+  @param[in] x Starting column
+  @param[in] y Starting row
+  @param[in] width Window width
+  @param[in] height Window height
+  @param[in] text Title string address
+  @param[in] length Title string length
+
+  @remark Register .A, .X and .Y will be modified.
+  Flags N, Z and C will be affected.
+
+  @note Use c128lib_CreateWindowWithTitle in vdc-gui-global.asm
+
+  @since 0.2.0
+*/
 .macro CreateWindowWithTitle(x, y, width, height, text, length) {
     .errorif (length < 1), "Length must be greater than 1"
     .errorif (length > width -2), "Length must be lower than width - 2"
