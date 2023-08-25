@@ -114,6 +114,14 @@
 .asserterror "CreateWindowWithTitle(50, 1, 20, 10, $beef, 0)", { CreateWindowWithTitle(50, 1, 20, 10, $beef, 0) }
 .asserterror "CreateWindowWithTitle(50, 1, 20, 10, $beef, 19)", { CreateWindowWithTitle(50, 1, 20, 10, $beef, 19) }
 
+.macro Label(x, y, text, length) {
+    .errorif (x < 0), "X must be greater than 0"
+    .errorif (y < 0), "Y must be greater than 0"
+    c128lib_WriteToVdcMemoryByCoordinates(text, x, y, length)
+}
+.asserterror "Label(-1, 1, $beef, 10)", { Label(-1, 1, $beef, 10) }
+.asserterror "Label(1, -1, $beef, 10)", { Label(1, -1, $beef, 10) }
+
 /* Function returns a VDC memory address for a given row and column */
 .function VDC_RowColToAddress(x, y) {
   .var addr = y * 80 + x;
