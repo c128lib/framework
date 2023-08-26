@@ -141,12 +141,92 @@
     .errorif (length > width -2), "Length must be lower than width - 2"
 
     CreateWindow(x, y, width, height)
-
-    c128lib_WriteToVdcMemoryByCoordinates(text, x+2, y+1, length)
+    Label(x + 2, y + 1, text, length)
 }
 .asserterror "CreateWindowWithTitle(50, 1, 20, 10, $beef, 0)", { CreateWindowWithTitle(50, 1, 20, 10, $beef, 0) }
 .asserterror "CreateWindowWithTitle(50, 1, 20, 10, $beef, 19)", { CreateWindowWithTitle(50, 1, 20, 10, $beef, 19) }
 
+/**
+  Draws a window in Vdc screen with rounded corner and prints a title in
+  first row. Title screen color is set with specified argument
+
+  @param[in] x Starting column
+  @param[in] y Starting row
+  @param[in] width Window width
+  @param[in] height Window height
+  @param[in] text Title string address
+  @param[in] length Title string length
+  @param[in] color Vdc color code and attribute
+
+  @remark Register .A, .X and .Y will be modified.
+  Flags N, Z and C will be affected.
+
+  @note Use c128lib_CreateWindowWithTitleColor in vdc-gui-global.asm
+
+  @since 0.2.0
+*/
+.macro CreateWindowWithTitleColor(x, y, width, height, text, length, color) {
+    .errorif (length < 1), "Length must be greater than 1"
+    .errorif (length > width -2), "Length must be lower than width - 2"
+
+    CreateWindow(x, y, width, height)
+    LabelWithColor(x + 2, y + 1, text, length, color)
+
+#define VDC_POKE
+    lda #<(VDC_RowColToAttributeAddress(x, y))
+    sta VDC_Poke.address
+    lda #>(VDC_RowColToAttributeAddress(x, y))
+    sta VDC_Poke.address + 1
+    jsr VDC_Poke
+
+    ldy #height - 2
+  !:
+    c128lib_add16(80, VDC_Poke.address)
+
+    jsr VDC_Poke
+    dey
+    bne !-
+
+    ldy #width-2
+  !:
+    c128lib_inc16(VDC_Poke.address)
+
+    jsr VDC_Poke
+    dey
+    bne !-
+
+    ldy #height - 2
+  !:
+    c128lib_sub16(80, VDC_Poke.address)
+
+    jsr VDC_Poke
+    dey
+    bne !-
+
+    ldy #width-3
+  !:
+    c128lib_dec16(VDC_Poke.address)
+
+    jsr VDC_Poke
+    dey
+    bne !-
+}
+
+/**
+  Print a label at coordinates
+
+  @param[in] x Starting column
+  @param[in] y Starting row
+  @param[in] text Label string address
+  @param[in] length Label string length
+
+  @remark Register .A, .X and .Y will be modified.
+  Flags N, Z and C will be affected.
+
+  @note Use c128lib_Label in vdc-gui-global.asm
+
+  @since 0.2.0
+*/
 .macro Label(x, y, text, length) {
     .errorif (x < 0), "X must be greater than 0"
     .errorif (y < 0), "Y must be greater than 0"
@@ -155,11 +235,74 @@
 .asserterror "Label(-1, 1, $beef, 10)", { Label(-1, 1, $beef, 10) }
 .asserterror "Label(1, -1, $beef, 10)", { Label(1, -1, $beef, 10) }
 
+/**
+  Set color in attribute memory for specified coordinates
+
+  @param[in] x Starting column
+  @param[in] y Starting row
+  @param[in] color Vdc color code and attribute
+  @param[in] length Label string length
+
+  @remark Register .A, .X and .Y will be modified.
+  Flags N, Z and C will be affected.
+
+  @note Use c128lib_Color in vdc-gui-global.asm
+
+  @since 0.2.0
+*/
+.macro Color(x, y, color, length) {
+    c128lib_PositionAttrXy(x, y)
+    lda #color
+    sta VDC_Poke.value
+    lda #<(VDC_RowColToAttributeAddress(x - 1, y))
+    sta VDC_Poke.address
+    lda #>(VDC_RowColToAttributeAddress(x - 1, y))
+    sta VDC_Poke.address + 1
+    ldy #length
+  !:
+    c128lib_inc16(VDC_Poke.address)
+
+    jsr VDC_Poke
+    dey
+    bne !-
+}
+
+/**
+  Print a label at coordinates with specified color
+
+  @param[in] x Starting column
+  @param[in] y Starting row
+  @param[in] text Label string address
+  @param[in] length Label string length
+  @param[in] color Vdc color code and attribute
+
+  @remark Register .A, .X and .Y will be modified.
+  Flags N, Z and C will be affected.
+
+  @note Use c128lib_LabelWithColor in vdc-gui-global.asm
+
+  @since 0.2.0
+*/
+.macro LabelWithColor(x, y, text, length, color) {
+    Label(x, y, text, length)
+    Color(x, y, color, length)
+}
+
 /* Function returns a VDC memory address for a given row and column */
 .function VDC_RowColToAddress(x, y) {
   .var addr = y * 80 + x;
 
   .if (addr > -1 && addr < 2000)
+    .return addr
+  else
+    .return -1;
+}
+
+/* Function returns a VDC attribute memory address for a given row and column */
+.function VDC_RowColToAttributeAddress(x, y) {
+  .var addr = y * 80 + x + $0800;
+
+  .if (addr > 1999 && addr < 4048)
     .return addr
   else
     .return -1;
