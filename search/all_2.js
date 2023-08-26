@@ -13,5 +13,6 @@ var searchData=
   ['c128lib_5fstringcopyleft_10',['c128lib_StringCopyLeft',['../string-global_8asm.html#ab64226b0b272a9877e0cbe8a5f296e28',1,'string-global.asm']]],
   ['c128lib_5fstringcopymid_11',['c128lib_StringCopyMid',['../string-global_8asm.html#adef764fa07fc7df80f3b969eb5da514e',1,'string-global.asm']]],
   ['c128lib_5fstringcopyright_12',['c128lib_StringCopyRight',['../string-global_8asm.html#ae769803ec14fdaf52305b991cfab6401',1,'string-global.asm']]],
-  ['c128lib_5fstringlength_13',['c128lib_StringLength',['../string-global_8asm.html#a5c06068bbfc410ad7f1de68562f542a4',1,'string-global.asm']]]
+  ['c128lib_5fstringlength_13',['c128lib_StringLength',['../string-global_8asm.html#a5c06068bbfc410ad7f1de68562f542a4',1,'string-global.asm']]],
+  ['code_20integration_14',['Z80 code integration',['../index.html#autotoc_md1',1,'']]]
 ];
