@@ -309,6 +309,51 @@
     Color(x, y, color, length)
 }
 
+.macro ProgressBar(x, y, width, step, position) {
+    lda #<(VDC_RowColToAddress(x, y))
+    sta VDC_Poke.address
+    lda #>(VDC_RowColToAddress(x, y))
+    sta VDC_Poke.address + 1
+    // jsr VDC_Poke
+
+    lda #67
+    sta VDC_Poke.value
+    ldy #width-2
+  !:
+    c128lib_inc16(VDC_Poke.address)
+
+    jsr VDC_Poke
+    dey
+    bne !-
+
+    lda #87
+    sta VDC_Poke.value
+
+    .var stepPosition = (width - 1) / (step - 1)
+
+    ldy #step
+  !:
+    cpy #position
+    beq !Change+
+    jmp !Print+
+  !Change:
+    lda #81
+    sta VDC_Poke.value
+    lda #$ea
+    sta !Change-
+    sta !Change-+1
+    sta !Change-+2
+    sta !Change-+3
+    sta !Change-+4
+
+  !Print:
+    jsr VDC_Poke
+    c128lib_sub16(stepPosition, VDC_Poke.address)
+
+    dey
+    bne !-
+}
+
 /* Function returns a VDC memory address for a given row and column */
 .function VDC_RowColToAddress(x, y) {
   .var addr = y * 80 + x;
