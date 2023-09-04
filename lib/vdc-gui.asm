@@ -1,21 +1,20 @@
-/**
- * @brief Gui module
- * @details Macros for generating Gui
+/*
+ * Vdc gui module
  *
- * @copyright Copyright (c) 2023 c128lib - https://github.com/c128lib
+ * Copyright (c) 2023 c128lib - https://github.com/c128lib
  *
  * MIT License
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,7 +23,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  *
- * @date 2023
  */
 
 #importonce
@@ -49,7 +47,7 @@
   windowTitle,
   /** Custom border style definition */
   borderStyle,
-  /** Windows opacity control  */
+  /** Windows opacity control */
   isOpaque
 }
 
@@ -73,9 +71,6 @@
   Draws a window in Vdc screen
 
   @param[in] windowParameters Defines window parameters
-  @param[in] y Starting row
-  @param[in] width Window width
-  @param[in] height Window height
 
   @remark Register .A, .X and .Y will be modified.
   Flags N, Z and C will be affected.
@@ -169,7 +164,7 @@
 
   // Draws title if needed
   .if (windowParameters.windowTitle.length > 0) {
-    Label(windowParameters.x + 2, windowParameters.y + 1, 
+    Label(windowParameters.x + 2, windowParameters.y + 1,
       windowParameters.windowTitle.title, windowParameters.windowTitle.length)
   } else {
     .eval rowStartingOpacity = windowParameters.y + 1
@@ -201,9 +196,24 @@
     dex
     bne !NewRow-
   }
-#endif  
+#endif
 }
 
+/**
+  Draws a window in Vdc screen with specific color
+
+  @param[in] windowParameters Defines window parameters
+  @param[in] color Defines which color to use
+
+  @remark Register .A, .X and .Y will be modified.
+  Flags N, Z and C will be affected.
+
+  @note Use colors defined in chipset/Vdc
+
+  @note Use c128lib_WindowWithColor in vdc-gui-global.asm
+
+  @since 0.2.0
+*/
 .macro WindowWithColor(windowParameters, color) {
 #if !VDC_CREATEWINDOW
     .error "You should use #define VDC_CREATEWINDOW"
