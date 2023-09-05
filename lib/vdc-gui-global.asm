@@ -140,6 +140,6 @@
 */
 .macro @c128lib_LabelWithColor(x, y, text, length, color) { LabelWithColor(x, y, text, length, color) }
 
-// .macro @c128lib_ProgressBar(x, y, width, step, position) { ProgressBar(x, y, width, step, position) }
+.macro @c128lib_ProgressBar(x, y, width, step, position) { ProgressBar(x, y, width, step, position) }
 
 #import "vdc-gui.asm"

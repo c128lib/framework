@@ -432,9 +432,10 @@
     lda #>(VDC_RowColToAddress(x, y))
     sta VDC_Poke.address + 1
 
-    lda #67
+    // lda #67
+    lda #58
     sta VDC_Poke.value
-    ldy #width-2
+    ldy #width-1
   !:
     c128lib_inc16(VDC_Poke.address)
 
@@ -444,30 +445,59 @@
 
     lda #87
     sta VDC_Poke.value
+    .for (var i = 0; i < position; i++) {
+      lda #<(VDC_RowColToAddress(stepCount, y))
+      sta VDC_Poke.address
+      lda #>(VDC_RowColToAddress(stepCount, y))
+      sta VDC_Poke.address + 1
+      
+      jsr VDC_Poke
+    }
 
-    .var stepPosition = (width - 1) / (step - 1)
-
-    ldy #step
-  !:
-    cpy #position
-    beq !Change+
-    jmp !Print+
-  !Change:
-    lda #81
+    lda #88
     sta VDC_Poke.value
-    lda #$ea
-    sta !Change-
-    sta !Change-+1
-    sta !Change-+2
-    sta !Change-+3
-    sta !Change-+4
+    .for (var i = position; i < step; i++) {
+      lda #<(VDC_RowColToAddress(stepCount, y))
+      sta VDC_Poke.address
+      lda #>(VDC_RowColToAddress(stepCount, y))
+      sta VDC_Poke.address + 1
+      
+      jsr VDC_Poke
+    }
+    /*
+Width = 20  step =2 position 0 => x =0
+Width = 20  step =2 position 1 => x =20
 
-  !Print:
-    jsr VDC_Poke
-    c128lib_sub16(stepPosition, VDC_Poke.address)
+Width = 20  step =4 position 0 => x =0
+Width = 20  step =4 position 1 => x =7    (width / (step - 1)) * position
+Width = 20  step =4 position 2 => x =13
+Width = 20  step =4 position 3 => x =20
 
-    dey
-    bne !-
+    */
+
+  //   .var stepPosition = (width - 1) / (step - 1)
+
+  //   ldy #step
+  // !:
+  //   cpy #position
+  //   beq !Change+
+  //   jmp !Print+
+  // !Change:
+  //   lda #81
+  //   sta VDC_Poke.value
+  //   lda #$ea
+  //   sta !Change-
+  //   sta !Change-+1
+  //   sta !Change-+2
+  //   sta !Change-+3
+  //   sta !Change-+4
+
+  // !Print:
+  //   jsr VDC_Poke
+  //   c128lib_sub16(stepPosition, VDC_Poke.address)
+
+  //   dey
+  //   bne !-
 #endif
 }
 
