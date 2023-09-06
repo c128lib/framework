@@ -67,6 +67,32 @@
   title, length
 }
 
+.struct @ProgressBarParameters {
+  /** Column where progressbar starts */
+  x,
+  /** Row where progressbar starts */
+  y,
+  /** Progressbar width */
+  width,
+  /** Steps count (included starting and ending step) */
+  steps,
+  /** Current progress position */
+  position,
+  /** Progressbar border style */
+  progressBarStyle
+}
+
+.struct @ProgressBarStyle {
+  /** Char used for line before step*/
+  lineBeforeStep,
+  /** Char used for line after step */
+  lineAfterStep,
+  /** Char used for step point equal or lower to position */
+  pointBeforeStep,
+  /** Char used for step point greater than position */
+  pointAfterStep
+}
+
 /**
   Draws a window in Vdc screen
 
@@ -413,29 +439,39 @@
     Color(x, y, color, length)
 }
 
-.macro ProgressBar(x, y, width, step, position) {
-    .errorif (x < 0), "X must be greater or equal to 0"
-    .errorif (y < 0), "Y must be greater or equal to 0"
-    .errorif (width < 1), "Width must be greater than 1"
-    .errorif (step < 2), "Step must be greater or equal to 2"
-    .errorif (position < 0), "Position must be greater or equal to 0"
-    .errorif (position > step), "Position must be equal or lower than step"
-    .errorif (x > 78), "X must be lower than 78"
-    .errorif (y > 23), "Y must be lower than 23"
-    .errorif (x + width > 80), "Right window boundary must be lower than 80"
+// .macro ProgressBar(x, y, width, step, position) {
+.macro ProgressBar(progressBarParameters) {
+    .errorif (progressBarParameters.x < 0), "X must be greater than 0"
+    .errorif (progressBarParameters.y < 0), "Y must be greater than 0"
+    .errorif (progressBarParameters.width < 2), "Width must be greater than 2"
+    .errorif (progressBarParameters.steps < 2), "Step must be greater or equal to 2"
+    .errorif (progressBarParameters.position < 0), "Position must be greater or equal to 0"
+    // .errorif (progressBarParameters.position >= progressBarParameters.steps), "Position must be lower than step"
+    .errorif (progressBarParameters.x > 78), "X must be lower than 78"
+    .errorif (progressBarParameters.y > 24), "Y must be lower than 25"
+    .errorif (progressBarParameters.x + progressBarParameters.width > 80), "Right window boundary must be lower than 80"
 
 #if !VDC_CREATEWINDOW
     .error "You should use #define VDC_CREATEWINDOW"
 #else
-    lda #<(VDC_RowColToAddress(x, y))
+
+  .var progressBarStyleNow = progressBarParameters.progressBarStyle
+
+  // If no custom style set, take default
+  .if (progressBarParameters.progressBarStyle.lineBeforeStep == null) {
+    .eval progressBarStyleNow = ProgressBarStyle(58, 59, 87, 88)
+  }
+
+    lda #<(VDC_RowColToAddress(progressBarParameters.x, progressBarParameters.y))
     sta VDC_Poke.address
-    lda #>(VDC_RowColToAddress(x, y))
+    lda #>(VDC_RowColToAddress(progressBarParameters.x, progressBarParameters.y))
     sta VDC_Poke.address + 1
 
+    .var lineEdge = (progressBarParameters.width / (progressBarParameters.steps - 1)) * (progressBarParameters.position - 1)
     // lda #67
-    lda #58
+    lda #progressBarParameters.progressBarStyle.lineBeforeStep
     sta VDC_Poke.value
-    ldy #width-1
+    ldy #lineEdge-1
   !:
     c128lib_inc16(VDC_Poke.address)
 
@@ -443,23 +479,38 @@
     dey
     bne !-
 
-    lda #87
+    .eval lineEdge = (progressBarParameters.width / (progressBarParameters.steps - 1)) * (progressBarParameters.steps - progressBarParameters.position + 1)
+    lda #progressBarParameters.progressBarStyle.lineAfterStep
     sta VDC_Poke.value
-    .for (var i = 0; i < position; i++) {
-      lda #<(VDC_RowColToAddress(stepCount, y))
+    ldy #lineEdge-2
+  !:
+    c128lib_inc16(VDC_Poke.address)
+
+    jsr VDC_Poke
+    dey
+    bne !-
+
+    lda #progressBarParameters.progressBarStyle.pointBeforeStep
+    sta VDC_Poke.value
+    .for (var i = 0; i < progressBarParameters.position; i++) {
+      .var stepCount = (progressBarParameters.width / (progressBarParameters.steps - 1)) * i
+
+      lda #<(VDC_RowColToAddress(stepCount, progressBarParameters.y))
       sta VDC_Poke.address
-      lda #>(VDC_RowColToAddress(stepCount, y))
+      lda #>(VDC_RowColToAddress(stepCount, progressBarParameters.y))
       sta VDC_Poke.address + 1
       
       jsr VDC_Poke
     }
 
-    lda #88
+    lda #progressBarParameters.progressBarStyle.pointAfterStep
     sta VDC_Poke.value
-    .for (var i = position; i < step; i++) {
-      lda #<(VDC_RowColToAddress(stepCount, y))
+    .for (var i = progressBarParameters.position; i < progressBarParameters.steps; i++) {
+      .var stepCount = (progressBarParameters.width / (progressBarParameters.steps - 1)) * i
+      
+      lda #<(VDC_RowColToAddress(stepCount, progressBarParameters.y))
       sta VDC_Poke.address
-      lda #>(VDC_RowColToAddress(stepCount, y))
+      lda #>(VDC_RowColToAddress(stepCount, progressBarParameters.y))
       sta VDC_Poke.address + 1
       
       jsr VDC_Poke
@@ -472,32 +523,7 @@ Width = 20  step =4 position 0 => x =0
 Width = 20  step =4 position 1 => x =7    (width / (step - 1)) * position
 Width = 20  step =4 position 2 => x =13
 Width = 20  step =4 position 3 => x =20
-
-    */
-
-  //   .var stepPosition = (width - 1) / (step - 1)
-
-  //   ldy #step
-  // !:
-  //   cpy #position
-  //   beq !Change+
-  //   jmp !Print+
-  // !Change:
-  //   lda #81
-  //   sta VDC_Poke.value
-  //   lda #$ea
-  //   sta !Change-
-  //   sta !Change-+1
-  //   sta !Change-+2
-  //   sta !Change-+3
-  //   sta !Change-+4
-
-  // !Print:
-  //   jsr VDC_Poke
-  //   c128lib_sub16(stepPosition, VDC_Poke.address)
-
-  //   dey
-  //   bne !-
+*/
 #endif
 }
 
