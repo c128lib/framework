@@ -439,14 +439,25 @@
     Color(x, y, color, length)
 }
 
-// .macro ProgressBar(x, y, width, step, position) {
+/**
+  Print a label at coordinates with specified color
+
+  @param[in] windowParameters Defines window parameters
+
+  @remark Register .A, .X and .Y will be modified.
+  Flags N, Z and C will be affected.
+
+  @note Use c128lib_ProgressBar in vdc-gui-global.asm
+
+  @since 0.2.0
+*/
 .macro ProgressBar(progressBarParameters) {
     .errorif (progressBarParameters.x < 0), "X must be greater than 0"
     .errorif (progressBarParameters.y < 0), "Y must be greater than 0"
     .errorif (progressBarParameters.width < 2), "Width must be greater than 2"
     .errorif (progressBarParameters.steps < 2), "Step must be greater or equal to 2"
-    .errorif (progressBarParameters.position < 0), "Position must be greater or equal to 0"
-    // .errorif (progressBarParameters.position >= progressBarParameters.steps), "Position must be lower than step"
+    .errorif (progressBarParameters.position < 1), "Position must be greater or equal to 1"
+    .errorif (progressBarParameters.position > progressBarParameters.steps), "Position must be lower or equal to step"
     .errorif (progressBarParameters.x > 78), "X must be lower than 78"
     .errorif (progressBarParameters.y > 24), "Y must be lower than 25"
     .errorif (progressBarParameters.x + progressBarParameters.width > 80), "Right window boundary must be lower than 80"
@@ -459,7 +470,7 @@
 
   // If no custom style set, take default
   .if (progressBarParameters.progressBarStyle.lineBeforeStep == null) {
-    .eval progressBarStyleNow = ProgressBarStyle(58, 59, 87, 88)
+    .eval progressBarStyleNow = ProgressBarStyle(61, 45, 81, 87)
   }
 
     lda #<(VDC_RowColToAddress(progressBarParameters.x, progressBarParameters.y))
@@ -467,63 +478,57 @@
     lda #>(VDC_RowColToAddress(progressBarParameters.x, progressBarParameters.y))
     sta VDC_Poke.address + 1
 
-    .var lineEdge = (progressBarParameters.width / (progressBarParameters.steps - 1)) * (progressBarParameters.position - 1)
-    // lda #67
-    lda #progressBarParameters.progressBarStyle.lineBeforeStep
-    sta VDC_Poke.value
-    ldy #lineEdge-1
-  !:
-    c128lib_inc16(VDC_Poke.address)
+    .var lineEdge = round((progressBarParameters.width / (progressBarParameters.steps - 1)) * (progressBarParameters.position - 1))
 
-    jsr VDC_Poke
-    dey
-    bne !-
+    .if (lineEdge >= 1) {
+      lda #progressBarStyleNow.lineBeforeStep
+      sta VDC_Poke.value
+      ldy #lineEdge-1
+    !:
+      c128lib_inc16(VDC_Poke.address)
+      jsr VDC_Poke
+      dey
+      bne !-
+    }
 
-    .eval lineEdge = (progressBarParameters.width / (progressBarParameters.steps - 1)) * (progressBarParameters.steps - progressBarParameters.position + 1)
-    lda #progressBarParameters.progressBarStyle.lineAfterStep
-    sta VDC_Poke.value
-    ldy #lineEdge-2
-  !:
-    c128lib_inc16(VDC_Poke.address)
+    .eval lineEdge = progressBarParameters.width - lineEdge
+    .if (lineEdge > 0) {
+      lda #progressBarStyleNow.lineAfterStep
+      sta VDC_Poke.value
+      ldy #lineEdge
+    !:
+      c128lib_inc16(VDC_Poke.address)
 
-    jsr VDC_Poke
-    dey
-    bne !-
+      jsr VDC_Poke
+      dey
+      bne !-
+    }
 
-    lda #progressBarParameters.progressBarStyle.pointBeforeStep
+    lda #progressBarStyleNow.pointBeforeStep
     sta VDC_Poke.value
     .for (var i = 0; i < progressBarParameters.position; i++) {
       .var stepCount = (progressBarParameters.width / (progressBarParameters.steps - 1)) * i
 
-      lda #<(VDC_RowColToAddress(stepCount, progressBarParameters.y))
+      lda #<(VDC_RowColToAddress(stepCount + progressBarParameters.x, progressBarParameters.y))
       sta VDC_Poke.address
-      lda #>(VDC_RowColToAddress(stepCount, progressBarParameters.y))
+      lda #>(VDC_RowColToAddress(stepCount + progressBarParameters.x, progressBarParameters.y))
       sta VDC_Poke.address + 1
       
       jsr VDC_Poke
     }
 
-    lda #progressBarParameters.progressBarStyle.pointAfterStep
+    lda #progressBarStyleNow.pointAfterStep
     sta VDC_Poke.value
     .for (var i = progressBarParameters.position; i < progressBarParameters.steps; i++) {
       .var stepCount = (progressBarParameters.width / (progressBarParameters.steps - 1)) * i
       
-      lda #<(VDC_RowColToAddress(stepCount, progressBarParameters.y))
+      lda #<(VDC_RowColToAddress(stepCount + progressBarParameters.x, progressBarParameters.y))
       sta VDC_Poke.address
-      lda #>(VDC_RowColToAddress(stepCount, progressBarParameters.y))
+      lda #>(VDC_RowColToAddress(stepCount + progressBarParameters.x, progressBarParameters.y))
       sta VDC_Poke.address + 1
       
       jsr VDC_Poke
     }
-    /*
-Width = 20  step =2 position 0 => x =0
-Width = 20  step =2 position 1 => x =20
-
-Width = 20  step =4 position 0 => x =0
-Width = 20  step =4 position 1 => x =7    (width / (step - 1)) * position
-Width = 20  step =4 position 2 => x =13
-Width = 20  step =4 position 3 => x =20
-*/
 #endif
 }
 

@@ -140,7 +140,37 @@
 */
 .macro @c128lib_LabelWithColor(x, y, text, length, color) { LabelWithColor(x, y, text, length, color) }
 
-// .macro @c128lib_ProgressBar(x, y, width, step, position) { ProgressBar(x, y, width, step, position) }
+/**
+  Print a label at coordinates with specified color
+
+  @param[in] progressBarParameters Defines window parameters
+
+  @remark Register .A, .X and .Y will be modified.
+  Flags N, Z and C will be affected.
+
+  @see ProgressBarParameters
+
+  @code
+    c128lib_ProgressBar( 
+      ProgressBarParameters(
+        0, 0, 12,     // Set progress bar position and width
+        5, 2,         // Set step count and current position
+        ProgressBarStyle(58, 59, 87, 88)) // Set custom style
+    );
+  @endcode
+
+  @code
+    c128lib_ProgressBar(
+      ProgressBarParameters(
+        0, 3, 12,     // Set progress bar position and width
+        5, 4,         // Set step count and current position
+        ProgressBarStyle()) // Set default style
+    );
+
+  @endcode
+
+  @since 0.2.0
+*/
 .macro @c128lib_ProgressBar(progressBarParameters) { ProgressBar(progressBarParameters) }
 
 #import "vdc-gui.asm"
