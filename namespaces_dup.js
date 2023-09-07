@@ -1,5 +1,6 @@
 var namespaces_dup =
 [
+    [ "Gui", "namespaceGui.html", null ],
     [ "Random", "namespaceRandom.html", null ],
     [ "Sort", "namespaceSort.html", null ],
     [ "String", "namespaceString.html", [
