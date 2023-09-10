@@ -91,8 +91,7 @@ $(document).ready(function(){initNavTree('string-global_8asm.html',''); initResi
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">string-global.asm File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -114,11 +113,10 @@ Functions</h2></td></tr>
 <tr class="separator:adef764fa07fc7df80f3b969eb5da514e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a48748479eb28ca1008a80ca030a69a5e" id="r_a48748479eb28ca1008a80ca030a69a5e"><td class="memItemLeft" align="right" valign="top">macro&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string-global_8asm.html#a48748479eb28ca1008a80ca030a69a5e">c128lib_StringConcatenate</a> (string1Address, string2Address, string1Length, switchToFastModeWhileRunning)</td></tr>
 <tr class="separator:a48748479eb28ca1008a80ca030a69a5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:aae4b6fd722bf7aa8b48d82b50c55f0f5" id="r_aae4b6fd722bf7aa8b48d82b50c55f0f5"><td class="memItemLeft" align="right" valign="top">pseudocommand c128lib_Int8ToString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string-global_8asm.html#aae4b6fd722bf7aa8b48d82b50c55f0f5">int8Arg</a></td></tr>
-<tr class="separator:aae4b6fd722bf7aa8b48d82b50c55f0f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5241a975f5d4a7729b39b4aff807a0b" id="r_ad5241a975f5d4a7729b39b4aff807a0b"><td class="memItemLeft" align="right" valign="top">macro&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string-global_8asm.html#ad5241a975f5d4a7729b39b4aff807a0b">c128lib_Int8ToString</a> (int8Address, stringAddress, switchToFastMode)</td></tr>
+<tr class="separator:ad5241a975f5d4a7729b39b4aff807a0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a931eed98a18e206e15634a4ba9e03086" id="r_a931eed98a18e206e15634a4ba9e03086"><td class="memItemLeft" align="right" valign="top">macro&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string-global_8asm.html#a931eed98a18e206e15634a4ba9e03086">c128lib_Int16ToString</a> (int16Address, stringAddress, switchToFastMode)</td></tr>
+<tr class="separator:a931eed98a18e206e15634a4ba9e03086"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="aa9b6817f091f5f0f4d0ade6cae82119f" name="aa9b6817f091f5f0f4d0ade6cae82119f"></a>
@@ -593,18 +591,123 @@ Flags N, Z and C will be affected.</dd></dl>
 
 </div>
 </div>
-<h2 class="groupheader">Variable Documentation</h2>
-<a id="aae4b6fd722bf7aa8b48d82b50c55f0f5" name="aae4b6fd722bf7aa8b48d82b50c55f0f5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aae4b6fd722bf7aa8b48d82b50c55f0f5">&#9670;&#160;</a></span>int8Arg</h2>
+<a id="ad5241a975f5d4a7729b39b4aff807a0b" name="ad5241a975f5d4a7729b39b4aff807a0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5241a975f5d4a7729b39b4aff807a0b">&#9670;&#160;</a></span>c128lib_Int8ToString()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">pseudocommand c128lib_Int8ToString int8Arg</td>
+          <td class="memname">macro c128lib_Int8ToString </td>
+          <td>(</td>
+          <td class="paramtype">int8Address&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">stringAddress&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">switchToFastMode&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Convert an 8-bit integer to an ASCII string.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">int8Address</td><td>Address of 8-bit integer </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">stringAddress</td><td>Address of 3-byte ASCII string representation of *int8Arg </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">switchToFastMode</td><td>If true, fast mode will be enabled at start and disabled at end.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section remark"><dt>Remarks</dt><dd>Registers .A, .X, and .Y will be modified. </dd>
+<dd>
+Flags N, Z and C will be affected.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Use c128lib_Int8ToString in <a class="el" href="string-global_8asm.html">string-global.asm</a></dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd><ol type="1">
+<li>Macro will assume 8-bit value at *int8Address.</li>
+<li>Macro will assume that *stringAddress is formally defined by user and null terminated.</li>
+<li>*stringAddress must by 3 bytes</li>
+<li>stringAddress can point to 4 bytes of memory - 3 for string and 1 for null byte #0</li>
+</ol>
+</dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd><ol type="1">
+<li>stringAddress will point to 3 byte ASCII string.</li>
+<li>Leading zeros will be maintained in the 3 byte string, such as "001" or "023".</li>
+</ol>
+</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>0.2.0 </dd></dl>
+
+</div>
+</div>
+<a id="a931eed98a18e206e15634a4ba9e03086" name="a931eed98a18e206e15634a4ba9e03086"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a931eed98a18e206e15634a4ba9e03086">&#9670;&#160;</a></span>c128lib_Int16ToString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">macro c128lib_Int16ToString </td>
+          <td>(</td>
+          <td class="paramtype">int16Address&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">stringAddress&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">switchToFastMode&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Convert a 16-bit integer to an ASCII string.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">int16Address</td><td>Address of 16-bit integer </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">stringAddress</td><td>Address of 5-byte ASCII string representation of *int16Address </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">switchToFastMode</td><td>If true, fast mode will be enabled at start and disabled at end.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section remark"><dt>Remarks</dt><dd>Registers .A, .X, and .Y will be modified. </dd>
+<dd>
+Flags N, Z and C will be affected.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Use c128lib_Int16ToString in <a class="el" href="string-global_8asm.html">string-global.asm</a></dd></dl>
+<dl class="section pre"><dt>Precondition</dt><dd><ol type="1">
+<li>Macro will assume 16-bit value at *int16Address, stored as little endian</li>
+<li>Macro will assume that *stringAddress is formally defined by user and null terminated.</li>
+<li>*stringAddress must by 5 bytes.</li>
+<li>stringAddress can point to 6 bytes of memory - 5 for string and 1 for null byte #0</li>
+</ol>
+</dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd><ol type="1">
+<li>stringAddress will point to 5 byte ASCII string.</li>
+<li>Leading zeros will be maintained in the 5 byte string, such as "00001" or "00023".</li>
+</ol>
+</dd></dl>
+<dl class="section since"><dt>Since</dt><dd>0.2.0 </dd></dl>
 
 </div>
 </div>
@@ -614,7 +717,7 @@ Flags N, Z and C will be affected.</dd></dl>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="string-global_8asm.html">string-global.asm</a></li>
-    <li class="footer">Generated on Thu Sep 7 2023 20:13:31 for c128lib Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sun Sep 10 2023 18:33:18 for c128lib Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

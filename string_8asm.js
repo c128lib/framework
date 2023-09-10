@@ -7,9 +7,10 @@ var string_8asm =
     [ "StringCopyRight", "string_8asm.html#a326696e577da44a0907c169a7801de1d", null ],
     [ "StringCopyMid", "string_8asm.html#a55ab1e1f68c01e52dbdaa726211d9382", null ],
     [ "StringConcatenate", "string_8asm.html#abfd992526dbb5de682293fd0fd3d9c70", null ],
+    [ "Int8ToString", "string_8asm.html#a419bb974ea9dc4b3cbc152ccc748c9bc", null ],
+    [ "Int16ToString", "string_8asm.html#a11c6079de08be83086f7591a144d4842", null ],
     [ "ZP_SRC", "string_8asm.html#aaa7cc0c44a2fc522981a42db8f16d22f", null ],
     [ "ZP_TRG", "string_8asm.html#ac26fd364cfe4489d9b91e3d5a67995b7", null ],
     [ "zpAddress", "string_8asm.html#a4330a972a9fd4e4b0e3fe69519716725", null ],
-    [ "absAddress", "string_8asm.html#a791b4097643dc14cf1c075904119c77a", null ],
-    [ "int8Arg", "string_8asm.html#abe93903eb6b20ab2a5ba33422f962f5b", null ]
+    [ "absAddress", "string_8asm.html#a791b4097643dc14cf1c075904119c77a", null ]
 ];
