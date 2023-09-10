@@ -255,6 +255,56 @@
 */
 .macro @c128lib_StringConcatenate(string1Address, string2Address, string1Length, switchToFastModeWhileRunning) { StringConcatenate(string1Address, string2Address, string1Length, switchToFastModeWhileRunning) }
 
-.pseudocommand @c128lib_Int8ToString int8Arg : stringAddressArg { Int8ToString int8Arg : stringAddressArg }
+/**
+  Convert an 8-bit integer to an ASCII string.
+
+  @param[in]  int8Address       Address of 8-bit integer
+  @param[out] stringAddress     Address of 3-byte ASCII string representation of *int8Arg
+  @param[in]  switchToFastMode  If true, fast mode will be enabled at start and disabled at end.
+
+  @remark Registers .A, .X, and .Y will be modified.
+  @remark Flags N, Z and C will be affected.
+
+  @note Use c128lib_Int8ToString in string-global.asm
+
+  @pre
+    1. Macro will assume 8-bit value at *int8Address. 
+    2. Macro will assume that *stringAddress is formally defined by user and null terminated.
+    3. *stringAddress must by 3 bytes
+    4. stringAddress can point to 4 bytes of memory - 3 for string and 1 for null byte #0
+
+  @post 
+    1. stringAddress will point to 3 byte ASCII string.
+    2. Leading zeros will be maintained in the 3 byte string, such as "001" or "023".
+
+  @since 0.2.0
+*/
+.macro @c128lib_Int8ToString(int8Address, stringAddress, switchToFastMode) { Int8ToString(int8Address, stringAddress, switchToFastMode) }
+
+/**
+  Convert a 16-bit integer to an ASCII string.
+
+  @param[in]  int16Address      Address of 16-bit integer
+  @param[out] stringAddress     Address of 5-byte ASCII string representation of *int16Address
+  @param[in]  switchToFastMode  If true, fast mode will be enabled at start and disabled at end.
+
+  @remark Registers .A, .X, and .Y will be modified.
+  @remark Flags N, Z and C will be affected.
+
+  @note Use c128lib_Int16ToString in string-global.asm
+
+  @pre
+    1. Macro will assume 16-bit value at *int16Address, stored as little endian 
+    2. Macro will assume that *stringAddress is formally defined by user and null terminated.
+    3. *stringAddress must by 5 bytes.
+    4. stringAddress can point to 6 bytes of memory - 5 for string and 1 for null byte #0
+
+  @post 
+    1. stringAddress will point to 5 byte ASCII string.
+    2. Leading zeros will be maintained in the 5 byte string, such as "00001" or "00023".
+
+  @since 0.2.0
+*/
+.macro @c128lib_Int16ToString(int16Address, stringAddress, switchToFastMode) { Int16ToString(int16Address, stringAddress, switchToFastMode) }
 
 #import "string.asm"
