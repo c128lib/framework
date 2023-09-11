@@ -135,7 +135,7 @@
 
     lda #borderStyleNow.Left
     sta VDC_Poke.value
-    ldy #windowParameters.height - 2
+    ldy #windowParameters.height - 1
   !:
     c128lib_add16(80, VDC_Poke.address)
 
@@ -163,7 +163,7 @@
 
     lda #borderStyleNow.Right
     sta VDC_Poke.value
-    ldy #windowParameters.height - 2
+    ldy #windowParameters.height - 1
   !:
     c128lib_sub16(80, VDC_Poke.address)
 
@@ -186,15 +186,31 @@
     bne !-
 
   .var rowStartingOpacity = windowParameters.y + 2
-  .var rowsOpacity = windowParameters.height - 4
+  .var rowsOpacity = windowParameters.height - 3
 
   // Draws title if needed
   .if (windowParameters.windowTitle.length > 0) {
+  // Draws black background for first row
+    lda #32
+    sta VDC_Poke.value
+    lda #<(VDC_RowColToAddress(windowParameters.x, windowParameters.y + 1))
+    sta VDC_Poke.address
+    lda #>(VDC_RowColToAddress(windowParameters.x, windowParameters.y + 1))
+    sta VDC_Poke.address + 1
+
+    ldy #windowParameters.width - 3
+  !:
+    c128lib_inc16(VDC_Poke.address)
+
+    jsr VDC_Poke
+    dey
+    bne !-
+
     Label(windowParameters.x + 2, windowParameters.y + 1,
       windowParameters.windowTitle.title, windowParameters.windowTitle.length)
   } else {
     .eval rowStartingOpacity = windowParameters.y + 1
-    .eval rowsOpacity = windowParameters.height - 3
+    .eval rowsOpacity = windowParameters.height - 2
   }
 
   // Draws opaque background if needed
@@ -301,7 +317,6 @@
 #if !VDC_CREATEWINDOW
     .error "You should use #define VDC_CREATEWINDOW"
 #else
-    c128lib_PositionAttrXy(x, y)
     lda #color
     sta VDC_Poke.value
 
