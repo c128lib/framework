@@ -94,6 +94,18 @@
 }
 
 /**
+  Struct for defining button creation parametes
+*/
+.struct @ButtonParameters {
+  /** Column where button is placed */
+  x,
+  /** Row where button is placed */
+  y,
+  /** Button label definition */
+  windowTitle
+}
+
+/**
   Draws a window in Vdc screen
 
   @param[in] windowParameters Defines window parameters
@@ -545,6 +557,15 @@
       jsr VDC_Poke
     }
 #endif
+}
+
+.macro Button(buttonParameters) {
+    Window(
+      WindowParameters(
+        buttonParameters.x, buttonParameters.y,
+        buttonParameters.windowTitle.length + 5, 3,
+        WindowTitle(buttonParameters.windowTitle.title, buttonParameters.windowTitle.length),
+        WindowBorders(), false))
 }
 
 /* Function returns a VDC memory address for a given row and column */

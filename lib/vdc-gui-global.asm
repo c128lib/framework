@@ -179,4 +179,6 @@
 */
 .macro @c128lib_ProgressBar(progressBarParameters) { ProgressBar(progressBarParameters) }
 
+.macro @c128lib_Button(buttonParameters) { Button(buttonParameters) }
+
 #import "vdc-gui.asm"
