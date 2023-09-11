@@ -135,7 +135,7 @@
 
     lda #borderStyleNow.Left
     sta VDC_Poke.value
-    ldy #windowParameters.height - 2
+    ldy #windowParameters.height - 1
   !:
     c128lib_add16(80, VDC_Poke.address)
 
@@ -163,7 +163,7 @@
 
     lda #borderStyleNow.Right
     sta VDC_Poke.value
-    ldy #windowParameters.height - 2
+    ldy #windowParameters.height - 1
   !:
     c128lib_sub16(80, VDC_Poke.address)
 
@@ -186,7 +186,7 @@
     bne !-
 
   .var rowStartingOpacity = windowParameters.y + 2
-  .var rowsOpacity = windowParameters.height - 4
+  .var rowsOpacity = windowParameters.height - 3
 
   // Draws title if needed
   .if (windowParameters.windowTitle.length > 0) {
@@ -210,7 +210,7 @@
       windowParameters.windowTitle.title, windowParameters.windowTitle.length)
   } else {
     .eval rowStartingOpacity = windowParameters.y + 1
-    .eval rowsOpacity = windowParameters.height - 3
+    .eval rowsOpacity = windowParameters.height - 2
   }
 
   // Draws opaque background if needed
