@@ -56,6 +56,9 @@
         false))                 // Make window transparent
   @endcode
 
+  @attention Don't overlap window with color and window without color.
+  Strange color behavior occour.
+
   @since 0.2.0
 */
 .macro @c128lib_Window(windowParameters) { Window(windowParameters) }
@@ -91,6 +94,9 @@
         false),                 // Make window transparent
         c128lib.Vdc.VDC_LIGHT_YELLOW) // Set color
   @endcode
+
+  @attention Don't overlap window with color and window without color.
+  Strange color behavior occour.
 
   @since 0.2.0
 */

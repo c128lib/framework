@@ -190,6 +190,22 @@
 
   // Draws title if needed
   .if (windowParameters.windowTitle.length > 0) {
+  // Draws black background for first row
+    lda #32
+    sta VDC_Poke.value
+    lda #<(VDC_RowColToAddress(windowParameters.x, windowParameters.y + 1))
+    sta VDC_Poke.address
+    lda #>(VDC_RowColToAddress(windowParameters.x, windowParameters.y + 1))
+    sta VDC_Poke.address + 1
+
+    ldy #windowParameters.width - 3
+  !:
+    c128lib_inc16(VDC_Poke.address)
+
+    jsr VDC_Poke
+    dey
+    bne !-
+
     Label(windowParameters.x + 2, windowParameters.y + 1,
       windowParameters.windowTitle.title, windowParameters.windowTitle.length)
   } else {
@@ -301,7 +317,6 @@
 #if !VDC_CREATEWINDOW
     .error "You should use #define VDC_CREATEWINDOW"
 #else
-    c128lib_PositionAttrXy(x, y)
     lda #color
     sta VDC_Poke.value
 
