@@ -467,9 +467,9 @@
 }
 
 /**
-  Print a label at coordinates with specified color
+  Prints a progress bar at coordinates
 
-  @param[in] windowParameters Defines window parameters
+  @param[in] progressBarParameters Defines progress bar parameters
 
   @remark Register .A, .X and .Y will be modified.
   Flags N, Z and C will be affected.
@@ -580,6 +580,49 @@
         buttonParameters.windowTitle.length + 5, 3,
         WindowTitle(buttonParameters.windowTitle.title, buttonParameters.windowTitle.length),
         WindowBorders(), false))
+}
+
+/**
+  Print a slim button at coordinates. It's a single line button instead of three.
+
+  @param[in] buttonParameters Defines slim button parameters
+
+  @remark Register .A, .X and .Y will be modified.
+  Flags N, Z and C will be affected.
+
+  @note Use c128lib_SlimButton in vdc-gui-global.asm
+
+  @since 0.2.0
+*/
+.macro SlimButton(buttonParameters) {
+    .errorif (buttonParameters.x + buttonParameters.windowTitle.length + 3 > 80), "Button right border must be lower than 80"
+
+#define VDC_POKE
+    lda #<(VDC_RowColToAddress(buttonParameters.x, buttonParameters.y))
+    sta VDC_Poke.address
+    lda #>(VDC_RowColToAddress(buttonParameters.x, buttonParameters.y))
+    sta VDC_Poke.address + 1
+
+    lda #27
+    sta VDC_Poke.value
+    jsr VDC_Poke
+    c128lib_inc16(VDC_Poke.address)
+    lda #32
+    sta VDC_Poke.value
+    jsr VDC_Poke
+    Label(buttonParameters.x+2, buttonParameters.y,
+      buttonParameters.windowTitle.title, buttonParameters.windowTitle.length);
+    lda #<(VDC_RowColToAddress(buttonParameters.x + buttonParameters.windowTitle.length + 2, buttonParameters.y))
+    sta VDC_Poke.address
+    lda #>(VDC_RowColToAddress(buttonParameters.x + buttonParameters.windowTitle.length + 2, buttonParameters.y))
+    sta VDC_Poke.address + 1
+    lda #32
+    sta VDC_Poke.value
+    jsr VDC_Poke
+    c128lib_inc16(VDC_Poke.address)
+    lda #29
+    sta VDC_Poke.value
+    jsr VDC_Poke
 }
 
 /* Function returns a VDC memory address for a given row and column */

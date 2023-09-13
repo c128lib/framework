@@ -147,9 +147,9 @@
 .macro @c128lib_LabelWithColor(x, y, text, length, color) { LabelWithColor(x, y, text, length, color) }
 
 /**
-  Print a label at coordinates with specified color
+  Prints a progress bar at coordinates
 
-  @param[in] progressBarParameters Defines window parameters
+  @param[in] progressBarParameters Defines progress bar parameters
 
   @remark Register .A, .X and .Y will be modified.
   Flags N, Z and C will be affected.
@@ -197,5 +197,25 @@
   @since 0.2.0
 */
 .macro @c128lib_Button(buttonParameters) { Button(buttonParameters) }
+
+/**
+  Print a slim button at coordinates. It's a single line button instead of three.
+
+  @param[in] buttonParameters Defines slim button parameters
+
+  @remark Register .A, .X and .Y will be modified.
+  Flags N, Z and C will be affected.
+
+  @code
+    c128lib_SlimButton(
+      ButtonParameters(
+        45, 20,
+        WindowTitle(Si, 2)
+        ));
+  @endcode
+
+  @since 0.2.0
+*/
+.macro @c128lib_SlimButton(buttonParameters) { SlimButton(buttonParameters) }
 
 #import "vdc-gui.asm"
