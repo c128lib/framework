@@ -172,13 +172,30 @@
         5, 4,         // Set step count and current position
         ProgressBarStyle()) // Set default style
     );
-
   @endcode
 
   @since 0.2.0
 */
 .macro @c128lib_ProgressBar(progressBarParameters) { ProgressBar(progressBarParameters) }
 
+/**
+  Print a button at coordinates
+
+  @param[in] buttonParameters Defines button parameters
+
+  @remark Register .A, .X and .Y will be modified.
+  Flags N, Z and C will be affected.
+
+  @code
+    c128lib_Button(
+      ButtonParameters(
+        45, 9,
+        WindowTitle(Title, 2)
+        ));
+  @endcode
+
+  @since 0.2.0
+*/
 .macro @c128lib_Button(buttonParameters) { Button(buttonParameters) }
 
 #import "vdc-gui.asm"

@@ -559,7 +559,21 @@
 #endif
 }
 
+/**
+  Print a button at coordinates
+
+  @param[in] buttonParameters Defines button parameters
+
+  @remark Register .A, .X and .Y will be modified.
+  Flags N, Z and C will be affected.
+
+  @note Use c128lib_Button in vdc-gui-global.asm
+
+  @since 0.2.0
+*/
 .macro Button(buttonParameters) {
+    .errorif (buttonParameters.x + buttonParameters.windowTitle.length + 3 > 80), "Button right border must be lower than 80"
+
     Window(
       WindowParameters(
         buttonParameters.x, buttonParameters.y,
