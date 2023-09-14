@@ -35,16 +35,6 @@
   Struct for defining window creation parametes
 */
 .struct @WindowParameters {
-  /** Column where window starts */
-  x,
-  /** Row where window starts */
-  y,
-  /** Window width */
-  width,
-  /** Window height */
-  height,
-  /** Window title definition */
-  windowTitle,
   /** Custom border style definition */
   borderStyle,
   /** Windows opacity control */
@@ -63,15 +53,11 @@
   Struct for defining window creation parametes. If no title is required,
   length must be 0.
 */
-.struct @WindowTitle {
-  title, length
+.struct @LabelText {
+  label, length
 }
 
 .struct @ProgressBarParameters {
-  /** Column where progressbar starts */
-  x,
-  /** Row where progressbar starts */
-  y,
   /** Progressbar width */
   width,
   /** Steps count (included starting and ending step) */
@@ -93,21 +79,26 @@
   pointAfterStep
 }
 
-/**
-  Struct for defining button creation parametes
-*/
-.struct @ButtonParameters {
-  /** Column where button is placed */
+.struct @Point {
+  /** Column value */
   x,
-  /** Row where button is placed */
-  y,
-  /** Button label definition */
-  windowTitle
+  /** Row value */
+  y
+}
+
+.struct @Size {
+  /** Control width */
+  width,
+  /** Control height */
+  height
 }
 
 /**
   Draws a window in Vdc screen
 
+  @param[in] position Starting (x,y) position window
+  @param[in] size Window (x,y) size
+  @param[in] windowTitle Defines window title
   @param[in] windowParameters Defines window parameters
 
   @remark Register .A, .X and .Y will be modified.
@@ -117,15 +108,15 @@
 
   @since 0.2.0
 */
-.macro Window(windowParameters) {
-    .errorif (windowParameters.x < 0), "X must be greater than 0"
-    .errorif (windowParameters.y < 0), "Y must be greater than 0"
-    .errorif (windowParameters.width < 1), "Width must be greater than 1"
-    .errorif (windowParameters.height < 1), "Height must be greater than 1"
-    .errorif (windowParameters.x > 78), "X must be lower than 78"
-    .errorif (windowParameters.y > 23), "Y must be lower than 23"
-    .errorif (windowParameters.x + windowParameters.width > 80), "Right window boundary must be lower than 80"
-    .errorif (windowParameters.y + windowParameters.height > 25), "Bottom window boundary must be lower than 25"
+.macro Window(position, size, windowTitle, windowParameters) {
+    .errorif (position.x < 0), "X must be greater than 0"
+    .errorif (position.y < 0), "Y must be greater than 0"
+    .errorif (size.width < 1), "Width must be greater than 1"
+    .errorif (size.height < 1), "Height must be greater than 1"
+    .errorif (position.x > 78), "X must be lower than 78"
+    .errorif (position.y > 23), "Y must be lower than 23"
+    .errorif (position.x + size.width > 80), "Right window boundary must be lower than 80"
+    .errorif (position.y + size.height > 25), "Bottom window boundary must be lower than 25"
 #if !VDC_CREATEWINDOW
     .error "You should use #define VDC_CREATEWINDOW"
 #else
@@ -139,15 +130,15 @@
 #define VDC_POKE
     lda #borderStyleNow.TopLeft
     sta VDC_Poke.value
-    lda #<(VDC_RowColToAddress(windowParameters.x, windowParameters.y))
+    lda #<(VDC_RowColToAddress(position.x, position.y))
     sta VDC_Poke.address
-    lda #>(VDC_RowColToAddress(windowParameters.x, windowParameters.y))
+    lda #>(VDC_RowColToAddress(position.x, position.y))
     sta VDC_Poke.address + 1
     jsr VDC_Poke
 
     lda #borderStyleNow.Left
     sta VDC_Poke.value
-    ldy #windowParameters.height - 1
+    ldy #size.height - 1
   !:
     c128lib_add16(80, VDC_Poke.address)
 
@@ -161,7 +152,7 @@
 
     lda #borderStyleNow.Bottom
     sta VDC_Poke.value
-    ldy #windowParameters.width - 2
+    ldy #size.width - 2
   !:
     c128lib_inc16(VDC_Poke.address)
 
@@ -175,7 +166,7 @@
 
     lda #borderStyleNow.Right
     sta VDC_Poke.value
-    ldy #windowParameters.height - 1
+    ldy #size.height - 1
   !:
     c128lib_sub16(80, VDC_Poke.address)
 
@@ -189,7 +180,7 @@
 
     lda #borderStyleNow.Top
     sta VDC_Poke.value
-    ldy #windowParameters.width - 3
+    ldy #size.width - 3
   !:
     c128lib_dec16(VDC_Poke.address)
 
@@ -197,20 +188,20 @@
     dey
     bne !-
 
-  .var rowStartingOpacity = windowParameters.y + 2
-  .var rowsOpacity = windowParameters.height - 3
+  .var rowStartingOpacity = position.y + 2
+  .var rowsOpacity = size.height - 3
 
   // Draws title if needed
-  .if (windowParameters.windowTitle.length > 0) {
+  .if (windowTitle.length > 0) {
   // Draws black background for first row
     lda #32
     sta VDC_Poke.value
-    lda #<(VDC_RowColToAddress(windowParameters.x, windowParameters.y + 1))
+    lda #<(VDC_RowColToAddress(position.x, position.y + 1))
     sta VDC_Poke.address
-    lda #>(VDC_RowColToAddress(windowParameters.x, windowParameters.y + 1))
+    lda #>(VDC_RowColToAddress(position.x, position.y + 1))
     sta VDC_Poke.address + 1
 
-    ldy #windowParameters.width - 3
+    ldy #size.width - 3
   !:
     c128lib_inc16(VDC_Poke.address)
 
@@ -218,26 +209,25 @@
     dey
     bne !-
 
-    Label(windowParameters.x + 2, windowParameters.y + 1,
-      windowParameters.windowTitle.title, windowParameters.windowTitle.length)
+    Label(Point(position.x + 2, position.y + 1), windowTitle)
   } else {
-    .eval rowStartingOpacity = windowParameters.y + 1
-    .eval rowsOpacity = windowParameters.height - 2
+    .eval rowStartingOpacity = position.y + 1
+    .eval rowsOpacity = size.height - 2
   }
 
   // Draws opaque background if needed
   .if (windowParameters.isOpaque) {
     lda #102
     sta VDC_Poke.value
-    lda #<(VDC_RowColToAddress(windowParameters.x, rowStartingOpacity))
+    lda #<(VDC_RowColToAddress(position.x, rowStartingOpacity))
     sta VDC_Poke.address
-    lda #>(VDC_RowColToAddress(windowParameters.x, rowStartingOpacity))
+    lda #>(VDC_RowColToAddress(position.x, rowStartingOpacity))
     sta VDC_Poke.address + 1
 
     ldx #rowsOpacity
   !NewRow:
 
-    ldy #windowParameters.width - 3
+    ldy #size.width - 3
   !:
     c128lib_inc16(VDC_Poke.address)
 
@@ -245,7 +235,7 @@
     dey
     bne !-
 
-    c128lib_add16(80 - windowParameters.width + 3, VDC_Poke.address)
+    c128lib_add16(80 - size.width + 3, VDC_Poke.address)
 
     dex
     bne !NewRow-
@@ -256,6 +246,9 @@
 /**
   Draws a window in Vdc screen with specific color
 
+  @param[in] position Starting (x,y) position window
+  @param[in] size Window (x,y) size
+  @param[in] windowTitle Defines window title
   @param[in] windowParameters Defines window parameters
   @param[in] color Defines which color to use
 
@@ -268,48 +261,44 @@
 
   @since 0.2.0
 */
-.macro WindowWithColor(windowParameters, color) {
+.macro WindowWithColor(position, size, windowTitle, windowParameters, color) {
 #if !VDC_CREATEWINDOW
     .error "You should use #define VDC_CREATEWINDOW"
 #else
-    Window(windowParameters)
+    Window(position, size, windowTitle, windowParameters)
 
     // Set window border color
     BorderColor(
-      windowParameters.x,
-      windowParameters.y,
-      windowParameters.width,
-      windowParameters.height,
+      Point(position.x, position.y),
+      Size(size.width, size.height),
       color)
 
-  .var rowStartingOpacity = windowParameters.y + 2
-  .var rowsOpacity = windowParameters.height - 4
+  .var rowStartingOpacity = position.y + 2
+  .var rowsOpacity = size.height - 3
 
   // Set window title color if needed
-  .if (windowParameters.windowTitle.length > 0) {
-    Color(
-      windowParameters.x + 2,
-      windowParameters.y + 1,
+  .if (windowTitle.length > 0) {
+    Color(Point(position.x + 2, position.y + 1),
       color,
-      windowParameters.windowTitle.length)
+      windowTitle.length)
   } else {
-    .eval rowStartingOpacity = windowParameters.y + 1
-    .eval rowsOpacity = windowParameters.height - 3
+    .eval rowStartingOpacity = position.y + 1
+    .eval rowsOpacity = size.height - 2
   }
 
   // Set window background color if needed
   .if (windowParameters.isOpaque) {
     lda #color
     sta VDC_Poke.value
-    lda #<(VDC_RowColToAttributeAddress(windowParameters.x, rowStartingOpacity))
+    lda #<(VDC_RowColToAttributeAddress(position.x, rowStartingOpacity))
     sta VDC_Poke.address
-    lda #>(VDC_RowColToAttributeAddress(windowParameters.x, rowStartingOpacity))
+    lda #>(VDC_RowColToAttributeAddress(position.x, rowStartingOpacity))
     sta VDC_Poke.address + 1
 
     ldx #rowsOpacity
   !NewRow:
 
-    ldy #windowParameters.width - 3
+    ldy #size.width - 3
   !:
     c128lib_inc16(VDC_Poke.address)
 
@@ -317,7 +306,7 @@
     dey
     bne !-
 
-    c128lib_add16(80 - windowParameters.width + 3, VDC_Poke.address)
+    c128lib_add16(80 - size.width + 3, VDC_Poke.address)
 
     dex
     bne !NewRow-
@@ -325,20 +314,22 @@
 #endif
 }
 
-.macro BorderColor(x, y, width, height, color) {
+.macro BorderColor(position, size, color) {
 #if !VDC_CREATEWINDOW
     .error "You should use #define VDC_CREATEWINDOW"
 #else
     lda #color
     sta VDC_Poke.value
 
-    lda #<(VDC_RowColToAttributeAddress(x, y))
+    // Set x,y color
+    lda #<(VDC_RowColToAttributeAddress(position.x, position.y))
     sta VDC_Poke.address
-    lda #>(VDC_RowColToAttributeAddress(x, y))
+    lda #>(VDC_RowColToAttributeAddress(position.x, position.y))
     sta VDC_Poke.address + 1
     jsr VDC_Poke
 
-    ldy #height - 2
+    // Set left border up to last row
+    ldy #size.height - 1
   !:
     c128lib_add16(80, VDC_Poke.address)
 
@@ -346,7 +337,8 @@
     dey
     bne !-
 
-    ldy #width-2
+    // Set bottom border color
+    ldy #size.width - 2
   !:
     c128lib_inc16(VDC_Poke.address)
 
@@ -354,7 +346,8 @@
     dey
     bne !-
 
-    ldy #height - 2
+    // Set right border up to first row
+    ldy #size.height - 1
   !:
     c128lib_sub16(80, VDC_Poke.address)
 
@@ -362,7 +355,7 @@
     dey
     bne !-
 
-    ldy #width-3
+    ldy #size.width - 3
   !:
     c128lib_dec16(VDC_Poke.address)
 
@@ -372,27 +365,11 @@
 #endif
 }
 
-
-
-// .asserterror "CreateWindow(-1, 1, 20, 10)", { CreateWindow(-1, 1, 20, 10) }
-// .asserterror "CreateWindow(1, -1, 20, 10)", { CreateWindow(1, -1, 20, 10) }
-// .asserterror "CreateWindow(1, 1, 0, 10)", { CreateWindow(1, 1, 0, 10) }
-// .asserterror "CreateWindow(1, 1, 20, 0)", { CreateWindow(1, 1, 20, 0) }
-// .asserterror "CreateWindow(79, 1, 20, 10)", { CreateWindow(79, 1, 20, 10) }
-// .asserterror "CreateWindow(1, 24, 20, 10)", { CreateWindow(1, 24, 20, 10) }
-// .asserterror "CreateWindow(50, 4, 31, 10)", { CreateWindow(50, 4, 31, 10) }
-// .asserterror "CreateWindow(10, 4, 31, 22)", { CreateWindow(10, 4, 31, 22) }
-
-// .asserterror "CreateWindowWithTitle(50, 1, 20, 10, $beef, 0)", { CreateWindowWithTitle(50, 1, 20, 10, $beef, 0) }
-// .asserterror "CreateWindowWithTitle(50, 1, 20, 10, $beef, 19)", { CreateWindowWithTitle(50, 1, 20, 10, $beef, 19) }
-
 /**
   Print a label at coordinates
 
-  @param[in] x Starting column
-  @param[in] y Starting row
-  @param[in] text Label string address
-  @param[in] length Label string length
+  @param[in] position Starting (x, y) position
+  @param[in] label Label definition
 
   @remark Register .A, .X and .Y will be modified.
   Flags N, Z and C will be affected.
@@ -401,19 +378,18 @@
 
   @since 0.2.0
 */
-.macro Label(x, y, text, length) {
-    .errorif (x < 0), "X must be greater than 0"
-    .errorif (y < 0), "Y must be greater than 0"
-    c128lib_WriteToVdcMemoryByCoordinates(text, x, y, length)
+.macro Label(position, label) {
+    .errorif (position.x < 0), "X must be greater than 0"
+    .errorif (position.y < 0), "Y must be greater than 0"
+    c128lib_WriteToVdcMemoryByCoordinates(label.label, position.x, position.y, label.length)
 }
-.asserterror "Label(-1, 1, $beef, 10)", { Label(-1, 1, $beef, 10) }
-.asserterror "Label(1, -1, $beef, 10)", { Label(1, -1, $beef, 10) }
+.asserterror "Label(Point(-1, 1), $beef, 10)", { Label(Point(-1, 1), $beef, 10) }
+.asserterror "Label(Point(1, -1), $beef, 10)", { Label(Point(1, -1), $beef, 10) }
 
 /**
   Set color in attribute memory for specified coordinates
 
-  @param[in] x Starting column
-  @param[in] y Starting row
+  @param[in] position Coloring (x,y) starting position
   @param[in] color Vdc color code and attribute
   @param[in] length Label string length
 
@@ -424,16 +400,15 @@
 
   @since 0.2.0
 */
-.macro Color(x, y, color, length) {
+.macro Color(position, color, length) {
 #if !VDC_CREATEWINDOW
     .error "You should use #define VDC_CREATEWINDOW"
 #else
-    c128lib_PositionAttrXy(x, y)
     lda #color
     sta VDC_Poke.value
-    lda #<(VDC_RowColToAttributeAddress(x - 1, y))
+    lda #<(VDC_RowColToAttributeAddress(position.x - 1, position.y))
     sta VDC_Poke.address
-    lda #>(VDC_RowColToAttributeAddress(x - 1, y))
+    lda #>(VDC_RowColToAttributeAddress(position.x - 1, position.y))
     sta VDC_Poke.address + 1
     ldy #length
   !:
@@ -448,10 +423,8 @@
 /**
   Print a label at coordinates with specified color
 
-  @param[in] x Starting column
-  @param[in] y Starting row
-  @param[in] text Label string address
-  @param[in] length Label string length
+  @param[in] position Starting (x, y) label position
+  @param[in] label Label definition
   @param[in] color Vdc color code and attribute
 
   @remark Register .A, .X and .Y will be modified.
@@ -461,14 +434,15 @@
 
   @since 0.2.0
 */
-.macro LabelWithColor(x, y, text, length, color) {
-    Label(x, y, text, length)
-    Color(x, y, color, length)
+.macro LabelWithColor(position, label, color) {
+    Label(position, label)
+    Color(position, color, label.length)
 }
 
 /**
   Prints a progress bar at coordinates
 
+  @param[in] position Starting (x, y) progress bar position
   @param[in] progressBarParameters Defines progress bar parameters
 
   @remark Register .A, .X and .Y will be modified.
@@ -478,15 +452,15 @@
 
   @since 0.2.0
 */
-.macro ProgressBar(progressBarParameters) {
-    .errorif (progressBarParameters.x < 0), "X must be greater than 0"
-    .errorif (progressBarParameters.y < 0), "Y must be greater than 0"
+.macro ProgressBar(position, progressBarParameters) {
+    .errorif (position.x < 0), "X must be greater than 0"
+    .errorif (position.y < 0), "Y must be greater than 0"
     .errorif (progressBarParameters.width < 2), "Width must be greater than 2"
     .errorif (progressBarParameters.steps < 2), "Step must be greater or equal to 2"
     .errorif (progressBarParameters.position < 1), "Position must be greater or equal to 1"
     .errorif (progressBarParameters.position > progressBarParameters.steps), "Position must be lower or equal to step"
-    .errorif (progressBarParameters.x > 78), "X must be lower than 78"
-    .errorif (progressBarParameters.y > 24), "Y must be lower than 25"
+    .errorif (position.x > 78), "X must be lower than 78"
+    .errorif (position.y > 24), "Y must be lower than 25"
     .errorif (progressBarParameters.x + progressBarParameters.width > 80), "Right window boundary must be lower than 80"
 
 #if !VDC_CREATEWINDOW
@@ -500,9 +474,9 @@
     .eval progressBarStyleNow = ProgressBarStyle(61, 45, 81, 87)
   }
 
-    lda #<(VDC_RowColToAddress(progressBarParameters.x, progressBarParameters.y))
+    lda #<(VDC_RowColToAddress(position.x, position.y))
     sta VDC_Poke.address
-    lda #>(VDC_RowColToAddress(progressBarParameters.x, progressBarParameters.y))
+    lda #>(VDC_RowColToAddress(position.x, position.y))
     sta VDC_Poke.address + 1
 
     .var lineEdge = round((progressBarParameters.width / (progressBarParameters.steps - 1)) * (progressBarParameters.position - 1))
@@ -510,7 +484,7 @@
     .if (lineEdge >= 1) {
       lda #progressBarStyleNow.lineBeforeStep
       sta VDC_Poke.value
-      ldy #lineEdge-1
+      ldy #lineEdge - 1
     !:
       c128lib_inc16(VDC_Poke.address)
       jsr VDC_Poke
@@ -536,11 +510,11 @@
     .for (var i = 0; i < progressBarParameters.position; i++) {
       .var stepCount = (progressBarParameters.width / (progressBarParameters.steps - 1)) * i
 
-      lda #<(VDC_RowColToAddress(stepCount + progressBarParameters.x, progressBarParameters.y))
+      lda #<(VDC_RowColToAddress(stepCount + position.x, position.y))
       sta VDC_Poke.address
-      lda #>(VDC_RowColToAddress(stepCount + progressBarParameters.x, progressBarParameters.y))
+      lda #>(VDC_RowColToAddress(stepCount + position.x, position.y))
       sta VDC_Poke.address + 1
-      
+
       jsr VDC_Poke
     }
 
@@ -548,12 +522,12 @@
     sta VDC_Poke.value
     .for (var i = progressBarParameters.position; i < progressBarParameters.steps; i++) {
       .var stepCount = (progressBarParameters.width / (progressBarParameters.steps - 1)) * i
-      
-      lda #<(VDC_RowColToAddress(stepCount + progressBarParameters.x, progressBarParameters.y))
+
+      lda #<(VDC_RowColToAddress(stepCount + position.x, position.y))
       sta VDC_Poke.address
-      lda #>(VDC_RowColToAddress(stepCount + progressBarParameters.x, progressBarParameters.y))
+      lda #>(VDC_RowColToAddress(stepCount + position.x, position.y))
       sta VDC_Poke.address + 1
-      
+
       jsr VDC_Poke
     }
 #endif
@@ -562,7 +536,8 @@
 /**
   Print a button at coordinates
 
-  @param[in] buttonParameters Defines button parameters
+  @param[in] position Button (x,y) position
+  @param[in] label Button label definition
 
   @remark Register .A, .X and .Y will be modified.
   Flags N, Z and C will be affected.
@@ -571,21 +546,22 @@
 
   @since 0.2.0
 */
-.macro Button(buttonParameters) {
-    .errorif (buttonParameters.x + buttonParameters.windowTitle.length + 3 > 80), "Button right border must be lower than 80"
+.macro Button(position, label) {
+    .errorif (position.x + label.length + 3 > 80), "Button right border must be lower than 80"
 
     Window(
+      position,
+      Size(label.length + 5, 3),
+      LabelText(label.title, label.length),
       WindowParameters(
-        buttonParameters.x, buttonParameters.y,
-        buttonParameters.windowTitle.length + 5, 3,
-        WindowTitle(buttonParameters.windowTitle.title, buttonParameters.windowTitle.length),
         WindowBorders(), false))
 }
 
 /**
   Print a slim button at coordinates. It's a single line button instead of three.
 
-  @param[in] buttonParameters Defines slim button parameters
+  @param[in] position Button (x,y) position
+  @param[in] label Button label definition
 
   @remark Register .A, .X and .Y will be modified.
   Flags N, Z and C will be affected.
@@ -594,13 +570,13 @@
 
   @since 0.2.0
 */
-.macro SlimButton(buttonParameters) {
-    .errorif (buttonParameters.x + buttonParameters.windowTitle.length + 3 > 80), "Button right border must be lower than 80"
+.macro SlimButton(position, label) {
+    .errorif (position.x + label.length + 3 > 80), "Button right border must be lower than 80"
 
 #define VDC_POKE
-    lda #<(VDC_RowColToAddress(buttonParameters.x, buttonParameters.y))
+    lda #<(VDC_RowColToAddress(position.x, position.y))
     sta VDC_Poke.address
-    lda #>(VDC_RowColToAddress(buttonParameters.x, buttonParameters.y))
+    lda #>(VDC_RowColToAddress(position.x, position.y))
     sta VDC_Poke.address + 1
 
     lda #27
@@ -610,11 +586,10 @@
     lda #32
     sta VDC_Poke.value
     jsr VDC_Poke
-    Label(buttonParameters.x+2, buttonParameters.y,
-      buttonParameters.windowTitle.title, buttonParameters.windowTitle.length);
-    lda #<(VDC_RowColToAddress(buttonParameters.x + buttonParameters.windowTitle.length + 2, buttonParameters.y))
+    Label(Point(position.x+2, position.y), label);
+    lda #<(VDC_RowColToAddress(position.x + label.length + 2, position.y))
     sta VDC_Poke.address
-    lda #>(VDC_RowColToAddress(buttonParameters.x + buttonParameters.windowTitle.length + 2, buttonParameters.y))
+    lda #>(VDC_RowColToAddress(position.x + label.length + 2, position.y))
     sta VDC_Poke.address + 1
     lda #32
     sta VDC_Poke.value
