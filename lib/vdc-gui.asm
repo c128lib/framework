@@ -556,6 +556,7 @@
       WindowParameters(
         WindowBorders(), false))
 }
+.asserterror "Button(Point(60, 1), LabelText($beef, 18))", { Button(Point(60, 1), LabelText($beef, 18)) }
 
 /**
   Print a slim button at coordinates. It's a single line button instead of three.
@@ -571,7 +572,7 @@
   @since 0.2.0
 */
 .macro SlimButton(position, label) {
-    .errorif (position.x + label.length + 3 > 80), "Button right border must be lower than 80"
+    .errorif (position.x + label.length + 3 > 80), "SlimButton right border must be lower than 80"
 
 #define VDC_POKE
     lda #<(VDC_RowColToAddress(position.x, position.y))
@@ -599,6 +600,7 @@
     sta VDC_Poke.value
     jsr VDC_Poke
 }
+.asserterror "SlimButton(Point(60, 1), LabelText($beef, 18))", { SlimButton(Point(60, 1), LabelText($beef, 18)) }
 
 /* Function returns a VDC memory address for a given row and column */
 .function VDC_RowColToAddress(x, y) {
