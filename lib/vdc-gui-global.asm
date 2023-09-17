@@ -31,15 +31,15 @@
 /**
   Draws a window in Vdc screen
 
-  @param[in] position Starting (x,y) position window
-  @param[in] size Window (x,y) size
-  @param[in] windowTitle Defines window title
-  @param[in] windowParameters Defines window parameters
-
-  @see WindowParameters
+  @param[in] position Point struct for window starting position
+  @param[in] size Size struct for window size
+  @param[in] windowTitle LabelText struct for window title definition
+  @param[in] windowParameters WindowParameters for detailed window parameters definition
 
   @remark Register .A, .X and .Y will be modified.
   Flags N, Z and C will be affected.
+
+  @see Point, Size, LabelText, WindowParameters
 
   @code
     c128lib_Window(
@@ -70,16 +70,16 @@
 /**
   Draws a window in Vdc screen with specific color
 
-  @param[in] position Starting (x,y) position window
-  @param[in] size Window (x,y) size
-  @param[in] windowTitle Defines window title
-  @param[in] windowParameters Defines window parameters
+  @param[in] position Point struct for window starting position
+  @param[in] size Size struct for window size
+  @param[in] windowTitle LabelText struct for window title definition
+  @param[in] windowParameters WindowParameters for detailed window parameters definition
   @param[in] color Defines which color to use
-
-  @see WindowParameters
 
   @remark Register .A, .X and .Y will be modified.
   Flags N, Z and C will be affected.
+
+  @see Point, Size, LabelText, WindowParameters
 
   @note Use colors defined in chipset/Vdc
 
@@ -116,11 +116,13 @@
 /**
   Print a label at coordinates
 
-  @param[in] position Starting (x, y) label position
-  @param[in] label Label definition
+  @param[in] position Point struct for label position
+  @param[in] label LabelText struct for label definition
 
   @remark Register .A, .X and .Y will be modified.
   Flags N, Z and C will be affected.
+
+  @see Point, LabelText
 
   @since 0.2.0
 */
@@ -128,12 +130,16 @@
 /**
   Set color in attribute memory for specified coordinates
 
-  @param[in] position Coloring (x,y) starting position
+  @param[in] position Point struct for coloring starting position
   @param[in] color Vdc color code and attribute
-  @param[in] length Label string length
+  @param[in] length Coloring length
 
   @remark Register .A, .X and .Y will be modified.
   Flags N, Z and C will be affected.
+
+  @see Point
+
+  @note Use colors defined in chipset/Vdc
 
   @since 0.2.0
 */
@@ -141,12 +147,16 @@
 /**
   Print a label at coordinates with specified color
 
-  @param[in] position Starting (x, y) label position
-  @param[in] label Label definition
+  @param[in] position Point struct for label position
+  @param[in] label LabelText struct for label definition
   @param[in] color Vdc color code and attribute
 
   @remark Register .A, .X and .Y will be modified.
   Flags N, Z and C will be affected.
+
+  @note Use colors defined in chipset/Vdc
+
+  @see Point, LabelText
 
   @since 0.2.0
 */
@@ -155,13 +165,14 @@
 /**
   Prints a progress bar at coordinates
 
-  @param[in] position Starting (x, y) progress bar position
-  @param[in] progressBarParameters Defines progress bar parameters
+  @param[in] position Point struct for progress bar starting position
+  @param[in] progressBarParameters ProgressBarParameters struct for
+  progress bar parameters
 
   @remark Register .A, .X and .Y will be modified.
   Flags N, Z and C will be affected.
 
-  @see ProgressBarParameters
+  @see Point, ProgressBarParameters
 
   @code
     c128lib_ProgressBar(
@@ -190,11 +201,13 @@
 /**
   Print a button at coordinates
 
-  @param[in] position Button (x,y) position
-  @param[in] label Button label definition
+  @param[in] position Point struct for button position
+  @param[in] label LabelText for label definition
 
   @remark Register .A, .X and .Y will be modified.
   Flags N, Z and C will be affected.
+
+  @see Point, LabelText
 
   @code
     c128lib_Button(
@@ -211,11 +224,13 @@
 /**
   Print a slim button at coordinates. It's a single line button instead of three.
 
-  @param[in] position Button (x,y) position
-  @param[in] label Button label definition
+  @param[in] position Point struct for slim button position
+  @param[in] label LabelText for label definition
 
   @remark Register .A, .X and .Y will be modified.
   Flags N, Z and C will be affected.
+
+  @see Point, LabelText
 
   @code
     c128lib_SlimButton(

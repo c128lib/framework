@@ -32,12 +32,13 @@
 }
 
 /**
-  Struct for defining window creation parametes
+  Struct for defining window creation parametes.
+  @see WindowBorders
 */
 .struct @WindowParameters {
   /** Custom border style definition */
   borderStyle,
-  /** Windows opacity control */
+  /** Windows opacity control, true means opaque window */
   isOpaque
 }
 
@@ -46,28 +47,54 @@
   creation macro will use a default charset.
 */
 .struct @WindowBorders {
-  TopLeft, Left, BottomLeft, Bottom, BottomRight, Right, TopRight, Top
+  /** Top left border */
+  TopLeft,
+  /** Left border */
+  Left,
+  /** Bottom left border */
+  BottomLeft,
+  /** Bottom border */
+  Bottom,
+  /** Bottom right border */
+  BottomRight,
+  /** Right border */
+  Right,
+  /** Top right border */
+  TopRight,
+  /** Top border */
+  Top
 }
 
 /**
-  Struct for defining window creation parametes. If no title is required,
-  length must be 0.
+  Struct for defining window creation parametes.
+  @todo Move to generic namespace
 */
 .struct @LabelText {
-  label, length
+  /** Address of label */
+  label,
+  /** Label length */
+  length
 }
 
+/**
+  Struct for defining progress bar parameters.
+  @see ProgressBarStyle
+*/
 .struct @ProgressBarParameters {
   /** Progressbar width */
   width,
-  /** Steps count (included starting and ending step) */
+  /** Steps count (included starting and ending step), should be greather
+  or equal to 2 */
   steps,
-  /** Current progress position */
+  /** Current progress position, should be lower than steps */
   position,
   /** Progressbar border style */
   progressBarStyle
 }
 
+/**
+  Struct for defining progress bar style.
+*/
 .struct @ProgressBarStyle {
   /** Char used for line before step*/
   lineBeforeStep,
@@ -79,6 +106,10 @@
   pointAfterStep
 }
 
+/**
+  Struct for defining a point in the screen.
+  @todo Move to generic namespace
+*/
 .struct @Point {
   /** Column value */
   x,
@@ -86,6 +117,10 @@
   y
 }
 
+/**
+  Struct for defining a size.
+  @todo Move to generic namespace
+*/
 .struct @Size {
   /** Control width */
   width,
@@ -96,13 +131,15 @@
 /**
   Draws a window in Vdc screen
 
-  @param[in] position Starting (x,y) position window
-  @param[in] size Window (x,y) size
-  @param[in] windowTitle Defines window title
-  @param[in] windowParameters Defines window parameters
+  @param[in] position Point struct for window starting position
+  @param[in] size Size struct for window size
+  @param[in] windowTitle LabelText struct for window title definition
+  @param[in] windowParameters WindowParameters for detailed window parameters definition
 
   @remark Register .A, .X and .Y will be modified.
   Flags N, Z and C will be affected.
+
+  @see Point, Size, LabelText, WindowParameters
 
   @note Use c128lib_CreateWindow in vdc-gui-global.asm
 
@@ -246,14 +283,16 @@
 /**
   Draws a window in Vdc screen with specific color
 
-  @param[in] position Starting (x,y) position window
-  @param[in] size Window (x,y) size
-  @param[in] windowTitle Defines window title
-  @param[in] windowParameters Defines window parameters
+  @param[in] position Point struct for window starting position
+  @param[in] size Size struct for window size
+  @param[in] windowTitle LabelText struct for window title definition
+  @param[in] windowParameters WindowParameters for detailed window parameters definition
   @param[in] color Defines which color to use
 
   @remark Register .A, .X and .Y will be modified.
   Flags N, Z and C will be affected.
+
+  @see Point, Size, LabelText, WindowParameters
 
   @note Use colors defined in chipset/Vdc
 
@@ -368,11 +407,13 @@
 /**
   Print a label at coordinates
 
-  @param[in] position Starting (x, y) position
-  @param[in] label Label definition
+  @param[in] position Point struct for label position
+  @param[in] label LabelText struct for label definition
 
   @remark Register .A, .X and .Y will be modified.
   Flags N, Z and C will be affected.
+
+  @see Point, LabelText
 
   @note Use c128lib_Label in vdc-gui-global.asm
 
@@ -389,12 +430,16 @@
 /**
   Set color in attribute memory for specified coordinates
 
-  @param[in] position Coloring (x,y) starting position
+  @param[in] position Point struct for coloring starting position
   @param[in] color Vdc color code and attribute
-  @param[in] length Label string length
+  @param[in] length Coloring length
 
   @remark Register .A, .X and .Y will be modified.
   Flags N, Z and C will be affected.
+
+  @see Point
+
+  @note Use colors defined in chipset/Vdc
 
   @note Use c128lib_Color in vdc-gui-global.asm
 
@@ -423,12 +468,16 @@
 /**
   Print a label at coordinates with specified color
 
-  @param[in] position Starting (x, y) label position
-  @param[in] label Label definition
+  @param[in] position Point struct for label position
+  @param[in] label LabelText struct for label definition
   @param[in] color Vdc color code and attribute
 
   @remark Register .A, .X and .Y will be modified.
   Flags N, Z and C will be affected.
+
+  @see Point, LabelText
+
+  @note Use colors defined in chipset/Vdc
 
   @note Use c128lib_LabelWithColor in vdc-gui-global.asm
 
@@ -442,11 +491,14 @@
 /**
   Prints a progress bar at coordinates
 
-  @param[in] position Starting (x, y) progress bar position
-  @param[in] progressBarParameters Defines progress bar parameters
+  @param[in] position Point struct for progress bar starting position
+  @param[in] progressBarParameters ProgressBarParameters struct for
+  progress bar parameters
 
   @remark Register .A, .X and .Y will be modified.
   Flags N, Z and C will be affected.
+
+  @see Point, ProgressBarParameters
 
   @note Use c128lib_ProgressBar in vdc-gui-global.asm
 
@@ -536,11 +588,13 @@
 /**
   Print a button at coordinates
 
-  @param[in] position Button (x,y) position
-  @param[in] label Button label definition
+  @param[in] position Point struct for button position
+  @param[in] label LabelText for label definition
 
   @remark Register .A, .X and .Y will be modified.
   Flags N, Z and C will be affected.
+
+  @see Point, LabelText
 
   @note Use c128lib_Button in vdc-gui-global.asm
 
@@ -561,11 +615,13 @@
 /**
   Print a slim button at coordinates. It's a single line button instead of three.
 
-  @param[in] position Button (x,y) position
-  @param[in] label Button label definition
+  @param[in] position Point struct for slim button position
+  @param[in] label LabelText for label definition
 
   @remark Register .A, .X and .Y will be modified.
   Flags N, Z and C will be affected.
+
+  @see Point, LabelText
 
   @note Use c128lib_SlimButton in vdc-gui-global.asm
 
