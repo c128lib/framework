@@ -1,12 +1,14 @@
 var vdc_gui_8asm =
 [
-    [ "Window", "vdc-gui_8asm.html#a8f610d016ae41d6c608f3659527d5b84", null ],
-    [ "WindowWithColor", "vdc-gui_8asm.html#a3348606b48043468cb5944e550346682", null ],
-    [ "BorderColor", "vdc-gui_8asm.html#a017cfc9362421c191d41dc73afbfbef6", null ],
-    [ "Label", "vdc-gui_8asm.html#ac7a47e167a173a24f06d4e88aa2043c6", null ],
-    [ "Color", "vdc-gui_8asm.html#a71c5bf9d1030ba117c47f01eed9adcda", null ],
-    [ "LabelWithColor", "vdc-gui_8asm.html#a2b25a0313782fcb2cf1a0d86f3715564", null ],
-    [ "ProgressBar", "vdc-gui_8asm.html#a15d30d0f40289c443dcae6edfc8967de", null ],
+    [ "Window", "vdc-gui_8asm.html#af297fe6f9dac3a7bd8ec468edbb44bc3", null ],
+    [ "WindowWithColor", "vdc-gui_8asm.html#adbdbd16b4d136084bc1d1043ee967032", null ],
+    [ "BorderColor", "vdc-gui_8asm.html#aaf3dcbb91d1768fe53399d1a8bc49a34", null ],
+    [ "Label", "vdc-gui_8asm.html#a7b297856dd743eab5e9d02609d30ac6d", null ],
+    [ "Color", "vdc-gui_8asm.html#ac11614684255c9b35ee0702b374ade33", null ],
+    [ "LabelWithColor", "vdc-gui_8asm.html#a949fe796ca5ae93e3a5bdffcc795c638", null ],
+    [ "ProgressBar", "vdc-gui_8asm.html#a9fea9dfb9614a3653ee8315d4ebf4f99", null ],
+    [ "Button", "vdc-gui_8asm.html#a4c7386a74db160da18cc643a1ae207d7", null ],
+    [ "SlimButton", "vdc-gui_8asm.html#ac8a1819d1178c71b4dc309a94af5e091", null ],
     [ "VDC_RowColToAddress", "vdc-gui_8asm.html#aec747bb78ac159f14ceb15a28ca47974", null ],
     [ "VDC_RowColToAttributeAddress", "vdc-gui_8asm.html#a6dfedbcf871972391bd3cf248c5f3335", null ]
 ];
