@@ -156,15 +156,15 @@ Functions</h2></td></tr>
 <p>Draws a window in Vdc screen</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td>Starting (x,y) position window </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>Window (x,y) size </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">windowTitle</td><td>Defines window title </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">windowParameters</td><td>Defines window parameters</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td>Point struct for window starting position </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>Size struct for window size </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">windowTitle</td><td>LabelText struct for window title definition </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">windowParameters</td><td>WindowParameters for detailed window parameters definition</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd>WindowParameters</dd></dl>
 <dl class="section remark"><dt>Remarks</dt><dd>Register .A, .X and .Y will be modified. Flags N, Z and C will be affected.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd>Point, Size, LabelText, WindowParameters</dd></dl>
 <div class="fragment"><div class="line"><a class="code hl_function" href="vdc-gui-global_8asm.html#a3b8fa09376ebd4b72d4fa8448bc73a00">c128lib_Window</a>(</div>
 <div class="line">  Point(10, 3),</div>
 <div class="line">  Size(20, 10),</div>
@@ -231,16 +231,16 @@ Functions</h2></td></tr>
 <p>Draws a window in Vdc screen with specific color</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td>Starting (x,y) position window </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>Window (x,y) size </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">windowTitle</td><td>Defines window title </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">windowParameters</td><td>Defines window parameters </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td>Point struct for window starting position </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>Size struct for window size </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">windowTitle</td><td>LabelText struct for window title definition </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">windowParameters</td><td>WindowParameters for detailed window parameters definition </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">color</td><td>Defines which color to use</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd>WindowParameters</dd></dl>
 <dl class="section remark"><dt>Remarks</dt><dd>Register .A, .X and .Y will be modified. Flags N, Z and C will be affected.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd>Point, Size, LabelText, WindowParameters</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>Use colors defined in chipset/Vdc</dd></dl>
 <div class="fragment"><div class="line"><a class="code hl_function" href="vdc-gui-global_8asm.html#a8031fb88555515c8553515aaa650b4ee">c128lib_WindowWithColor</a>(</div>
 <div class="line">  Point(10, 3),</div>
@@ -293,12 +293,13 @@ Functions</h2></td></tr>
 <p>Print a label at coordinates;</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td>Starting (x, y) label position; </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">label</td><td>Label definition;</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td>Point struct for label position; </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">label</td><td>LabelText struct for label definition;</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section remark"><dt>Remarks</dt><dd>Register .A, .X and .Y will be modified. Flags N, Z and C will be affected.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd>Point, LabelText</dd></dl>
 <dl class="section since"><dt>Since</dt><dd>0.2.0 </dd></dl>
 
 </div>
@@ -337,13 +338,15 @@ Functions</h2></td></tr>
 <p>Set color in attribute memory for specified coordinates</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td>Coloring (x,y) starting position </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td>Point struct for coloring starting position </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">color</td><td>Vdc color code and attribute </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">length</td><td>Label string length</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">length</td><td>Coloring length</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section remark"><dt>Remarks</dt><dd>Register .A, .X and .Y will be modified. Flags N, Z and C will be affected.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd>Point</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Use colors defined in chipset/Vdc</dd></dl>
 <dl class="section since"><dt>Since</dt><dd>0.2.0 </dd></dl>
 
 </div>
@@ -382,13 +385,15 @@ Functions</h2></td></tr>
 <p>Print a label at coordinates with specified color;</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td>Starting (x, y) label position; </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">label</td><td>Label definition; </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td>Point struct for label position; </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">label</td><td>LabelText struct for label definition; </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">color</td><td>Vdc color code and attribute</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section remark"><dt>Remarks</dt><dd>Register .A, .X and .Y will be modified. Flags N, Z and C will be affected.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Use colors defined in chipset/Vdc</dd></dl>
+<dl class="section see"><dt>See also</dt><dd>Point, LabelText</dd></dl>
 <dl class="section since"><dt>Since</dt><dd>0.2.0 </dd></dl>
 
 </div>
@@ -421,13 +426,13 @@ Functions</h2></td></tr>
 <p>Prints a progress bar at coordinates</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td>Starting (x, y) progress bar position </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">progressBarParameters</td><td>Defines progress bar parameters</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td>Point struct for progress bar starting position </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">progressBarParameters</td><td>ProgressBarParameters struct for progress bar parameters</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section remark"><dt>Remarks</dt><dd>Register .A, .X and .Y will be modified. Flags N, Z and C will be affected.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd>ProgressBarParameters</dd></dl>
+<dl class="section see"><dt>See also</dt><dd>Point, ProgressBarParameters</dd></dl>
 <div class="fragment"><div class="line"><a class="code hl_function" href="vdc-gui-global_8asm.html#a9d1c2e0e02c1519a4123f0aad9e81e70">c128lib_ProgressBar</a>(</div>
 <div class="line">  Point(0, 0),</div>
 <div class="line">  ProgressBarParameters(</div>
@@ -475,12 +480,13 @@ Functions</h2></td></tr>
 <p>Print a button at coordinates</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td>Button (x,y) position </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">label</td><td>Button label definition;</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td>Point struct for button position </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">label</td><td>LabelText for label definition;</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section remark"><dt>Remarks</dt><dd>Register .A, .X and .Y will be modified. Flags N, Z and C will be affected.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd>Point, LabelText</dd></dl>
 <div class="fragment"><div class="line"><a class="code hl_function" href="vdc-gui-global_8asm.html#afddeb2b61bd43489468e01179f1ac742">c128lib_Button</a>(</div>
 <div class="line">  Point(45, 9),</div>
 <div class="line">  ButtonParameters(</div>
@@ -519,12 +525,13 @@ Functions</h2></td></tr>
 <p>Print a slim button at coordinates. It's a single line button instead of three.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td>Button (x,y) position </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">label</td><td>Button label definition;</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td>Point struct for slim button position </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">label</td><td>LabelText for label definition;</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section remark"><dt>Remarks</dt><dd>Register .A, .X and .Y will be modified. Flags N, Z and C will be affected.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd>Point, LabelText</dd></dl>
 <div class="fragment"><div class="line"><a class="code hl_function" href="vdc-gui-global_8asm.html#a635900d4b12bce0de915d87006f86838">c128lib_SlimButton</a>(</div>
 <div class="line">  Point(45, 9),</div>
 <div class="line">  ButtonParameters(</div>
@@ -541,7 +548,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="vdc-gui-global_8asm.html">vdc-gui-global.asm</a></li>
-    <li class="footer">Generated on Sun Sep 17 2023 08:43:51 for c128lib Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Sun Sep 17 2023 20:32:59 for c128lib Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>
