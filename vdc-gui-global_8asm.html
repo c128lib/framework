@@ -156,29 +156,34 @@ Functions</h2></td></tr>
 <p>Draws a window in Vdc screen</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td>Point struct for window starting position </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>Size struct for window size </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">windowTitle</td><td>LabelText struct for window title definition </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">windowParameters</td><td>WindowParameters for detailed window parameters definition</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td><a class="el" href="structPoint.html">Point</a> struct for window starting position </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td><a class="el" href="structSize.html">Size</a> struct for window size </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">windowTitle</td><td><a class="el" href="structLabelText.html">LabelText</a> struct for window title definition </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">windowParameters</td><td><a class="el" href="structWindowParameters.html">WindowParameters</a> for detailed window parameters definition</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section remark"><dt>Remarks</dt><dd>Register .A, .X and .Y will be modified. Flags N, Z and C will be affected.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd>Point, Size, LabelText, WindowParameters</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structPoint.html">Point</a>, <a class="el" href="structSize.html">Size</a>, <a class="el" href="structLabelText.html">LabelText</a>, <a class="el" href="structWindowParameters.html">WindowParameters</a></dd></dl>
 <div class="fragment"><div class="line"><a class="code hl_function" href="vdc-gui-global_8asm.html#a3b8fa09376ebd4b72d4fa8448bc73a00">c128lib_Window</a>(</div>
-<div class="line">  Point(10, 3),</div>
-<div class="line">  Size(20, 10),</div>
-<div class="line">  WindowParameters(</div>
-<div class="line">    LabelText(Title, 15),   <span class="comment">// Set title</span></div>
-<div class="line">    WindowBorders(),        <span class="comment">// Use default borders</span></div>
+<div class="line">  <a class="code hl_struct" href="structPoint.html">Point</a>(10, 3),</div>
+<div class="line">  <a class="code hl_struct" href="structSize.html">Size</a>(20, 10),</div>
+<div class="line">  <a class="code hl_struct" href="structWindowParameters.html">WindowParameters</a>(</div>
+<div class="line">    <a class="code hl_struct" href="structLabelText.html">LabelText</a>(Title, 15),   <span class="comment">// Set title</span></div>
+<div class="line">    <a class="code hl_struct" href="structWindowBorders.html">WindowBorders</a>(),        <span class="comment">// Use default borders</span></div>
 <div class="line">    <span class="keyword">true</span>))                  <span class="comment">// Make window opaque</span></div>
-<div class="ttc" id="avdc-gui-global_8asm_html_a3b8fa09376ebd4b72d4fa8448bc73a00"><div class="ttname"><a href="vdc-gui-global_8asm.html#a3b8fa09376ebd4b72d4fa8448bc73a00">c128lib_Window</a></div><div class="ttdeci">macro c128lib_Window(position, size, windowTitle, windowParameters)</div></div>
+<div class="ttc" id="astructLabelText_html"><div class="ttname"><a href="structLabelText.html">LabelText</a></div><div class="ttdef"><b>Definition</b> vdc-gui.asm:70</div></div>
+<div class="ttc" id="astructPoint_html"><div class="ttname"><a href="structPoint.html">Point</a></div><div class="ttdef"><b>Definition</b> vdc-gui.asm:111</div></div>
+<div class="ttc" id="astructSize_html"><div class="ttname"><a href="structSize.html">Size</a></div><div class="ttdef"><b>Definition</b> vdc-gui.asm:122</div></div>
+<div class="ttc" id="astructWindowBorders_html"><div class="ttname"><a href="structWindowBorders.html">WindowBorders</a></div><div class="ttdef"><b>Definition</b> vdc-gui.asm:47</div></div>
+<div class="ttc" id="astructWindowParameters_html"><div class="ttname"><a href="structWindowParameters.html">WindowParameters</a></div><div class="ttdef"><b>Definition</b> vdc-gui.asm:36</div></div>
+<div class="ttc" id="avdc-gui-global_8asm_html_a3b8fa09376ebd4b72d4fa8448bc73a00"><div class="ttname"><a href="vdc-gui-global_8asm.html#a3b8fa09376ebd4b72d4fa8448bc73a00">c128lib_Window</a></div><div class="ttdeci">macro c128lib_Window(position, size, windowTitle, windowParameters)</div><div class="ttdef"><b>Definition</b> vdc-gui-global.asm:66</div></div>
 </div><!-- fragment --><div class="fragment"><div class="line"><a class="code hl_function" href="vdc-gui-global_8asm.html#a3b8fa09376ebd4b72d4fa8448bc73a00">c128lib_Window</a>(</div>
-<div class="line">  Point(10, 3),</div>
-<div class="line">  Size(20, 10),</div>
-<div class="line">  WindowParameters(</div>
-<div class="line">    LabelText(null, 0),     <span class="comment">// Don&#39;t set title</span></div>
-<div class="line">    WindowBorders(85, 66, 74, 67, 75, 66, 73, 67), <span class="comment">// Use custom chars for borders</span></div>
+<div class="line">  <a class="code hl_struct" href="structPoint.html">Point</a>(10, 3),</div>
+<div class="line">  <a class="code hl_struct" href="structSize.html">Size</a>(20, 10),</div>
+<div class="line">  <a class="code hl_struct" href="structWindowParameters.html">WindowParameters</a>(</div>
+<div class="line">    <a class="code hl_struct" href="structLabelText.html">LabelText</a>(null, 0),     <span class="comment">// Don&#39;t set title</span></div>
+<div class="line">    <a class="code hl_struct" href="structWindowBorders.html">WindowBorders</a>(85, 66, 74, 67, 75, 66, 73, 67), <span class="comment">// Use custom chars for borders</span></div>
 <div class="line">    <span class="keyword">false</span>))                 <span class="comment">// Make window transparent</span></div>
 </div><!-- fragment --><dl class="section attention"><dt>Attention</dt><dd>Don't overlap window with color and window without color. Strange color behavior occour.</dd></dl>
 <dl class="section since"><dt>Since</dt><dd>0.2.0 </dd></dl>
@@ -231,33 +236,33 @@ Functions</h2></td></tr>
 <p>Draws a window in Vdc screen with specific color</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td>Point struct for window starting position </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>Size struct for window size </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">windowTitle</td><td>LabelText struct for window title definition </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">windowParameters</td><td>WindowParameters for detailed window parameters definition </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td><a class="el" href="structPoint.html">Point</a> struct for window starting position </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td><a class="el" href="structSize.html">Size</a> struct for window size </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">windowTitle</td><td><a class="el" href="structLabelText.html">LabelText</a> struct for window title definition </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">windowParameters</td><td><a class="el" href="structWindowParameters.html">WindowParameters</a> for detailed window parameters definition </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">color</td><td>Defines which color to use</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section remark"><dt>Remarks</dt><dd>Register .A, .X and .Y will be modified. Flags N, Z and C will be affected.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd>Point, Size, LabelText, WindowParameters</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structPoint.html">Point</a>, <a class="el" href="structSize.html">Size</a>, <a class="el" href="structLabelText.html">LabelText</a>, <a class="el" href="structWindowParameters.html">WindowParameters</a></dd></dl>
 <dl class="section note"><dt>Note</dt><dd>Use colors defined in chipset/Vdc</dd></dl>
 <div class="fragment"><div class="line"><a class="code hl_function" href="vdc-gui-global_8asm.html#a8031fb88555515c8553515aaa650b4ee">c128lib_WindowWithColor</a>(</div>
-<div class="line">  Point(10, 3),</div>
-<div class="line">  Size(20, 10),</div>
-<div class="line">  WindowParameters(</div>
-<div class="line">    LabelText(Title, 15),   <span class="comment">// Set title</span></div>
-<div class="line">    WindowBorders(),        <span class="comment">// Use default borders</span></div>
+<div class="line">  <a class="code hl_struct" href="structPoint.html">Point</a>(10, 3),</div>
+<div class="line">  <a class="code hl_struct" href="structSize.html">Size</a>(20, 10),</div>
+<div class="line">  <a class="code hl_struct" href="structWindowParameters.html">WindowParameters</a>(</div>
+<div class="line">    <a class="code hl_struct" href="structLabelText.html">LabelText</a>(Title, 15),   <span class="comment">// Set title</span></div>
+<div class="line">    <a class="code hl_struct" href="structWindowBorders.html">WindowBorders</a>(),        <span class="comment">// Use default borders</span></div>
 <div class="line">    <span class="keyword">true</span>),                  <span class="comment">// Make window opaque</span></div>
 <div class="line">    c128lib.Vdc.VDC_LIGHT_YELLOW) <span class="comment">// Set color</span></div>
-<div class="ttc" id="avdc-gui-global_8asm_html_a8031fb88555515c8553515aaa650b4ee"><div class="ttname"><a href="vdc-gui-global_8asm.html#a8031fb88555515c8553515aaa650b4ee">c128lib_WindowWithColor</a></div><div class="ttdeci">macro c128lib_WindowWithColor(position, size, windowTitle, windowParameters, color)</div></div>
+<div class="ttc" id="avdc-gui-global_8asm_html_a8031fb88555515c8553515aaa650b4ee"><div class="ttname"><a href="vdc-gui-global_8asm.html#a8031fb88555515c8553515aaa650b4ee">c128lib_WindowWithColor</a></div><div class="ttdeci">macro c128lib_WindowWithColor(position, size, windowTitle, windowParameters, color)</div><div class="ttdef"><b>Definition</b> vdc-gui-global.asm:111</div></div>
 </div><!-- fragment --><div class="fragment"><div class="line"><a class="code hl_function" href="vdc-gui-global_8asm.html#a8031fb88555515c8553515aaa650b4ee">c128lib_WindowWithColor</a>(</div>
-<div class="line">  Point(10, 3),</div>
-<div class="line">  Size(20, 10),</div>
-<div class="line">  WindowParameters(</div>
+<div class="line">  <a class="code hl_struct" href="structPoint.html">Point</a>(10, 3),</div>
+<div class="line">  <a class="code hl_struct" href="structSize.html">Size</a>(20, 10),</div>
+<div class="line">  <a class="code hl_struct" href="structWindowParameters.html">WindowParameters</a>(</div>
 <div class="line">    10, 3, 20, 10,          <span class="comment">// Set window size</span></div>
-<div class="line">    LabelText(null, 0),     <span class="comment">// Don&#39;t set title</span></div>
-<div class="line">    WindowBorders(85, 66, 74, 67, 75, 66, 73, 67), <span class="comment">// Use custom chars for borders</span></div>
+<div class="line">    <a class="code hl_struct" href="structLabelText.html">LabelText</a>(null, 0),     <span class="comment">// Don&#39;t set title</span></div>
+<div class="line">    <a class="code hl_struct" href="structWindowBorders.html">WindowBorders</a>(85, 66, 74, 67, 75, 66, 73, 67), <span class="comment">// Use custom chars for borders</span></div>
 <div class="line">    <span class="keyword">false</span>),                 <span class="comment">// Make window transparent</span></div>
 <div class="line">    c128lib.Vdc.VDC_LIGHT_YELLOW) <span class="comment">// Set color</span></div>
 </div><!-- fragment --><dl class="section attention"><dt>Attention</dt><dd>Don't overlap window with color and window without color. Strange color behavior occour.</dd></dl>
@@ -293,13 +298,13 @@ Functions</h2></td></tr>
 <p>Print a label at coordinates;</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td>Point struct for label position; </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">label</td><td>LabelText struct for label definition;</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td><a class="el" href="structPoint.html">Point</a> struct for label position; </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">label</td><td><a class="el" href="structLabelText.html">LabelText</a> struct for label definition;</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section remark"><dt>Remarks</dt><dd>Register .A, .X and .Y will be modified. Flags N, Z and C will be affected.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd>Point, LabelText</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structPoint.html">Point</a>, <a class="el" href="structLabelText.html">LabelText</a></dd></dl>
 <dl class="section since"><dt>Since</dt><dd>0.2.0 </dd></dl>
 
 </div>
@@ -338,14 +343,14 @@ Functions</h2></td></tr>
 <p>Set color in attribute memory for specified coordinates</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td>Point struct for coloring starting position </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td><a class="el" href="structPoint.html">Point</a> struct for coloring starting position </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">color</td><td>Vdc color code and attribute </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">length</td><td>Coloring length</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section remark"><dt>Remarks</dt><dd>Register .A, .X and .Y will be modified. Flags N, Z and C will be affected.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd>Point</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structPoint.html">Point</a></dd></dl>
 <dl class="section note"><dt>Note</dt><dd>Use colors defined in chipset/Vdc</dd></dl>
 <dl class="section since"><dt>Since</dt><dd>0.2.0 </dd></dl>
 
@@ -385,15 +390,15 @@ Functions</h2></td></tr>
 <p>Print a label at coordinates with specified color;</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td>Point struct for label position; </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">label</td><td>LabelText struct for label definition; </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td><a class="el" href="structPoint.html">Point</a> struct for label position; </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">label</td><td><a class="el" href="structLabelText.html">LabelText</a> struct for label definition; </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">color</td><td>Vdc color code and attribute</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section remark"><dt>Remarks</dt><dd>Register .A, .X and .Y will be modified. Flags N, Z and C will be affected.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>Use colors defined in chipset/Vdc</dd></dl>
-<dl class="section see"><dt>See also</dt><dd>Point, LabelText</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structPoint.html">Point</a>, <a class="el" href="structLabelText.html">LabelText</a></dd></dl>
 <dl class="section since"><dt>Since</dt><dd>0.2.0 </dd></dl>
 
 </div>
@@ -426,27 +431,29 @@ Functions</h2></td></tr>
 <p>Prints a progress bar at coordinates</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td>Point struct for progress bar starting position </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">progressBarParameters</td><td>ProgressBarParameters struct for progress bar parameters</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td><a class="el" href="structPoint.html">Point</a> struct for progress bar starting position </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">progressBarParameters</td><td><a class="el" href="structProgressBarParameters.html">ProgressBarParameters</a> struct for progress bar parameters</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section remark"><dt>Remarks</dt><dd>Register .A, .X and .Y will be modified. Flags N, Z and C will be affected.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd>Point, ProgressBarParameters</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structPoint.html">Point</a>, <a class="el" href="structProgressBarParameters.html">ProgressBarParameters</a></dd></dl>
 <div class="fragment"><div class="line"><a class="code hl_function" href="vdc-gui-global_8asm.html#a9d1c2e0e02c1519a4123f0aad9e81e70">c128lib_ProgressBar</a>(</div>
-<div class="line">  Point(0, 0),</div>
-<div class="line">  ProgressBarParameters(</div>
+<div class="line">  <a class="code hl_struct" href="structPoint.html">Point</a>(0, 0),</div>
+<div class="line">  <a class="code hl_struct" href="structProgressBarParameters.html">ProgressBarParameters</a>(</div>
 <div class="line">    12,           <span class="comment">// Set progress bar width</span></div>
 <div class="line">    5, 2,         <span class="comment">// Set step count and current position</span></div>
-<div class="line">    ProgressBarStyle(58, 59, 87, 88)) <span class="comment">// Set custom style</span></div>
+<div class="line">    <a class="code hl_struct" href="structProgressBarStyle.html">ProgressBarStyle</a>(58, 59, 87, 88)) <span class="comment">// Set custom style</span></div>
 <div class="line">);</div>
-<div class="ttc" id="avdc-gui-global_8asm_html_a9d1c2e0e02c1519a4123f0aad9e81e70"><div class="ttname"><a href="vdc-gui-global_8asm.html#a9d1c2e0e02c1519a4123f0aad9e81e70">c128lib_ProgressBar</a></div><div class="ttdeci">macro c128lib_ProgressBar(position, progressBarParameters)</div></div>
+<div class="ttc" id="astructProgressBarParameters_html"><div class="ttname"><a href="structProgressBarParameters.html">ProgressBarParameters</a></div><div class="ttdef"><b>Definition</b> vdc-gui.asm:81</div></div>
+<div class="ttc" id="astructProgressBarStyle_html"><div class="ttname"><a href="structProgressBarStyle.html">ProgressBarStyle</a></div><div class="ttdef"><b>Definition</b> vdc-gui.asm:96</div></div>
+<div class="ttc" id="avdc-gui-global_8asm_html_a9d1c2e0e02c1519a4123f0aad9e81e70"><div class="ttname"><a href="vdc-gui-global_8asm.html#a9d1c2e0e02c1519a4123f0aad9e81e70">c128lib_ProgressBar</a></div><div class="ttdeci">macro c128lib_ProgressBar(position, progressBarParameters)</div><div class="ttdef"><b>Definition</b> vdc-gui-global.asm:196</div></div>
 </div><!-- fragment --><div class="fragment"><div class="line"><a class="code hl_function" href="vdc-gui-global_8asm.html#a9d1c2e0e02c1519a4123f0aad9e81e70">c128lib_ProgressBar</a>(</div>
-<div class="line">  Point(0, 3),</div>
-<div class="line">  ProgressBarParameters(</div>
+<div class="line">  <a class="code hl_struct" href="structPoint.html">Point</a>(0, 3),</div>
+<div class="line">  <a class="code hl_struct" href="structProgressBarParameters.html">ProgressBarParameters</a>(</div>
 <div class="line">    12,           <span class="comment">// Set progress bar position and width</span></div>
 <div class="line">    5, 4,         <span class="comment">// Set step count and current position</span></div>
-<div class="line">    ProgressBarStyle()) <span class="comment">// Set default style</span></div>
+<div class="line">    <a class="code hl_struct" href="structProgressBarStyle.html">ProgressBarStyle</a>()) <span class="comment">// Set default style</span></div>
 <div class="line">);</div>
 </div><!-- fragment --><dl class="section since"><dt>Since</dt><dd>0.2.0 </dd></dl>
 
@@ -480,19 +487,19 @@ Functions</h2></td></tr>
 <p>Print a button at coordinates</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td>Point struct for button position </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">label</td><td>LabelText for label definition;</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td><a class="el" href="structPoint.html">Point</a> struct for button position </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">label</td><td><a class="el" href="structLabelText.html">LabelText</a> for label definition;</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section remark"><dt>Remarks</dt><dd>Register .A, .X and .Y will be modified. Flags N, Z and C will be affected.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd>Point, LabelText</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structPoint.html">Point</a>, <a class="el" href="structLabelText.html">LabelText</a></dd></dl>
 <div class="fragment"><div class="line"><a class="code hl_function" href="vdc-gui-global_8asm.html#afddeb2b61bd43489468e01179f1ac742">c128lib_Button</a>(</div>
-<div class="line">  Point(45, 9),</div>
+<div class="line">  <a class="code hl_struct" href="structPoint.html">Point</a>(45, 9),</div>
 <div class="line">  ButtonParameters(</div>
-<div class="line">    LabelText(Title, 2)</div>
+<div class="line">    <a class="code hl_struct" href="structLabelText.html">LabelText</a>(Title, 2)</div>
 <div class="line">    ));</div>
-<div class="ttc" id="avdc-gui-global_8asm_html_afddeb2b61bd43489468e01179f1ac742"><div class="ttname"><a href="vdc-gui-global_8asm.html#afddeb2b61bd43489468e01179f1ac742">c128lib_Button</a></div><div class="ttdeci">macro c128lib_Button(position, label)</div></div>
+<div class="ttc" id="avdc-gui-global_8asm_html_afddeb2b61bd43489468e01179f1ac742"><div class="ttname"><a href="vdc-gui-global_8asm.html#afddeb2b61bd43489468e01179f1ac742">c128lib_Button</a></div><div class="ttdeci">macro c128lib_Button(position, label)</div><div class="ttdef"><b>Definition</b> vdc-gui-global.asm:219</div></div>
 </div><!-- fragment --><dl class="section since"><dt>Since</dt><dd>0.2.0 </dd></dl>
 
 </div>
@@ -525,19 +532,19 @@ Functions</h2></td></tr>
 <p>Print a slim button at coordinates. It's a single line button instead of three.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td>Point struct for slim button position </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">label</td><td>LabelText for label definition;</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td><a class="el" href="structPoint.html">Point</a> struct for slim button position </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">label</td><td><a class="el" href="structLabelText.html">LabelText</a> for label definition;</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section remark"><dt>Remarks</dt><dd>Register .A, .X and .Y will be modified. Flags N, Z and C will be affected.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd>Point, LabelText</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structPoint.html">Point</a>, <a class="el" href="structLabelText.html">LabelText</a></dd></dl>
 <div class="fragment"><div class="line"><a class="code hl_function" href="vdc-gui-global_8asm.html#a635900d4b12bce0de915d87006f86838">c128lib_SlimButton</a>(</div>
-<div class="line">  Point(45, 9),</div>
+<div class="line">  <a class="code hl_struct" href="structPoint.html">Point</a>(45, 9),</div>
 <div class="line">  ButtonParameters(</div>
-<div class="line">    LabelText(Si, 2)</div>
+<div class="line">    <a class="code hl_struct" href="structLabelText.html">LabelText</a>(Si, 2)</div>
 <div class="line">    ));</div>
-<div class="ttc" id="avdc-gui-global_8asm_html_a635900d4b12bce0de915d87006f86838"><div class="ttname"><a href="vdc-gui-global_8asm.html#a635900d4b12bce0de915d87006f86838">c128lib_SlimButton</a></div><div class="ttdeci">macro c128lib_SlimButton(position, label)</div></div>
+<div class="ttc" id="avdc-gui-global_8asm_html_a635900d4b12bce0de915d87006f86838"><div class="ttname"><a href="vdc-gui-global_8asm.html#a635900d4b12bce0de915d87006f86838">c128lib_SlimButton</a></div><div class="ttdeci">macro c128lib_SlimButton(position, label)</div><div class="ttdef"><b>Definition</b> vdc-gui-global.asm:242</div></div>
 </div><!-- fragment --><dl class="section since"><dt>Since</dt><dd>0.2.0 </dd></dl>
 
 </div>
@@ -548,7 +555,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="vdc-gui-global_8asm.html">vdc-gui-global.asm</a></li>
-    <li class="footer">Generated on Sun Sep 17 2023 20:32:59 for c128lib Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Mon Sep 18 2023 20:32:52 for c128lib Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

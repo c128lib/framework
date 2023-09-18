@@ -1,5 +1,13 @@
 var vdc_gui_8asm =
 [
+    [ "WindowParameters", "structWindowParameters.html", "structWindowParameters" ],
+    [ "WindowBorders", "structWindowBorders.html", "structWindowBorders" ],
+    [ "LabelText", "structLabelText.html", "structLabelText" ],
+    [ "ProgressBarParameters", "structProgressBarParameters.html", "structProgressBarParameters" ],
+    [ "ProgressBarStyle", "structProgressBarStyle.html", "structProgressBarStyle" ],
+    [ "Point", "structPoint.html", "structPoint" ],
+    [ "Size", "structSize.html", "structSize" ],
+    [ "VDC_POKE", "vdc-gui_8asm.html#a30988c3d1ecc77a0f8bb4f169fcf7861", null ],
     [ "Window", "vdc-gui_8asm.html#af297fe6f9dac3a7bd8ec468edbb44bc3", null ],
     [ "WindowWithColor", "vdc-gui_8asm.html#adbdbd16b4d136084bc1d1043ee967032", null ],
     [ "BorderColor", "vdc-gui_8asm.html#aaf3dcbb91d1768fe53399d1a8bc49a34", null ],
