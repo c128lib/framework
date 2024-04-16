@@ -28,10 +28,10 @@ retroProject {
 ```
   * check for *retro-assembler* plugin latest version [here](https://github.com/c64lib/gradle-retro-assembler-plugin)
   * check for *KickAssembler* latest version [here](http://theweb.dk/KickAssembler/Main.html#frontpage) (set it on *dialectVersion* field)
-* set *libDirs* where libraries should live
-* set *srcDirs* where your source code should be
-* set *excludes* to indicate which files should be compiled
-* set a *libFromGitHub* row for every dependecies you need (with the right
+  * set *libDirs* where libraries should live
+  * set *srcDirs* where your source code should be
+  * set *excludes* to indicate which files should be compiled
+  * set a *libFromGitHub* row for every dependecies you need (with the right
 version)
 * install JDK
 * install Gradle
