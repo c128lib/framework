@@ -1,6 +1,43 @@
 # Framework
 A Commodore 128 software framework for enabling high-level development of C128 programs.
 
+## Integrate c128lib
+* Create a *build.gradle* file with this content
+``` Gradle
+plugins {
+    id "com.github.c64lib.retro-assembler" version "1.7.6"
+}
+
+repositories {
+    mavenCentral()
+}
+
+apply plugin: "com.github.c64lib.retro-assembler"
+
+retroProject {
+    dialect = "KickAssembler"
+    dialectVersion = "5.25"
+    libDirs = [".ra/deps/c128lib", ".."]
+    srcDirs = ["."]
+    excludes = ["**/_*.asm", ".ra/**/*", "libs/*"]
+
+    // dependencies
+    libFromGitHub "c128lib/common", "0.6.0"
+    libFromGitHub "c128lib/chipset", "0.7.1"
+}
+```
+  * check for *retro-assembler* plugin latest version [here](https://github.com/c64lib/gradle-retro-assembler-plugin)
+  * check for *KickAssembler* latest version [here](http://theweb.dk/KickAssembler/Main.html#frontpage) (set it on *dialectVersion* field)
+* set *libDirs* where libraries should live
+* set *srcDirs* where your source code should be
+* set *excludes* to indicate which files should be compiled
+* set a *libFromGitHub* row for every dependecies you need (with the right
+version)
+* install JDK
+* install Gradle
+* type *gradle* on command prompt and let the magic happens
+
+
 ## Z80 code integration
 
 Starting with v0.2.0 (still unreleased) are available some macros for Z80 code integration.
