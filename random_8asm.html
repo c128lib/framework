@@ -108,6 +108,7 @@ Namespaces</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a4ffbbf52ac53c362eba5fad5ec2258a7" id="r_a4ffbbf52ac53c362eba5fad5ec2258a7"><td class="memItemLeft" align="right" valign="top">macro&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4ffbbf52ac53c362eba5fad5ec2258a7">PseudoRandom</a> ()</td></tr>
+<tr class="memdesc:a4ffbbf52ac53c362eba5fad5ec2258a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This macro generates a pseudo-random number.  <br /></td></tr>
 <tr class="separator:a4ffbbf52ac53c362eba5fad5ec2258a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a83fde5a37b2874b02afaef46d4d2830e" id="r_a83fde5a37b2874b02afaef46d4d2830e"><td class="memItemLeft" align="right" valign="top">macro&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a83fde5a37b2874b02afaef46d4d2830e">InitSid</a> ()</td></tr>
 <tr class="separator:a83fde5a37b2874b02afaef46d4d2830e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -129,9 +130,13 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Generates a random number starting from a given seed. It's not a real random number generator but generates a pseudo random number. By passing the same seed, it will generate always the same number. It is guaranteed to create a sequence touching every element from 0 to $ff just once. Seed must be provided in accumulator and can be from 0 to $ff. Output number will be available in the accumulator.</p>
-<dl class="section remark"><dt>Remarks</dt><dd>Register .A must contain seed and will contain pseudo random number generated. Flags N, Z and C will be affected.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Use c128lib_PseudoRandom in <a class="el" href="random-global_8asm.html">random-global.asm</a></dd></dl>
+
+<p>This macro generates a pseudo-random number. </p>
+<p>The macro uses the Linear Feedback Shift Register (LFSR) method to generate a pseudo-random number. It is guaranteed to create a sequence touching every element from 0 to $ff just once. Seed must be provided in accumulator and can be from 0 to $ff. Output number will be available in the accumulator. It performs an arithmetic shift left (ASL) on the accumulator. If the result is zero or if the carry flag is set, it skips the exclusive OR (EOR) operation. Otherwise, it performs the EOR operation with the hexadecimal value 0x1D.</p>
+<dl class="section note"><dt>Note</dt><dd>The generated pseudo-random number is stored in the accumulator (.A register).</dd></dl>
+<dl class="section remark"><dt>Remarks</dt><dd>Register .A must contain seed and will contain pseudo random number generated. Flags N, Z and C will be affected.</dd>
+<dd>
+Use c128lib_PseudoRandom in <a class="el" href="random-global_8asm.html">random-global.asm</a></dd></dl>
 <dl class="section since"><dt>Since</dt><dd>0.1.0 </dd></dl>
 
 </div>
@@ -186,7 +191,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="random_8asm.html">random.asm</a></li>
-    <li class="footer">Generated on Tue Apr 16 2024 20:33:42 for c128lib Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
+    <li class="footer">Generated on Wed Apr 24 2024 19:53:12 for c128lib Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
   </ul>
 </div>
 </body>

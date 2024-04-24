@@ -108,6 +108,7 @@ Namespaces</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a48c82cfd3e33f6c8637a4a80e0cf9845" id="r_a48c82cfd3e33f6c8637a4a80e0cf9845"><td class="memItemLeft" align="right" valign="top">macro&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a48c82cfd3e33f6c8637a4a80e0cf9845">BubbleSort</a> (arrayAddress, arraySize, switchToFastModeWhileRunning)</td></tr>
+<tr class="memdesc:a48c82cfd3e33f6c8637a4a80e0cf9845"><td class="mdescLeft">&#160;</td><td class="mdescRight">This macro implements the Bubble <a class="el" href="namespaceSort.html" title="Sort module.">Sort</a> algorithm.  <br /></td></tr>
 <tr class="separator:a48c82cfd3e33f6c8637a4a80e0cf9845"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
@@ -134,17 +135,19 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p><a class="el" href="namespaceSort.html" title="Sort module.">Sort</a> a 8-bit value array with bubble sort algorithm. Sorted array will be available in the same source address. Fast mode can be switched on/off while algorithm is running.</p>
+
+<p>This macro implements the Bubble <a class="el" href="namespaceSort.html" title="Sort module.">Sort</a> algorithm. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">arrayAddress</td><td>Memory address of array </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">arraySize</td><td>Array size </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">switchToFastModeWhileRunning</td><td>If true, fast mode will be enabled at start and disabled at end</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">arrayAddress</td><td>The starting address of the array to be sorted. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">arraySize</td><td>The size of the array to be sorted. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">switchToFastModeWhileRunning</td><td>If true, the macro will switch to 8502 fast mode.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section remark"><dt>Remarks</dt><dd>Registers .A, .X and .Y will be modified</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Use c128lib_BubbleSort in <a class="el" href="sort-global_8asm.html">sort-global.asm</a></dd></dl>
+<p>This macro sorts an array in ascending order using the Bubble <a class="el" href="namespaceSort.html" title="Sort module.">Sort</a> algorithm. If 'switchToFastModeWhileRunning' is true, the macro will switch to 8502 fast mode while running. This can be beneficial for larger arrays.</p>
+<dl class="section note"><dt>Note</dt><dd>The sorted array is available at the same memory address as the input array. The macro modifies the .A, .X, and .Y registers. If you're using these registers elsewhere in your code, you'll need to save their values before calling this macro and restore them afterward.</dd></dl>
+<dl class="section remark"><dt>Remarks</dt><dd>Use c128lib_BubbleSort in <a class="el" href="sort-global_8asm.html">sort-global.asm</a></dd></dl>
 <dl class="section since"><dt>Since</dt><dd>0.1.0 </dd></dl>
 
 </div>
@@ -155,7 +158,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="sort_8asm.html">sort.asm</a></li>
-    <li class="footer">Generated on Tue Apr 16 2024 20:33:42 for c128lib Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
+    <li class="footer">Generated on Wed Apr 24 2024 19:53:12 for c128lib Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
   </ul>
 </div>
 </body>

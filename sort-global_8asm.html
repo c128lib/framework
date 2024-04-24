@@ -132,16 +132,18 @@ Functions</h2></td></tr>
 <p><a class="el" href="namespaceSort.html" title="Sort module.">Sort</a> module. </p>
 <p>Macros for array sorting.</p>
 <dl class="section copyright"><dt>Copyright</dt><dd>MIT Licensed </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>2023 <a class="el" href="namespaceSort.html" title="Sort module.">Sort</a> a 8-bit value array with bubble sort algorithm. Sorted array will be available in the same source address. Fast mode can be switched on/off while algorithm is running.</dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2023</dd></dl>
+<p>This macro implements the Bubble <a class="el" href="namespaceSort.html" title="Sort module.">Sort</a> algorithm.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">arrayAddress</td><td>Memory address of array </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">arraySize</td><td>Array size </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">switchToFastModeWhileRunning</td><td>If true, fast mode will be enabled at start and disabled at end</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">arrayAddress</td><td>The starting address of the array to be sorted. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">arraySize</td><td>The size of the array to be sorted. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">switchToFastModeWhileRunning</td><td>If true, the macro will switch to 8502 fast mode.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section remark"><dt>Remarks</dt><dd>Registers .A, .X and .Y will be modified</dd></dl>
+<p>This macro sorts an array in ascending order using the Bubble <a class="el" href="namespaceSort.html" title="Sort module.">Sort</a> algorithm. If 'switchToFastModeWhileRunning' is true, the macro will switch to 8502 fast mode while running. This can be beneficial for larger arrays.</p>
+<dl class="section note"><dt>Note</dt><dd>The sorted array is available at the same memory address as the input array. The macro modifies the .A, .X, and .Y registers. If you're using these registers elsewhere in your code, you'll need to save their values before calling this macro and restore them afterward.</dd></dl>
 <dl class="section since"><dt>Since</dt><dd>0.1.0 </dd></dl>
 
 </div>
@@ -152,7 +154,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="sort-global_8asm.html">sort-global.asm</a></li>
-    <li class="footer">Generated on Tue Apr 16 2024 20:33:42 for c128lib Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
+    <li class="footer">Generated on Wed Apr 24 2024 19:53:12 for c128lib Framework by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
   </ul>
 </div>
 </body>
