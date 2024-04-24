@@ -13,23 +13,24 @@
 }
 
 /**
-  Sort a 8-bit value array with bubble sort algorithm.
-  Sorted array will be available in the same source
-  address.
-  Fast mode can be switched on/off while algorithm
-  is running.
-
-  @param[inout] arrayAddress Memory address of array
-  @param[in] arraySize Array size
-  @param[in] switchToFastModeWhileRunning If true, fast mode
-    will be enabled at start and disabled at end
-
-  @remark Registers .A, .X and .Y will be modified
-
-  @note Use c128lib_BubbleSort in sort-global.asm
-
-  @since 0.1.0
-*/
+ * @brief This macro implements the Bubble Sort algorithm.
+ *
+ * @param[inout] arrayAddress The starting address of the array to be sorted.
+ * @param[in] arraySize The size of the array to be sorted.
+ * @param[in] switchToFastModeWhileRunning If true, the macro will switch to 8502 fast mode.
+ *
+ * @details This macro sorts an array in ascending order using the Bubble Sort algorithm. 
+ *          If 'switchToFastModeWhileRunning' is true, the macro will switch to 8502 fast mode while running.
+ *          This can be beneficial for larger arrays.
+ *
+ * @note The sorted array is available at the same memory address as the input array.
+ *       The macro modifies the .A, .X, and .Y registers. If you're using these registers elsewhere in your code, 
+ *       you'll need to save their values before calling this macro and restore them afterward.
+ *
+ * @remark Use c128lib_BubbleSort in sort-global.asm
+ *
+ * @since 0.1.0
+ */
 .macro BubbleSort(arrayAddress, arraySize, switchToFastModeWhileRunning) {
   .if (switchToFastModeWhileRunning == true) {
     lda #1
